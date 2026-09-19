@@ -83,5 +83,23 @@ master-prompt.md
 Thumbs.db
 ehthumbs.db
 
-#docs
+# docs
 Project_PDFs_and_Presentations
+
+# Scratch & Temporary Generators / Media Assets
+generate_complete_interview_master_pdf.py
+generate_master_guide_pdf.py
+convert_ppt_to_pdf.py
+create_presentation.py
+*.avif
+*.png
+*.jpg
+real-world-test-results.json
+
+# Project History / Internal Debug Logs
+prospect-intelligence/project-history/
+prospect-intelligence/data/vector_store/
+
+# Generated Knowledge Base PDFs (generated via create_knowledge_pdfs.py)
+prospect-intelligence/data/knowledge_base/
+
