@@ -1,0 +1,451 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .fade-in {
+        animation: fadeIn 0.5s ease-in;
+    }
+
+    .fade-out {
+        animation: fadeOut 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+    }
+
+    .research-form {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+        border-radius: 6px;
+        color: var(--text-color);
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--logo-color);
+        box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    button {
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .button-secondary {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--logo-color);
+        border: 1px solid var(--logo-color);
+    }
+
+    .button-secondary:hover {
+        background: rgba(99, 102, 241, 0.3);
+    }
+
+    .prospects-section {
+        margin-top: 2rem;
+    }
+
+    .prospects-section h2 {
+        color: var(--logo-color);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    thead {
+        background: var(--table-header-bg);
+        border-bottom: 1px solid var(--card-border);
+    }
+
+    th {
+        padding: 1rem;
+        text-align: left;
+        color: var(--logo-color);
+        font-weight: 600;
+    }
+
+    td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--card-border);
+        color: var(--text-color);
+    }
+
+    tr:hover {
+        background: var(--table-row-hover);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .status-completed, .status-complete {
+        background: var(--status-complete-bg);
+        color: var(--status-complete-text);
+    }
+
+    .status-pending {
+        background: var(--status-pending-bg);
+        color: var(--status-pending-text);
+    }
+
+    .status-failed {
+        background: var(--status-failed-bg);
+        color: var(--status-failed-text);
+    }
+
+    .score-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 0.2rem 0.55rem;
+        border-radius: 6px;
+        background: var(--score-pill-bg);
+        color: var(--score-pill-text);
+        border: 1px solid var(--score-pill-border);
+    }
+
+    .band-badge {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .band-priority {
+        background: var(--band-priority-bg);
+        color: var(--band-priority-text);
+        border: 1px solid var(--band-priority-border);
+    }
+
+    .band-strong {
+        background: var(--band-strong-bg);
+        color: var(--band-strong-text);
+        border: 1px solid var(--band-strong-border);
+    }
+
+    .band-nurture {
+        background: var(--band-nurture-bg);
+        color: var(--band-nurture-text);
+        border: 1px solid var(--band-nurture-border);
+    }
+
+    .band-low {
+        background: var(--band-low-bg);
+        color: var(--band-low-text);
+        border: 1px solid var(--band-low-border);
+    }
+
+    .band-disqualify {
+        background: var(--band-disqualify-bg);
+        color: var(--band-disqualify-text);
+        border: 1px solid var(--band-disqualify-border);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 2rem;
+        color: #6b7280;
+    }
+
+    .loading-indicator {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(99, 102, 241, 0.3);
+        border-top-color: #818cf8;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .research-form {
+            padding: 1.5rem;
+        }
+
+        table {
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        button {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div class="research-form">
+        <h1 style="color: #818cf8; margin-bottom: 1.5rem;">Start New Research</h1>
+        <form id="researchForm">
+            <div class="form-group">
+                <label for="company_name">Company Name *</label>
+                <input type="text" id="company_name" name="company_name" required placeholder="e.g. Acme Façades Ltd">
+            </div>
+
+            <div class="form-group">
+                <label for="website">Website *</label>
+                <input type="url" id="website" name="website" required placeholder="https://example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="known_contact_name">Known Contact Name (Optional)</label>
+                <input type="text" id="known_contact_name" name="known_contact_name" placeholder="e.g. Jane Smith">
+            </div>
+
+            <div class="form-group">
+                <label for="known_contact_title">Known Contact Title (Optional)</label>
+                <input type="text" id="known_contact_title" name="known_contact_title" placeholder="e.g. Commercial Director">
+            </div>
+
+            <div class="button-group">
+                <button type="submit" id="submitBtn">Start Research</button>
+                <button type="reset" class="button-secondary">Clear Form</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="prospects-section">
+        <h2>Recent Prospects</h2>
+        <div id="prospectsContainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Score</th>
+                        <th>Band</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="prospectsTableBody">
+                    <tr>
+                        <td colspan="6" class="empty-state">Loading prospects...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('researchForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="loading-indicator"></span> Starting...';
+
+        const payload = {
+            company_name: document.getElementById('company_name').value.trim(),
+            website: document.getElementById('website').value.trim(),
+            known_contact_name: document.getElementById('known_contact_name').value.trim() || null,
+            known_contact_title: document.getElementById('known_contact_title').value.trim() || null
+        };
+
+        try {
+            const response = await fetch('/api/v1/prospects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok || response.status === 202) {
+                const data = await response.json();
+                window.location.href = '/results/' + data.job_id;
+            } else {
+                const errData = await response.json().catch(() => ({}));
+                alert('Error starting research: ' + (errData.detail || 'Please check inputs and try again.'));
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Start Research';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error: ' + error.message);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Start Research';
+        }
+    });
+
+    async function loadProspects() {
+        try {
+            // Fetch latest 30 with cache-busting timestamp, then sort client-side by created_at DESC
+            const response = await fetch('/api/v1/prospects?limit=30&_t=' + Date.now());
+            if (response.ok) {
+                const raw = await response.json();
+                // Sort: most recently created first
+                const prospects = raw.slice().sort((a, b) =>
+                    new Date(b.created_at || 0) - new Date(a.created_at || 0)
+                );
+                const tbody = document.getElementById('prospectsTableBody');
+
+                if (!prospects || prospects.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No prospects yet. Start a new research to get started.</td></tr>';
+                } else {
+                    tbody.innerHTML = prospects.map(p => {
+                        const statusClass = (p.status || 'pending').toLowerCase();
+                        const dateStr = p.created_at
+                            ? new Date(p.created_at).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
+                            : '-';
+
+                        const score = (p.total_score != null && p.status === 'complete')
+                            ? `<span class="score-pill">${p.total_score}</span>`
+                            : `<span style="color:#6b7280;">—</span>`;
+
+                        const band = (p.priority_band && p.status === 'complete')
+                            ? `<span class="band-badge ${getBandClass(p.priority_band)}">${escapeHtml(p.priority_band)}</span>`
+                            : `<span style="color:#6b7280;">—</span>`;
+
+                        return `
+                            <tr>
+                                <td>
+                                    <strong>${escapeHtml(p.company_name || 'Unknown')}</strong>
+                                    ${p.website ? `<br><small style="color:#6b7280;font-size:0.75rem;">${escapeHtml(p.website.replace(/^https?:\/\//, ''))}</small>` : ''}
+                                </td>
+                                <td style="text-align:center;">${score}</td>
+                                <td>${band}</td>
+                                <td><span class="status-badge status-${statusClass}">${escapeHtml(p.status || 'pending')}</span></td>
+                                <td style="color:#9ca3af;font-size:0.85rem;">${dateStr}</td>
+                                <td><a href="/results/${p.job_id}" style="color: #818cf8; text-decoration: none; font-weight: 600;">View →</a></td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            }
+        } catch (error) {
+            console.error('Error loading prospects:', error);
+        }
+    }
+
+    function getBandClass(band) {
+        if (!band) return 'band-low';
+        const b = band.toLowerCase();
+        if (b.includes('a+') || b.includes('priority')) return 'band-priority';
+        if (b.includes('a /') || b.includes('strong')) return 'band-strong';
+        if (b.includes('b /') || b.includes('nurture')) return 'band-nurture';
+        if (b.includes('c /') || b.includes('low')) return 'band-low';
+        if (b.includes('d /') || b.includes('disqualify')) return 'band-disqualify';
+        if (b === 'high') return 'band-priority';
+        if (b === 'medium') return 'band-nurture';
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    loadProspects();
+    setInterval(loadProspects, 30000);
+</script>
+{% endblock %}

@@ -1,0 +1,29 @@
+[
+  {
+    "company_name": "Skyline Facades Ltd",
+    "website": "https://www.skylinefacades.co.uk",
+    "contact_name": "Robert Ashworth",
+    "contact_title": "Commercial Director",
+    "lead_score": 72,
+    "lead_band": "High",
+    "job_id": "existing-001"
+  },
+  {
+    "company_name": "Metro Cladding UK",
+    "website": "https://www.metrocladding.co.uk",
+    "contact_name": "Sarah Chen",
+    "contact_title": "Managing Director",
+    "lead_score": 55,
+    "lead_band": "Medium",
+    "job_id": "existing-002"
+  },
+  {
+    "company_name": "Pinnacle Roofing Solutions",
+    "website": "https://www.pinnacleroofing.com",
+    "contact_name": "",
+    "contact_title": "",
+    "lead_score": 48,
+    "lead_band": "Medium",
+    "job_id": "existing-003"
+  }
+]

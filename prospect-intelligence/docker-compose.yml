@@ -1,0 +1,41 @@
+﻿version: '3.8'
+
+services:
+  # Main FastAPI application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: coextend-prospect-intelligence
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SEARCH_API_KEY=${SEARCH_API_KEY}
+      - DATABASE_URL=sqlite:///./data/prospect_intelligence.db
+      - CHROMA_DB_PATH=./data/chroma_db
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./.env:/.env:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - coextend-network
+
+networks:
+  coextend-network:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
+  logs:
+    driver: local

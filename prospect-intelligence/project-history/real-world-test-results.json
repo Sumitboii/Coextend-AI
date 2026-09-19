@@ -1,0 +1,642 @@
+[
+  {
+    "company": "Enclos Corp",
+    "website": "https://www.enclos.com",
+    "job_id": "6961bbce-e143-4653-b736-8dc9e6b4881f",
+    "score": 20,
+    "band": "Low",
+    "snapshot": {
+      "company_name": "Enclos Corp"
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 20,
+      "band": "Low",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 20,
+          "evidence": "[trade_fit] = 'facade'"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[geography] = 'no evidence found'"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[company_size_band] = 'no evidence found'"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 0,
+          "evidence": "[tender_volume_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[estimating_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[drafting_bim_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[hiring_trigger] = 'no evidence found'"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[decision_maker_access] = 'no evidence found'"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[outsourcing_readiness] = 'no evidence found'"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[commercial_attractiveness] = 'no evidence found'"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "projects_signals": [],
+    "likely_requirements": [],
+    "pain_point_hypotheses": [],
+    "sources": [
+      {
+        "url": "https://www.enclos.com/",
+        "title": null,
+        "date_reviewed": "2026-09-17"
+      }
+    ],
+    "crm_export": {
+      "job_id": "6961bbce-e143-4653-b736-8dc9e6b4881f",
+      "company_fields": {
+        "name": "Enclos Corp",
+        "website": "",
+        "industry": "",
+        "city": "",
+        "country": "",
+        "numberofemployees": "",
+        "description": ""
+      },
+      "contact_fields": {
+        "firstname": "",
+        "lastname": "",
+        "jobtitle": "",
+        "email": "",
+        "linkedin": ""
+      },
+      "deal_fields": {
+        "dealname": "Coextend \u2014 Enclos Corp",
+        "dealstage": "prospecting",
+        "pipeline": "default",
+        "lead_score": 20,
+        "lead_band": "Low",
+        "notes": "Review the research brief and reach out to no evidence found with a personalised message based on the findings."
+      },
+      "lead_score_total": 20,
+      "lead_score_band": "Low",
+      "possible_duplicate": false,
+      "exported_at": "2026-09-16T22:19:24.355716Z"
+    },
+    "outreach": {
+      "job_id": "6961bbce-e143-4653-b736-8dc9e6b4881f",
+      "email_subject": "Optimizing Enclos Corp's estimating and shop drawing workflow",
+      "email_body": "Hi Team at Enclos Corp,\n\nI noticed Enclos Corp's ongoing involvement in complex construction projects. How are you currently managing your estimating and shop drawing workload?\n\nAs you take on high-volume or intricate projects, you might be looking for ways to scale capacity without adding fixed overhead. Coextend Global LLP specializes in outsourcing technical services for construction, offering facade design, estimating, and shop drawing production with a 99.2% first-pass approval rate (Source: Coextend Services, 01-services).\n\nWe have helped similar firms reduce estimating turnaround significantly while saving 40-60% on labor costs compared to onshore hiring (Source: 05-outreach-templates).\n\nWould it make sense to walk through one of your recent projects and see if we could compress timelines or free up your team? It takes 20 minutes. When works for you this week?\n\nBest regards,\nCoextend Global LLP",
+      "linkedin_message": "Hi Enclos Corp team, I follow your work in complex construction. How are you managing estimating and shop drawing workloads currently? Coextend helps firms scale capacity and cut costs by 40-60% with a 99.2% first-pass approval rate on drawings. Worth a quick chat?",
+      "status": "draft",
+      "generated_at": "2026-09-16T22:19:43.274360Z",
+      "review_note": "draft \u2014 requires human review before use"
+    }
+  },
+  {
+    "company": "Permasteelisa",
+    "website": "https://www.permasteelisa.com",
+    "job_id": "d58f5266-4713-432c-a7cb-4e9cef8a08cd",
+    "score": 15,
+    "band": "Low",
+    "snapshot": {
+      "company_name": "Permasteelisa",
+      "sector": "Architectural envelope and curtain wall contracting",
+      "overview": "Global contractor specializing in architectural envelopes and curtain wall systems."
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 15,
+      "band": "Low",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 15,
+          "evidence": "[trade_fit] = 'curtain wall'"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[geography] = 'Global presence with headquarters likely in Italy'"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[company_size_band] = 'no evidence found'"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 0,
+          "evidence": "[tender_volume_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[estimating_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[drafting_bim_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[hiring_trigger] = 'no evidence found'"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[decision_maker_access] = 'no evidence found'"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[outsourcing_readiness] = 'no evidence found'"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[commercial_attractiveness] = 'no evidence found'"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "projects_signals": [],
+    "likely_requirements": [],
+    "pain_point_hypotheses": [],
+    "sources": [
+      {
+        "url": "https://www.permasteelisa.com/",
+        "title": null,
+        "date_reviewed": "2026-09-17"
+      }
+    ],
+    "crm_export": {
+      "job_id": "d58f5266-4713-432c-a7cb-4e9cef8a08cd",
+      "company_fields": {
+        "name": "Permasteelisa",
+        "website": "",
+        "industry": "Architectural envelope and curtain wall contracting",
+        "city": "",
+        "country": "",
+        "numberofemployees": "",
+        "description": "Global contractor specializing in architectural envelopes and curtain wall systems."
+      },
+      "contact_fields": {
+        "firstname": "",
+        "lastname": "",
+        "jobtitle": "",
+        "email": "",
+        "linkedin": ""
+      },
+      "deal_fields": {
+        "dealname": "Coextend \u2014 Permasteelisa",
+        "dealstage": "prospecting",
+        "pipeline": "default",
+        "lead_score": 15,
+        "lead_band": "Low",
+        "notes": "Review the research brief and reach out to no evidence found with a personalised message based on the findings."
+      },
+      "lead_score_total": 15,
+      "lead_score_band": "Low",
+      "possible_duplicate": false,
+      "exported_at": "2026-09-16T22:20:34.263638Z"
+    },
+    "outreach": {
+      "job_id": "d58f5266-4713-432c-a7cb-4e9cef8a08cd",
+      "email_subject": "Optimizing curtain wall shop drawing and estimating workflows",
+      "email_body": "Hi Team,\n\nI noticed Permasteelisa's ongoing work in the architectural envelope and curtain wall contracting sector.\n\nGiven the complexity of curtain wall systems, you might be facing tight turnarounds on estimating and shop drawing production. When managing large volumes, maintaining internal capacity without high fixed overhead is often a challenge.\n\nCoextend specializes in technical outsourcing for facade contractors (Source: '01-services'). We provide shop drawing production, facade design, and estimating support with a 99.2% first-pass approval rate, helping firms reduce turnaround times by up to 60% while saving 40-60% on labor costs (Source: '05-outreach-templates').\n\nWould it make sense to walk through one of your current projects to see if we can help compress timelines or free up your team?\n\nWould a brief 15-minute conversation work sometime this week?\n\nBest regards,\nCoextend Global LLP",
+      "linkedin_message": "Hi Permasteelisa team, I noticed your expertise in architectural envelope and curtain wall contracting. Are you exploring ways to scale estimating and shop drawing capacity while reducing overhead? Coextend helps facade contractors cut turnaround times by 60%. Worth a brief chat?",
+      "status": "draft",
+      "generated_at": "2026-09-16T22:20:48.938760Z",
+      "review_note": "draft \u2014 requires human review before use"
+    }
+  },
+  {
+    "company": "Berkley Roofing Company",
+    "website": "https://www.berkleyroofing.com",
+    "job_id": "30db4ba7-f3a9-46b7-9bd9-482538d4a78f",
+    "score": 20,
+    "band": "Low",
+    "snapshot": {
+      "company_name": "Berkley Roofing Company",
+      "sector": "roofing"
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 20,
+      "band": "Low",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 20,
+          "evidence": "[trade_fit] = 'Roofing'"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[geography] = 'no evidence found'"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[company_size_band] = 'no evidence found'"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 0,
+          "evidence": "[tender_volume_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[estimating_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[drafting_bim_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[hiring_trigger] = 'no evidence found'"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[decision_maker_access] = 'no evidence found'"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[outsourcing_readiness] = 'no evidence found'"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[commercial_attractiveness] = 'no evidence found'"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "projects_signals": [],
+    "likely_requirements": [],
+    "pain_point_hypotheses": [],
+    "sources": [
+      {
+        "url": "https://www.berkleyroofing.com/",
+        "title": null,
+        "date_reviewed": "2026-09-17"
+      }
+    ],
+    "crm_export": {
+      "job_id": "30db4ba7-f3a9-46b7-9bd9-482538d4a78f",
+      "company_fields": {
+        "name": "Berkley Roofing Company",
+        "website": "",
+        "industry": "roofing",
+        "city": "",
+        "country": "",
+        "numberofemployees": "",
+        "description": ""
+      },
+      "contact_fields": {
+        "firstname": "",
+        "lastname": "",
+        "jobtitle": "",
+        "email": "",
+        "linkedin": ""
+      },
+      "deal_fields": {
+        "dealname": "Coextend \u2014 Berkley Roofing Company",
+        "dealstage": "prospecting",
+        "pipeline": "default",
+        "lead_score": 20,
+        "lead_band": "Low",
+        "notes": "Review the research brief and reach out to no evidence found with a personalised message based on the findings."
+      },
+      "lead_score_total": 20,
+      "lead_score_band": "Low",
+      "possible_duplicate": false,
+      "exported_at": "2026-09-16T22:22:37.793876Z"
+    },
+    "outreach": {
+      "job_id": "30db4ba7-f3a9-46b7-9bd9-482538d4a78f",
+      "email_subject": "Optimizing estimating and shop drawings for Berkley Roofing Company",
+      "email_body": "Hi,\n\nI noticed Berkley Roofing Company operates in the roofing sector.\n\nHow are you managing the estimating and shop drawing workload?\n\nHave you considered outsourcing to maintain quality with volume increase? Coextend specializes in outsourcing technical services for construction, including roofing assemblies, shop drawing production, and quantity surveying. We have helped similar firms reduce estimating turnaround by 60% and save 40-60% on labor costs compared to hiring full-time.\n\nWould it make sense to walk through one of your recent projects and see if we could compress timelines or free up your team? It takes 20 minutes. When works for you this week?",
+      "linkedin_message": "Hi, I see Berkley Roofing Company is active in the roofing sector. How are you managing your estimating and shop drawing workloads currently? Coextend helps roofing firms scale capacity and reduce estimating turnaround. Would you be open to a quick chat to explore a fit?",
+      "status": "draft",
+      "generated_at": "2026-09-16T22:22:53.771340Z",
+      "review_note": "draft \u2014 requires human review before use"
+    }
+  },
+  {
+    "company": "Mayo Clinic",
+    "website": "https://www.mayoclinic.org",
+    "job_id": "9a48cd2b-8b51-49ab-848a-3cbfe9b47438",
+    "score": 10,
+    "band": "Low",
+    "snapshot": {
+      "company_name": "Mayo Clinic",
+      "location": "United States",
+      "sector": "Healthcare",
+      "overview": "Nonprofit American academic medical center focused on integrated health care, education, and research."
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 10,
+      "band": "Low",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 0,
+          "evidence": "[trade_fit] = 'no evidence found'"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "[geography] = 'US'"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[company_size_band] = 'no evidence found'"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 0,
+          "evidence": "[tender_volume_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[estimating_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[drafting_bim_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[hiring_trigger] = 'no evidence found'"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[decision_maker_access] = 'no evidence found'"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[outsourcing_readiness] = 'no evidence found'"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[commercial_attractiveness] = 'no evidence found'"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "projects_signals": [],
+    "likely_requirements": [],
+    "pain_point_hypotheses": [],
+    "sources": [
+      {
+        "url": "https://www.mayoclinic.org/",
+        "title": null,
+        "date_reviewed": "2026-09-17"
+      }
+    ],
+    "crm_export": {
+      "job_id": "9a48cd2b-8b51-49ab-848a-3cbfe9b47438",
+      "company_fields": {
+        "name": "Mayo Clinic",
+        "website": "",
+        "industry": "Healthcare",
+        "city": "United States",
+        "country": "",
+        "numberofemployees": "",
+        "description": "Nonprofit American academic medical center focused on integrated health care, education, and research."
+      },
+      "contact_fields": {
+        "firstname": "",
+        "lastname": "",
+        "jobtitle": "",
+        "email": "",
+        "linkedin": ""
+      },
+      "deal_fields": {
+        "dealname": "Coextend \u2014 Mayo Clinic",
+        "dealstage": "prospecting",
+        "pipeline": "default",
+        "lead_score": 10,
+        "lead_band": "Low",
+        "notes": "Review the research brief and reach out to No decision-maker identified in available sources with a personalised message based on the findings."
+      },
+      "lead_score_total": 10,
+      "lead_score_band": "Low",
+      "possible_duplicate": false,
+      "exported_at": "2026-09-16T22:24:44.501629Z"
+    },
+    "outreach": {
+      "job_id": "9a48cd2b-8b51-49ab-848a-3cbfe9b47438",
+      "email_subject": "Technical documentation and BIM support for Mayo Clinic",
+      "email_body": "Hi Team,\n\nI noticed Mayo Clinic continues to advance its healthcare facilities across the United States. \n\nAs you manage ongoing facility expansions, you might be facing capacity constraints with detailed technical documentation, BIM modeling, or construction coordination.\n\nCoextend Global LLP specializes in outsourcing technical services for construction, including BIM modeling, shop drawings, and quantity surveying. With a team of architects and engineers averaging 15+ years of experience, we help organizations reduce costs by 40-60% while maintaining high accuracy (such as our 99.2% first-pass approval rate on shop drawings, as noted in our company profile).\n\nWould it make sense to walk through one of your recent projects and see if we could compress timelines or free up your internal team? It takes 20 minutes. When works for you this week?\n\nBest regards,\nCoextend Global LLP",
+      "linkedin_message": "Hi Team at Mayo Clinic, I noticed your ongoing healthcare facility developments across the US. As you scale, how are you managing technical documentation and BIM coordination? Coextend helps firms save 40-60% on documentation costs with 24/7 global coverage. Worth a brief chat?",
+      "status": "draft",
+      "generated_at": "2026-09-16T22:25:00.089747Z",
+      "review_note": "draft \u2014 requires human review before use"
+    }
+  },
+  {
+    "company": "Small Local Builders LLC",
+    "website": "https://smalllocalbuilders.example",
+    "job_id": "230a3428-5c46-4c14-bb60-523fe67b8f17",
+    "score": 0,
+    "band": "Low",
+    "snapshot": {
+      "company_name": "Small Local Builders LLC"
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 0,
+      "band": "Low",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 0,
+          "evidence": "[trade_fit] = 'no evidence found'"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[geography] = 'no evidence found'"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[company_size_band] = 'no evidence found'"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 0,
+          "evidence": "[tender_volume_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[estimating_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[drafting_bim_need_signal] = 'no evidence found'"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "[hiring_trigger] = 'no evidence found'"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[decision_maker_access] = 'no evidence found'"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[outsourcing_readiness] = 'no evidence found'"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "[commercial_attractiveness] = 'no evidence found'"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "projects_signals": [],
+    "likely_requirements": [],
+    "pain_point_hypotheses": [],
+    "sources": [],
+    "crm_export": {
+      "job_id": "230a3428-5c46-4c14-bb60-523fe67b8f17",
+      "company_fields": {
+        "name": "Small Local Builders LLC",
+        "website": "",
+        "industry": "",
+        "city": "",
+        "country": "",
+        "numberofemployees": "",
+        "description": ""
+      },
+      "contact_fields": {
+        "firstname": "",
+        "lastname": "",
+        "jobtitle": "",
+        "email": "",
+        "linkedin": ""
+      },
+      "deal_fields": {
+        "dealname": "Coextend \u2014 Small Local Builders LLC",
+        "dealstage": "prospecting",
+        "pipeline": "default",
+        "lead_score": 0,
+        "lead_band": "Low",
+        "notes": "Review the research brief and reach out to no evidence found with a personalised message based on the findings."
+      },
+      "lead_score_total": 0,
+      "lead_score_band": "Low",
+      "possible_duplicate": false,
+      "exported_at": "2026-09-16T22:25:46.469022Z"
+    },
+    "outreach": {
+      "job_id": "230a3428-5c46-4c14-bb60-523fe67b8f17",
+      "email_subject": "Technical drafting and estimation support for Small Local Builders",
+      "email_body": "Hi,\n\nI noticed Small Local Builders LLC operates in the construction space, handling local building projects.\n\nAs you take on various projects, you might be looking for ways to handle fluctuating estimating and shop drawing workloads without straining your internal team.\n\nAt Coextend Global LLP, we specialize in outsourcing technical services for construction, including detailed cost estimating, shop drawing production, and CAD drafting services (Source: '01-services'). We help firms scale capacity and reduce estimating turnaround while saving 40-60% on labor costs (Source: '05-outreach-templates').\n\nWould it make sense to walk through one of your recent projects and see if we could compress timelines or free up your team? Takes 20 minutes. When works for you this week?\n\nBest regards,\nCoextend Team",
+      "linkedin_message": "Hi, I noticed Small Local Builders LLC active in construction. Are you looking to scale estimating and shop drawing capacity without fixed overhead? Coextend helps firms cut labor costs by 40-60% with fast turnarounds. Open to a brief chat?",
+      "status": "draft",
+      "generated_at": "2026-09-16T22:26:04.638240Z",
+      "review_note": "draft \u2014 requires human review before use"
+    }
+  }
+]

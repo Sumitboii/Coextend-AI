@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coextend Prospect Intelligence</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1a1f35 100%);
+            --text-color: #e0e7ff;
+            --text-muted: #94a3b8;
+            --header-bg: rgba(15, 23, 42, 0.95);
+            --header-border: #3730a3;
+            --logo-color: #818cf8;
+            --card-bg: rgba(30, 27, 75, 0.5);
+            --card-border: #3730a3;
+            --input-bg: rgba(15, 23, 42, 0.8);
+            --input-border: #3730a3;
+            --table-header-bg: rgba(15, 23, 42, 0.8);
+            --table-row-hover: rgba(99, 102, 241, 0.1);
+            --footer-bg: rgba(15, 23, 42, 0.95);
+            --footer-text: #6366f1;
+            --footer-border: #3730a3;
+
+            /* Badges Dark Mode */
+            --score-pill-bg: rgba(99, 102, 241, 0.2);
+            --score-pill-text: #c7d2fe;
+            --score-pill-border: rgba(129, 140, 248, 0.3);
+
+            --band-priority-bg: rgba(16, 185, 129, 0.2);
+            --band-priority-text: #6ee7b7;
+            --band-priority-border: rgba(16, 185, 129, 0.4);
+
+            --band-strong-bg: rgba(59, 130, 246, 0.2);
+            --band-strong-text: #93c5fd;
+            --band-strong-border: rgba(59, 130, 246, 0.4);
+
+            --band-nurture-bg: rgba(245, 158, 11, 0.2);
+            --band-nurture-text: #fcd34d;
+            --band-nurture-border: rgba(245, 158, 11, 0.4);
+
+            --band-low-bg: rgba(107, 114, 128, 0.2);
+            --band-low-text: #d1d5db;
+            --band-low-border: rgba(107, 114, 128, 0.4);
+
+            --band-disqualify-bg: rgba(239, 68, 68, 0.2);
+            --band-disqualify-text: #fca5a5;
+            --band-disqualify-border: rgba(239, 68, 68, 0.4);
+
+            --status-complete-bg: rgba(34, 197, 94, 0.2);
+            --status-complete-text: #86efac;
+            --status-pending-bg: rgba(249, 115, 22, 0.2);
+            --status-pending-text: #fb923c;
+            --status-failed-bg: rgba(239, 68, 68, 0.2);
+            --status-failed-text: #fca5a5;
+        }
+
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --header-border: #cbd5e1;
+            --logo-color: #4f46e5;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --input-bg: #f8fafc;
+            --input-border: #cbd5e1;
+            --table-header-bg: #f1f5f9;
+            --table-row-hover: #f1f5f9;
+            --footer-bg: #ffffff;
+            --footer-text: #4f46e5;
+            --footer-border: #e2e8f0;
+
+            /* Badges Light Mode (High Contrast Inverted Colors) */
+            --score-pill-bg: #e0e7ff;
+            --score-pill-text: #3730a3;
+            --score-pill-border: #c7d2fe;
+
+            --band-priority-bg: #d1fae5;
+            --band-priority-text: #065f46;
+            --band-priority-border: #a7f3d0;
+
+            --band-strong-bg: #dbeafe;
+            --band-strong-text: #1e40af;
+            --band-strong-border: #bfdbfe;
+
+            --band-nurture-bg: #fef3c7;
+            --band-nurture-text: #92400e;
+            --band-nurture-border: #fde68a;
+
+            --band-low-bg: #f3f4f6;
+            --band-low-text: #374151;
+            --band-low-border: #e5e7eb;
+
+            --band-disqualify-bg: #fee2e2;
+            --band-disqualify-text: #991b1b;
+            --band-disqualify-border: #fca5a5;
+
+            --status-complete-bg: #dcfce7;
+            --status-complete-text: #166534;
+            --status-pending-bg: #ffedd5;
+            --status-pending-text: #9a3412;
+            --status-failed-bg: #fee2e2;
+            --status-failed-text: #991b1b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--header-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--logo-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--logo-color);
+        }
+
+        .theme-toggle-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--logo-color);
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        footer {
+            background: var(--footer-bg);
+            border-top: 1px solid var(--footer-border);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--footer-text);
+            margin-top: 2rem;
+        }
+
+        .container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="logo">Coextend Prospect Intelligence</div>
+        <ul class="nav-links">
+            <li><a href="/">New Prospect</a></li>
+            <li><a href="/api/docs">API Docs</a></li>
+            <li>
+                <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <span id="themeIcon">🌙</span> <span id="themeLabel">Dark</span>
+                </button>
+            </li>
+        </ul>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Coextend Prospect Intelligence MVP | Powered by AI Research</p>
+    </footer>
+
+    <script>
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeLabel = document.getElementById('themeLabel');
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            if (theme === 'light') {
+                themeIcon.textContent = '☀️';
+                themeLabel.textContent = 'Light';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeLabel.textContent = 'Dark';
+            }
+            localStorage.setItem('coextend-theme', theme);
+        }
+
+        const savedTheme = localStorage.getItem('coextend-theme') ||
+            (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        applyTheme(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').catch(function(err) {
+                console.log('Service Worker registration failed:', err);
+            });
+        }
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

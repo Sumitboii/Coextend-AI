@@ -1,0 +1,434 @@
+[
+  {
+    "company_name": "Eden Facades Ltd",
+    "website": "https://www.edenfacades.co.uk",
+    "scenario": "Scenario 1: Clear strong-fit fa\u00e7ade/construction contractor",
+    "job_id": "50b75692-3713-4f54-8179-a15201c5d7ab",
+    "status": "complete",
+    "total_wall_clock_s": 29.4,
+    "stage_durations": {
+      "pending": 1.964,
+      "researching": 19.877,
+      "drafting": 7.558
+    },
+    "score_total": 77,
+    "score_band": "High",
+    "score_breakdown": [
+      {
+        "factor": "trade_service_fit",
+        "weight": 20,
+        "points_awarded": 20,
+        "evidence": "[trade_fit] = 'facade / cladding / specialist contractor'"
+      },
+      {
+        "factor": "geography",
+        "weight": 10,
+        "points_awarded": 10,
+        "evidence": "[geography] = 'UK (London and the South East, based in Basildon, Essex)'"
+      },
+      {
+        "factor": "company_size_capacity",
+        "weight": 10,
+        "points_awarded": 5,
+        "evidence": "[company_size_band] = '~28 employees'"
+      },
+      {
+        "factor": "tender_project_volume",
+        "weight": 15,
+        "points_awarded": 15,
+        "evidence": "[tender_volume_signal] = 'Active on major schemes including shortlistings for the Facade Awards UK 2026 (North West London residential project and Deben Fields in Felixstowe with Kier Construction)'"
+      },
+      {
+        "factor": "estimating_need",
+        "weight": 10,
+        "points_awarded": 10,
+        "evidence": "[estimating_need_signal] = 'Dedicated estimating team and personnel mentioned (e.g. Carl Norman, Estimating Manager, and Sam Backhouse, Trainee Estimator)'"
+      },
+      {
+        "factor": "drafting_bim_need",
+        "weight": 10,
+        "points_awarded": 5,
+        "evidence": "[drafting_bim_need_signal] = 'In-house design team and facade designers (e.g. Kayla Dabu, Fa\u00e7ade Designer) handling technical details, buildability, and early design coordination'"
+      },
+      {
+        "factor": "hiring_capacity_trigger",
+        "weight": 10,
+        "points_awarded": 5,
+        "evidence": "[hiring_trigger] = 'Company is growing faster than expected, getting more enquiries for bigger projects and recruiting more people to handle workload'"
+      },
+      {
+        "factor": "decision_maker_access",
+        "weight": 5,
+        "points_awarded": 2,
+        "evidence": "[decision_maker_access] = 'Tony Hill \u2013 Co-Founder & Director; Paul Michaelson \u2013 Co-Founder & Construction Director; Carl Norman \u2013 Estimating Manager; Dave Pankhurst \u2013 Commercial Manager'"
+      },
+      {
+        "factor": "outsourcing_readiness",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[outsourcing_readiness] = 'Works alongside core staff, contractors, and a supply chain of leading specialist partners'"
+      },
+      {
+        "factor": "commercial_attractiveness",
+        "weight": 5,
+        "points_awarded": 5,
+        "evidence": "[commercial_attractiveness] = 'Grown from a \u00a320,000 first project in 2011 to a 28-strong team delivering major schemes; works with tier-1 contractors such as Kier Construction, Morgan Sindall, R G Carter, Boom Construction, and CBG Construction'"
+      }
+    ],
+    "snapshot": {
+      "company_name": "Eden Facades Ltd",
+      "location": "Basildon, Essex, UK",
+      "sector": "facade / cladding / specialist contractor",
+      "size": "28 employees",
+      "overview": "Facade solution experts delivering windows, curtain walling, cladding, rainscreen systems, renders, lightweight steel framing, and cladding remediation across London and the South East."
+    },
+    "contact": {
+      "name": "Tony Hill",
+      "title": "Co-Founder & Director; Paul Michaelson \u2013 Co-Founder & Construction Director; Carl Norman \u2013 Estimating Manager; Dave Pankhurst \u2013 Commercial Manager"
+    },
+    "num_sources": 7,
+    "recommended_approach": {
+      "summary": "Eden Facades Ltd operates in facade / cladding / specialist contractor, based in Basildon, Essex, UK. Lead score: 77/100 (High). Review the detailed score breakdown and findings to define your outreach approach.",
+      "angle": "Review findings for positioning angle",
+      "key_capabilities_to_lead_with": [
+        "Facade-specialist estimating & BOQ",
+        "Shop drawing production",
+        "BIM coordination"
+      ],
+      "knowledge_sources": []
+    },
+    "findings_summary": {
+      "num_snapshot": 15,
+      "num_dms": 4,
+      "num_signals": 1,
+      "notes_missing": [
+        "Exact annual turnover figures",
+        "Specific software stack used for estimating and BIM"
+      ]
+    }
+  },
+  {
+    "company_name": "Spotify",
+    "website": "https://www.spotify.com",
+    "scenario": "Scenario 2: Large non-construction company outside ICP",
+    "job_id": "b4eff0a2-2551-4e25-b20d-43d5a5d8f628",
+    "status": "complete",
+    "total_wall_clock_s": 23.95,
+    "stage_durations": {
+      "pending": 0.256,
+      "researching": 16.769,
+      "drafting": 6.924
+    },
+    "score_total": 5,
+    "score_band": "Low",
+    "score_breakdown": [
+      {
+        "factor": "trade_service_fit",
+        "weight": 20,
+        "points_awarded": 0,
+        "evidence": "[trade_fit] = 'no evidence found'"
+      },
+      {
+        "factor": "geography",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[geography] = 'Global / Sweden'"
+      },
+      {
+        "factor": "company_size_capacity",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[company_size_band] = 'no evidence found'"
+      },
+      {
+        "factor": "tender_project_volume",
+        "weight": 15,
+        "points_awarded": 0,
+        "evidence": "[tender_volume_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "estimating_need",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[estimating_need_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "drafting_bim_need",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[drafting_bim_need_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "hiring_capacity_trigger",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[hiring_trigger] = 'no evidence found'"
+      },
+      {
+        "factor": "decision_maker_access",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[decision_maker_access] = 'no evidence found'"
+      },
+      {
+        "factor": "outsourcing_readiness",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[outsourcing_readiness] = 'no evidence found'"
+      },
+      {
+        "factor": "commercial_attractiveness",
+        "weight": 5,
+        "points_awarded": 5,
+        "evidence": "[commercial_attractiveness] = 'Major global music streaming platform with hundreds of millions of users'"
+      }
+    ],
+    "snapshot": {
+      "company_name": "Spotify",
+      "location": "Stockholm, Sweden",
+      "overview": "Digital music streaming service offering audio content and podcasts globally."
+    },
+    "contact": {
+      "name": "Daniel Ek \u2013 CEO / Founder"
+    },
+    "num_sources": 4,
+    "recommended_approach": {
+      "summary": "Spotify operates in no evidence found, based in Stockholm, Sweden. Lead score: 5/100 (Low). Review the detailed score breakdown and findings to define your outreach approach.",
+      "angle": "Review findings for positioning angle",
+      "key_capabilities_to_lead_with": [
+        "Facade-specialist estimating & BOQ",
+        "Shop drawing production",
+        "BIM coordination"
+      ],
+      "knowledge_sources": []
+    },
+    "findings_summary": {
+      "num_snapshot": 15,
+      "num_dms": 3,
+      "num_signals": 1,
+      "notes_missing": [
+        "Construction-related trade fit",
+        "Company employee count size band",
+        "BIM and estimating department specifics",
+        "no evidence found for scoring field: decision_maker_access"
+      ]
+    }
+  },
+  {
+    "company_name": "Concept Facades Ltd",
+    "website": "https://www.conceptfacades.co.uk",
+    "scenario": "Scenario 3: Small/lesser-known company with modest website",
+    "job_id": "bb960ce5-f12c-481c-a74c-06d61f3f1df4",
+    "status": "complete",
+    "total_wall_clock_s": 26.49,
+    "stage_durations": {
+      "pending": 0.229,
+      "researching": 16.989,
+      "drafting": 9.276
+    },
+    "score_total": 30,
+    "score_band": "Low",
+    "score_breakdown": [
+      {
+        "factor": "trade_service_fit",
+        "weight": 20,
+        "points_awarded": 20,
+        "evidence": "[trade_fit] = 'cladding / facade specialist contractor'"
+      },
+      {
+        "factor": "geography",
+        "weight": 10,
+        "points_awarded": 10,
+        "evidence": "[geography] = 'Essex, Kent, London, UK'"
+      },
+      {
+        "factor": "company_size_capacity",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[company_size_band] = 'no evidence found'"
+      },
+      {
+        "factor": "tender_project_volume",
+        "weight": 15,
+        "points_awarded": 0,
+        "evidence": "[tender_volume_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "estimating_need",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[estimating_need_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "drafting_bim_need",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[drafting_bim_need_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "hiring_capacity_trigger",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[hiring_trigger] = 'no evidence found'"
+      },
+      {
+        "factor": "decision_maker_access",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[decision_maker_access] = 'no evidence found'"
+      },
+      {
+        "factor": "outsourcing_readiness",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[outsourcing_readiness] = 'Offers full project management from start to finish for residential and commercial installations.'"
+      },
+      {
+        "factor": "commercial_attractiveness",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[commercial_attractiveness] = 'Over 30 years of operating history with a proven track record across Essex, Kent, and London.'"
+      }
+    ],
+    "snapshot": {
+      "company_name": "Concept Facades Ltd",
+      "location": "UK",
+      "sector": "cladding / facade specialist contractor",
+      "overview": "Specialists in external and internal cladding solutions, windows, doors, soffits, fascias, and guttering with over 30 years of experience serving domestic and commercial clients across the South East of England."
+    },
+    "contact": {
+      "name": "no evidence found"
+    },
+    "num_sources": 2,
+    "recommended_approach": {
+      "summary": "Concept Facades Ltd operates in cladding / facade specialist contractor, based in UK. Lead score: 30/100 (Low). Review the detailed score breakdown and findings to define your outreach approach.",
+      "angle": "Review findings for positioning angle",
+      "key_capabilities_to_lead_with": [
+        "Facade-specialist estimating & BOQ",
+        "Shop drawing production",
+        "BIM coordination"
+      ],
+      "knowledge_sources": []
+    },
+    "findings_summary": {
+      "num_snapshot": 15,
+      "num_dms": 1,
+      "num_signals": 1,
+      "notes_missing": [
+        "Specific employee count and revenue band",
+        "Named company directors or key executive leadership",
+        "Active specific tender or project backlog details",
+        "no evidence found for scoring field: decision_maker_access"
+      ]
+    }
+  },
+  {
+    "company_name": "Harts Roofing",
+    "website": "https://www.hartsroofing.co.uk",
+    "scenario": "Scenario 4: Minimal/sparse web presence contractor",
+    "job_id": "5fa46456-dacd-4ca2-adae-429c893d2151",
+    "status": "complete",
+    "total_wall_clock_s": 19.18,
+    "stage_durations": {
+      "pending": 0.246,
+      "researching": 10.046,
+      "drafting": 8.891
+    },
+    "score_total": 30,
+    "score_band": "Low",
+    "score_breakdown": [
+      {
+        "factor": "trade_service_fit",
+        "weight": 20,
+        "points_awarded": 20,
+        "evidence": "[trade_fit] = 'roofing contractor'"
+      },
+      {
+        "factor": "geography",
+        "weight": 10,
+        "points_awarded": 10,
+        "evidence": "[geography] = 'Northampton, UK'"
+      },
+      {
+        "factor": "company_size_capacity",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[company_size_band] = 'no evidence found'"
+      },
+      {
+        "factor": "tender_project_volume",
+        "weight": 15,
+        "points_awarded": 0,
+        "evidence": "[tender_volume_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "estimating_need",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[estimating_need_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "drafting_bim_need",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[drafting_bim_need_signal] = 'no evidence found'"
+      },
+      {
+        "factor": "hiring_capacity_trigger",
+        "weight": 10,
+        "points_awarded": 0,
+        "evidence": "[hiring_trigger] = 'no evidence found'"
+      },
+      {
+        "factor": "decision_maker_access",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[decision_maker_access] = 'no evidence found'"
+      },
+      {
+        "factor": "outsourcing_readiness",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[outsourcing_readiness] = 'no evidence found'"
+      },
+      {
+        "factor": "commercial_attractiveness",
+        "weight": 5,
+        "points_awarded": 0,
+        "evidence": "[commercial_attractiveness] = 'no evidence found'"
+      }
+    ],
+    "snapshot": {
+      "company_name": "Harts Roofing",
+      "location": "UK",
+      "sector": "roofing contractor",
+      "overview": "Harts Roofing is a roofing, re-roofing and rendering contractor working across Northampton and surrounding Northamptonshire towns for domestic and commercial clients."
+    },
+    "contact": {
+      "name": "no evidence found"
+    },
+    "num_sources": 1,
+    "recommended_approach": {
+      "summary": "Harts Roofing operates in roofing contractor, based in UK. Lead score: 30/100 (Low). Review the detailed score breakdown and findings to define your outreach approach.",
+      "angle": "Review findings for positioning angle",
+      "key_capabilities_to_lead_with": [
+        "Facade-specialist estimating & BOQ",
+        "Shop drawing production",
+        "BIM coordination"
+      ],
+      "knowledge_sources": []
+    },
+    "findings_summary": {
+      "num_snapshot": 15,
+      "num_dms": 1,
+      "num_signals": 1,
+      "notes_missing": [
+        "Company size and employee count",
+        "Specific named decision-makers and leadership",
+        "Financial signals and turnover figures",
+        "Hiring triggers or open vacancies",
+        "no evidence found for scoring field: decision_maker_access"
+      ]
+    }
+  }
+]

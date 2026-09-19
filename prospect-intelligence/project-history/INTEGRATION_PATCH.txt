@@ -1,0 +1,46 @@
+﻿# INTEGRATION PATCH for engine/researcher.py
+# Add this to the run_research() function after page fetching and before LLM extraction
+
+# Place this AFTER the line: "if urls_to_fetch:"
+# And BEFORE the line: "# 3. LLM structured extraction"
+
+"""
+ADD TO engine/researcher.py - in run_research() function:
+"""
+
+# After fetching pages (around line 150-155), ADD:
+
+from engine.source_verification import SourceVerification
+
+# ... (existing code) ...
+
+# 2B. SOURCE VERIFICATION — Check all sources match the company
+logger.info("Verifying sources for %s", company)
+verified_pages, rejected_sources = await SourceVerification.verify_all_sources(
+    company_name=company,
+    website=website,
+    fetched_pages=fetched_pages,
+    search_results=unique_results,
+)
+
+# Filter to only verified pages for LLM
+fetched_pages_verified = [p for p in verified_pages if p.get("verified", False)]
+if fetched_pages_verified:
+    logger.info("Verified %d of %d sources for %s", len(fetched_pages_verified), len(fetched_pages), company)
+    fetched_pages = [{"url": p["url"], "text": p["text"]} for p in fetched_pages_verified]
+else:
+    logger.warning("No sources verified for %s — proceeding with original pages", company)
+
+# Record rejected sources for audit trail
+sources_rejected_notes = SourceVerification.build_sources_rejected_note(rejected_sources)
+
+# Then later, when creating ResearchFindings, ADD sources_rejected:
+
+return ResearchFindings(
+    job_id=job_id,
+    company_snapshot=company_snapshot,
+    decision_makers=decision_makers,
+    projects_signals=projects_signals,
+    notes_missing=notes_missing + sources_rejected_notes,  # Include rejection notes
+    sources_rejected=rejected_sources,  # NEW FIELD
+)

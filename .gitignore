@@ -1,0 +1,87 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables & Secrets (CRITICAL)
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# Local SQLite & Vector Databases
+*.db
+*.sqlite
+*.sqlite3
+data/chroma_db/
+prospect-intelligence/data/chroma_db/
+prospect-intelligence/data/prospect_intelligence.db
+prospect-intelligence/data/exports/*.csv
+prospect-intelligence/data/exports/*.json
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Logs
+logs/
+*.log
+
+# IDE & Transient State
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Kiro internal cache/state (keep .kiro/specs/ tracked)
+.kiro/*
+!.kiro/specs/
+!.kiro/specs/**
+*.meta.json
+
+# Internal Prompt-Authoring Files (exclude prompt drafts, keep specs)
+master-prompt.md
+*prompt*.md
+*Prompt*.md
+
+# OS Generated
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+#docs
+Project_PDFs_and_Presentations

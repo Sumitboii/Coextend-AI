@@ -1,0 +1,38 @@
+﻿# Core framework
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic[email]>=2.9.0
+pydantic-settings>=2.5.0
+
+# Database (async SQLite)
+sqlalchemy>=2.0.36
+aiosqlite>=0.20.0
+
+# PDF extraction
+pypdf>=5.0.0
+
+# Vector store
+chromadb>=0.5.20
+
+# LLM + embeddings (FREE tier - get key at aistudio.google.com/app/apikey)
+google-genai>=2.23.0
+
+# Web search (FREE tier - get key at tavily.com)
+tavily-python>=0.3.0
+
+# HTTP client + retry
+httpx>=0.27.0
+tenacity>=9.0.0
+
+# UI templates
+jinja2>=3.1.4
+
+# Config
+python-dotenv>=1.0.1
+
+# Testing
+pytest>=8.3.0
+pytest-asyncio>=0.24.0
+
+# Dev
+ruff>=0.7.0

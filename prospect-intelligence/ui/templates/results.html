@@ -1,0 +1,1081 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .results-header {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .results-header h1 {
+        color: var(--logo-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .results-header p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+
+    .status-complete {
+        background: rgba(34, 197, 94, 0.2);
+        color: #86efac;
+        border: 1px solid #22c55e;
+    }
+
+    .status-researching, .status-scoring, .status-drafting, .status-pending {
+        background: rgba(249, 115, 22, 0.2);
+        color: #fb923c;
+        border: 1px solid #f97316;
+    }
+
+    .status-failed {
+        background: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+        border: 1px solid #ef4444;
+    }
+
+    .tabs-container {
+        display: flex;
+        gap: 0;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        background: var(--card-bg);
+        border-radius: 12px 12px 0 0;
+        border: 1px solid var(--card-border);
+        border-bottom: none;
+    }
+
+    .tab-button {
+        padding: 1rem 1.5rem;
+        background: transparent;
+        color: var(--text-muted);
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .tab-button:hover {
+        color: var(--logo-color);
+        background: var(--table-row-hover);
+    }
+
+    .tab-button.active {
+        color: var(--logo-color);
+        border-bottom-color: var(--logo-color);
+        background: var(--table-row-hover);
+    }
+
+    .tab-content {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 0 0 12px 12px;
+        padding: 2rem;
+        display: none;
+        backdrop-filter: blur(10px);
+    }
+
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brief-card {
+        background: var(--input-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .brief-card h3 {
+        color: var(--logo-color);
+        margin-bottom: 0.75rem;
+        font-size: 1.15rem;
+        border-bottom: 1px solid var(--card-border);
+        padding-bottom: 0.5rem;
+    }
+
+    .brief-card p, .brief-card li {
+        color: var(--text-color);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    .brief-card ul {
+        padding-left: 1.25rem;
+        margin-top: 0.5rem;
+    }
+
+    .data-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .data-item {
+        background: var(--card-bg);
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        border: 1px solid var(--card-border);
+    }
+
+    .data-item strong {
+        color: var(--logo-color);
+        display: block;
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .data-item span {
+        color: var(--text-color);
+        font-size: 0.95rem;
+    }
+
+    .evidence-tag {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-right: 0.5rem;
+        vertical-align: middle;
+    }
+
+    .tag-verified {
+        background: var(--status-complete-bg);
+        color: var(--status-complete-text);
+        border: 1px solid var(--status-complete-text);
+    }
+
+    .tag-probable {
+        background: var(--band-nurture-bg);
+        color: var(--band-nurture-text);
+        border: 1px solid var(--band-nurture-text);
+    }
+
+    .tag-unverified, .tag-hypothesis {
+        background: var(--status-pending-bg);
+        color: var(--status-pending-text);
+        border: 1px solid var(--status-pending-text);
+    }
+
+    .lead-score-display {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 2rem;
+        background: var(--input-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        margin-bottom: 2rem;
+    }
+
+    .score-circle {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.75rem;
+        font-weight: 700;
+        border: 4px solid var(--logo-color);
+        background: var(--score-pill-bg);
+        color: var(--score-pill-text);
+        flex-shrink: 0;
+    }
+
+    .score-circle .band-text {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--logo-color);
+        margin-top: 0.2rem;
+    }
+
+    .score-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+
+    .score-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        background: var(--table-header-bg);
+        color: var(--logo-color);
+        border-bottom: 1px solid var(--card-border);
+    }
+
+    .score-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--card-border);
+        color: var(--text-color);
+        font-size: 0.95rem;
+    }
+
+    .template-box {
+        background: var(--input-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-color);
+    }
+
+    .template-box h4 {
+        color: var(--logo-color);
+        margin-bottom: 0.75rem;
+        font-size: 1.05rem;
+    }
+
+    .template-content {
+        white-space: pre-wrap;
+        font-family: inherit;
+        background: var(--card-bg);
+        padding: 1rem;
+        border-radius: 6px;
+        border: 1px solid var(--card-border);
+        color: var(--text-color);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .template-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+
+    button {
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .button-secondary {
+        background: var(--score-pill-bg);
+        color: var(--score-pill-text);
+        border: 1px solid var(--score-pill-border);
+    }
+
+    .button-secondary:hover {
+        background: var(--table-row-hover);
+        color: var(--logo-color);
+    }
+
+    .copy-button {
+        background: var(--status-complete-bg);
+        color: var(--status-complete-text);
+        border: 1px solid var(--status-complete-text);
+    }
+
+    .copy-button:hover {
+        opacity: 0.85;
+    }
+
+    .loading-indicator {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .preview-code {
+        background: var(--input-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 8px;
+        padding: 1.25rem;
+        color: var(--text-color);
+        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        font-size: 0.9rem;
+        overflow-x: auto;
+        max-height: 450px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+
+    .sources-list {
+        list-style: none;
+        padding-left: 0 !important;
+    }
+
+    .sources-list li {
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: var(--card-bg);
+        border-radius: 6px;
+        border: 1px solid var(--card-border);
+    }
+
+    .sources-list a {
+        color: var(--logo-color);
+        text-decoration: none;
+        word-break: break-all;
+    }
+
+    .sources-list a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .tabs-container {
+            overflow-x: auto;
+        }
+        .tab-button {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+        }
+        .tab-content {
+            padding: 1.25rem;
+        }
+        .lead-score-display {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="results-header">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h1 id="companyNameHeader">Prospect Research</h1>
+            <p id="companyWebsiteHeader" style="margin-bottom: 0.5rem;"></p>
+            <p>
+                Status: <span id="statusBadge" class="status-badge status-pending">Loading...</span>
+                <span id="completedDate" style="color: var(--text-muted); margin-left: 1rem; font-size: 0.85rem;"></span>
+            </p>
+        </div>
+        <div>
+            <a href="/" class="button-secondary" style="text-decoration: none; padding: 0.5rem 1rem; font-size: 0.9rem; border-radius: 6px; display: inline-block;">&larr; New Research</a>
+        </div>
+    </div>
+    <div id="errorMessageContainer" style="display: none; margin-top: 1rem; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; border-radius: 8px; padding: 1rem; color: #fca5a5;">
+        <strong>Error:</strong> <span id="errorMessageText"></span>
+    </div>
+</div>
+
+<div class="tabs-container">
+    <button class="tab-button active" data-tab="brief-tab">Research Brief</button>
+    <button class="tab-button" data-tab="lead-score-tab">Lead Score</button>
+    <button class="tab-button" data-tab="crm-export-tab">CRM Export</button>
+    <button class="tab-button" data-tab="outreach-tab">Outreach Drafts</button>
+    <button class="tab-button" data-tab="proposal-tab">Proposal</button>
+</div>
+
+<!-- Brief Tab -->
+<div id="brief-tab" class="tab-content active">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 style="color: var(--logo-color); font-size: 1.3rem;">Executive Research Brief</h2>
+        <div>
+            <button id="downloadBriefBtn" class="button-secondary">Download Markdown Brief</button>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Company Snapshot</h3>
+        <div id="snapshotGrid" class="data-grid">
+            <p style="color: var(--text-muted);">Loading snapshot...</p>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Contact / Key Decision-Makers</h3>
+        <div id="contactGrid" class="data-grid">
+            <p style="color: var(--text-muted);">Loading contact details...</p>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Company Research & Background</h3>
+        <div id="companyResearchContent">
+            <p style="color: var(--text-muted);">Loading company background...</p>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Projects & Buying Signals</h3>
+        <div id="projectsSignalsContent">
+            <p style="color: var(--text-muted);">Loading buying signals...</p>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Likely Requirements & Pain Points <span style="font-size: 0.8rem; font-weight: normal; color: var(--band-nurture-text);">(Hypotheses)</span></h3>
+        <div id="requirementsContent">
+            <p style="color: var(--text-muted);">Loading requirements & hypotheses...</p>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Recommended Approach & Capabilities</h3>
+        <div id="recommendedApproachContent">
+            <p style="color: var(--text-muted);">Loading approach...</p>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Risks, Unknowns & Next Action</h3>
+        <div id="nextActionContent">
+            <p style="color: var(--text-muted);">Loading next action...</p>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Verified Sources & Citations</h3>
+        <ul id="sourcesList" class="sources-list">
+            <li style="color: var(--text-muted);">Loading sources...</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Lead Score Tab -->
+<div id="lead-score-tab" class="tab-content">
+    <h2 style="color: var(--logo-color); font-size: 1.3rem; margin-bottom: 1.5rem;">Deterministic Lead Score</h2>
+
+    <div class="lead-score-display">
+        <div class="score-circle">
+            <span id="scoreValue">-</span>
+            <span id="scoreBand" class="band-text">-</span>
+        </div>
+        <div style="flex: 1;">
+            <h3 style="color: var(--text-color); margin-bottom: 0.5rem;" id="scoreSummaryTitle">Lead Qualification Score</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;" id="scoreSummaryText">
+                Scored according to deterministic ICP criteria and verified signals.
+            </p>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Score Factor Breakdown</h3>
+        <table class="score-table">
+            <thead>
+                <tr>
+                    <th>Factor</th>
+                    <th>Weight</th>
+                    <th>Points Awarded</th>
+                    <th>Evidence / Finding</th>
+                </tr>
+            </thead>
+            <tbody id="scoreBreakdownBody">
+                <tr>
+                    <td colspan="4" style="color: var(--text-muted); text-align: center;">Loading breakdown...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="brief-card" id="zeroEvidenceCard" style="display: none;">
+        <h3 style="color: var(--band-nurture-text);">Factors with Zero Evidence</h3>
+        <ul id="zeroEvidenceList"></ul>
+    </div>
+</div>
+
+<!-- CRM Export Tab -->
+<div id="crm-export-tab" class="tab-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h2 style="color: var(--logo-color); font-size: 1.3rem;">CRM-Ready Export Record</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">Standardized company, contact, and deal properties for HubSpot / Salesforce.</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+            <button id="downloadCrmCsvBtn">Download CSV</button>
+            <button id="copyCrmJsonBtn" class="button-secondary">Copy JSON</button>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3>Export Data Preview</h3>
+        <pre class="preview-code" id="crmPreview">Loading CRM export...</pre>
+    </div>
+</div>
+
+<!-- Outreach Tab -->
+<div id="outreach-tab" class="tab-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h2 style="color: var(--logo-color); font-size: 1.3rem;">Multi-Touch Outreach Sequence</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">AI-crafted sequence tailored to prospect pain points and capabilities.</p>
+        </div>
+        <div>
+            <button id="refreshOutreachBtn" class="button-secondary">Regenerate Sequence</button>
+        </div>
+    </div>
+
+    <div class="template-box">
+        <h4>Subject Line</h4>
+        <div class="template-content" id="emailSubject">Loading...</div>
+        <div class="template-actions">
+            <button class="copy-button" onclick="copyElementText('emailSubject')">Copy Subject</button>
+        </div>
+    </div>
+
+    <div class="template-box">
+        <h4>Touch 1: Pain Observation & Trigger</h4>
+        <div class="template-content" id="emailTouch1">Loading...</div>
+        <div class="template-actions">
+            <button class="copy-button" onclick="copyElementText('emailTouch1')">Copy Email</button>
+            <button class="button-secondary" onclick="openEmail('emailSubject', 'emailTouch1')">Open in Mail App</button>
+        </div>
+    </div>
+
+    <div class="template-box">
+        <h4>Touch 2: Soft Capability Bump (Day 3–4)</h4>
+        <div class="template-content" id="emailTouch2">Loading...</div>
+        <div class="template-actions">
+            <button class="copy-button" onclick="copyElementText('emailTouch2')">Copy Email</button>
+            <button class="button-secondary" onclick="openEmail('emailSubject', 'emailTouch2')">Open in Mail App</button>
+        </div>
+    </div>
+
+    <div class="template-box">
+        <h4>Touch 3: Low-Friction Value-Add / Breakup (Day 7–8)</h4>
+        <div class="template-content" id="emailTouch3">Loading...</div>
+        <div class="template-actions">
+            <button class="copy-button" onclick="copyElementText('emailTouch3')">Copy Email</button>
+            <button class="button-secondary" onclick="openEmail('emailSubject', 'emailTouch3')">Open in Mail App</button>
+        </div>
+    </div>
+
+    <div class="template-box">
+        <h4>LinkedIn Connection Request (&lt;300 chars)</h4>
+        <div class="template-content" id="linkedinConnection">Loading...</div>
+        <div class="template-actions">
+            <button class="copy-button" onclick="copyElementText('linkedinConnection')">Copy Connection Note</button>
+        </div>
+    </div>
+
+    <div class="template-box">
+        <h4>LinkedIn Follow-Up Pitch</h4>
+        <div class="template-content" id="linkedinPitch">Loading...</div>
+        <div class="template-actions">
+            <button class="copy-button" onclick="copyElementText('linkedinPitch')">Copy Pitch</button>
+        </div>
+    </div>
+</div>
+
+<!-- Proposal Tab -->
+<div id="proposal-tab" class="tab-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h2 style="color: var(--logo-color); font-size: 1.3rem;">Tailored Scope of Work Proposal</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">Grounded proposal outline based on Coextend templates and verified requirements.</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button id="downloadProposalBtn">Download Markdown</button>
+            <button id="copyProposalBtn" class="button-secondary">Copy Text</button>
+            <button id="regenerateProposalBtn" class="button-secondary">Regenerate Proposal</button>
+        </div>
+    </div>
+
+    <div class="brief-card">
+        <h3 id="proposalTitleHeader">Scope of Work Draft</h3>
+        <pre class="preview-code" id="proposalPreview">Loading proposal...</pre>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const jobId = '{{ job_id }}';
+    let cachedBrief = null;
+    let cachedCrm = null;
+    let cachedOutreach = null;
+    let cachedProposal = null;
+
+    // Tab Navigation
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const tabName = this.getAttribute('data-tab');
+            switchTab(tabName, this);
+        });
+    });
+
+    function switchTab(tabName, clickedBtn) {
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        document.getElementById(tabName).classList.add('active');
+        if (clickedBtn) {
+            clickedBtn.classList.add('active');
+        }
+
+        // Lazy load tab data if needed
+        if (tabName === 'outreach-tab' && !cachedOutreach) {
+            loadOutreach();
+        } else if (tabName === 'proposal-tab' && !cachedProposal) {
+            loadProposal();
+        }
+    }
+
+    // Main loader
+    async function init() {
+        if (!jobId) {
+            showError('Invalid Job ID.');
+            return;
+        }
+        await pollStatus();
+    }
+
+    async function pollStatus() {
+        try {
+            const response = await fetch('/api/v1/prospects/' + encodeURIComponent(jobId));
+            if (!response.ok) {
+                if (response.status === 404) {
+                    showError('Prospect research job not found.');
+                } else {
+                    showError('Failed to fetch job status (HTTP ' + response.status + ').');
+                }
+                return;
+            }
+
+            const job = await response.json();
+            updateHeader(job);
+
+            if (job.status === 'complete') {
+                loadBrief();
+                loadCRMExport();
+            } else if (job.status === 'failed') {
+                showError(job.error_message || 'Research pipeline encountered an unrecoverable failure.');
+            } else {
+                // Pipeline still working (pending, researching, scoring, drafting)
+                setTimeout(pollStatus, 2500);
+            }
+        } catch (error) {
+            console.error('Error fetching job status:', error);
+            setTimeout(pollStatus, 4000);
+        }
+    }
+
+    function updateHeader(job) {
+        if (job.company_name) {
+            document.getElementById('companyNameHeader').textContent = job.company_name;
+        }
+        if (job.website) {
+            document.getElementById('companyWebsiteHeader').innerHTML = `<a href="${escapeHtml(job.website)}" target="_blank" style="color: #818cf8; text-decoration: none;">${escapeHtml(job.website)} &#x2197;</a>`;
+        }
+
+        const badge = document.getElementById('statusBadge');
+        badge.className = 'status-badge status-' + (job.status || 'pending').toLowerCase();
+        badge.textContent = job.status || 'Processing';
+
+        if (job.created_at) {
+            document.getElementById('completedDate').textContent = 'Created: ' + new Date(job.created_at).toLocaleString();
+        }
+    }
+
+    function showError(msg) {
+        const errContainer = document.getElementById('errorMessageContainer');
+        const errText = document.getElementById('errorMessageText');
+        errText.textContent = msg;
+        errContainer.style.display = 'block';
+
+        const badge = document.getElementById('statusBadge');
+        badge.className = 'status-badge status-failed';
+        badge.textContent = 'Failed';
+    }
+
+    // Brief
+    async function loadBrief() {
+        try {
+            const response = await fetch('/api/v1/prospects/' + encodeURIComponent(jobId) + '/brief');
+            if (response.ok) {
+                const brief = await response.json();
+                cachedBrief = brief;
+                renderBrief(brief);
+                renderLeadScore(brief.lead_score);
+            } else {
+                console.warn('Brief not yet available:', response.status);
+            }
+        } catch (error) {
+            console.error('Error loading brief:', error);
+        }
+    }
+
+    function renderBrief(brief) {
+        // Snapshot
+        const snapshotEl = document.getElementById('snapshotGrid');
+        if (brief.snapshot && Object.keys(brief.snapshot).length > 0) {
+            snapshotEl.innerHTML = Object.entries(brief.snapshot).map(([k, v]) => `
+                <div class="data-item">
+                    <strong>${formatKey(k)}</strong>
+                    <span>${escapeHtml(String(v || '-'))}</span>
+                </div>
+            `).join('');
+        } else {
+            snapshotEl.innerHTML = '<p style="color: var(--text-muted);">No snapshot data available.</p>';
+        }
+
+        // Contact
+        const contactEl = document.getElementById('contactGrid');
+        if (brief.contact && Object.keys(brief.contact).length > 0) {
+            contactEl.innerHTML = Object.entries(brief.contact).map(([k, v]) => `
+                <div class="data-item">
+                    <strong>${formatKey(k)}</strong>
+                    <span>${escapeHtml(String(v || '-'))}</span>
+                </div>
+            `).join('');
+        } else {
+            contactEl.innerHTML = '<p style="color: var(--text-muted);">No direct contact information found.</p>';
+        }
+
+        // Company Research
+        const researchEl = document.getElementById('companyResearchContent');
+        if (brief.company_research && Object.keys(brief.company_research).length > 0) {
+            researchEl.innerHTML = Object.entries(brief.company_research).map(([k, v]) => `
+                <div style="margin-bottom: 0.75rem;">
+                    <strong style="color: var(--logo-color); display: block; font-size: 0.95rem;">${formatKey(k)}:</strong>
+                    <p style="color: var(--text-color); margin-top: 0.2rem;">${escapeHtml(String(v))}</p>
+                </div>
+            `).join('');
+        } else {
+            researchEl.innerHTML = '<p style="color: var(--text-muted);">No additional company research available.</p>';
+        }
+
+        // Projects & Signals
+        const signalsEl = document.getElementById('projectsSignalsContent');
+        if (brief.projects_signals && brief.projects_signals.length > 0) {
+            signalsEl.innerHTML = '<ul>' + brief.projects_signals.map(s => `
+                <li style="margin-bottom: 0.5rem;">
+                    <span class="evidence-tag tag-${(s.label || 'unverified').toLowerCase()}">${escapeHtml(s.label || 'Signal')}</span>
+                    <strong>${formatKey(s.field)}:</strong> ${escapeHtml(s.value)}
+                </li>
+            `).join('') + '</ul>';
+        } else {
+            signalsEl.innerHTML = '<p style="color: var(--text-muted);">No active project signals recorded.</p>';
+        }
+
+        // Requirements & Pain Points
+        const reqEl = document.getElementById('requirementsContent');
+        let reqHtml = '';
+        if (brief.likely_requirements && brief.likely_requirements.length > 0) {
+            reqHtml += '<h4 style="color: var(--logo-color); margin-bottom: 0.5rem; font-size: 0.95rem;">Likely Requirements:</h4><ul>' + 
+                brief.likely_requirements.map(r => `
+                    <li style="margin-bottom: 0.4rem;">
+                        <span class="evidence-tag tag-hypothesis">Hypothesis</span>
+                        ${escapeHtml(r.value)}
+                    </li>
+                `).join('') + '</ul>';
+        }
+        if (brief.pain_point_hypotheses && brief.pain_point_hypotheses.length > 0) {
+            reqHtml += '<h4 style="color: var(--logo-color); margin-top: 0.75rem; margin-bottom: 0.5rem; font-size: 0.95rem;">Pain-Point Hypotheses:</h4><ul>' + 
+                brief.pain_point_hypotheses.map(p => `
+                    <li style="margin-bottom: 0.4rem;">
+                        <span class="evidence-tag tag-hypothesis">Hypothesis</span>
+                        ${escapeHtml(p.value)}
+                    </li>
+                `).join('') + '</ul>';
+        }
+        reqEl.innerHTML = reqHtml || '<p style="color: var(--text-muted);">No requirements or pain points noted.</p>';
+
+        // Recommended Approach
+        const approachEl = document.getElementById('recommendedApproachContent');
+        if (brief.recommended_approach) {
+            const app = brief.recommended_approach;
+            let capsHtml = '';
+            if (app.key_capabilities_to_lead_with && app.key_capabilities_to_lead_with.length > 0) {
+                capsHtml = '<p style="margin-top: 0.5rem;"><strong>Key Capabilities:</strong></p><ul>' + 
+                    app.key_capabilities_to_lead_with.map(c => `<li>${escapeHtml(c)}</li>`).join('') + '</ul>';
+            }
+            approachEl.innerHTML = `
+                <p style="margin-bottom: 0.5rem;"><strong>Summary:</strong> ${escapeHtml(app.summary || '-')}</p>
+                ${app.angle ? `<p style="margin-bottom: 0.5rem;"><strong>Strategic Angle:</strong> ${escapeHtml(app.angle)}</p>` : ''}
+                ${capsHtml}
+            `;
+        } else {
+            approachEl.innerHTML = '<p style="color: var(--text-muted);">No recommended approach generated.</p>';
+        }
+
+        // Risks & Next Action
+        const nextEl = document.getElementById('nextActionContent');
+        let risksHtml = '';
+        if (brief.risks_unknowns && brief.risks_unknowns.length > 0) {
+            risksHtml = '<h4 style="color: var(--band-nurture-text); margin-bottom: 0.5rem; font-size: 0.95rem;">Risks & Unknowns:</h4><ul>' + 
+                brief.risks_unknowns.map(r => `<li style="color: var(--text-color);">${escapeHtml(r)}</li>`).join('') + '</ul>';
+        }
+        let actionHtml = '';
+        if (brief.next_action) {
+            actionHtml = `
+                <h4 style="color: var(--logo-color); margin-top: 0.75rem; margin-bottom: 0.5rem; font-size: 0.95rem;">Recommended Next Step:</h4>
+                <p><strong>Action:</strong> ${escapeHtml(brief.next_action.action || '-')}</p>
+                ${brief.next_action.owner ? `<p style="font-size: 0.85rem; color: var(--text-muted);">Owner: ${escapeHtml(brief.next_action.owner)}</p>` : ''}
+            `;
+        }
+        nextEl.innerHTML = risksHtml + actionHtml || '<p style="color: var(--text-muted);">No next action recorded.</p>';
+
+        // Sources
+        const sourcesEl = document.getElementById('sourcesList');
+        if (brief.sources && brief.sources.length > 0) {
+            sourcesEl.innerHTML = brief.sources.map(s => `
+                <li>
+                    <a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.title || s.url)}</a>
+                    ${s.date_reviewed ? `<span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;">(Reviewed: ${escapeHtml(s.date_reviewed)})</span>` : ''}
+                </li>
+            `).join('');
+        } else {
+            sourcesEl.innerHTML = '<li style="color: var(--text-muted);">No source URLs recorded.</li>';
+        }
+    }
+
+    // Lead Score 5-tier classification definitions
+    const TIER_ACTIONS = {
+        'A+ / Priority': 'Personalised founder/director outreach; add to immediate call list; research trigger before message',
+        'A / Strong fit': 'Targeted outreach sequence; offer relevant pilot or capacity conversation',
+        'B / Nurture': 'Automated sequence; monitor triggers and revisit when hiring/tender workload appears',
+        'C / Low priority': 'Light nurture only; do not spend high-touch sales time',
+        'D / Disqualify': 'Exclude or suppress unless new evidence changes the score'
+    };
+
+    const TIER_COLORS = {
+        'A+ / Priority': { border: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', text: '#34d399', bandText: '#6ee7b7' },
+        'A / Strong fit': { border: '#6366f1', bg: 'rgba(99, 102, 241, 0.15)', text: '#818cf8', bandText: '#a5b4fc' },
+        'B / Nurture': { border: '#f59e0b', bg: 'rgba(245, 158, 11, 0.15)', text: '#fbbf24', bandText: '#fcd34d' },
+        'C / Low priority': { border: '#f97316', bg: 'rgba(249, 115, 22, 0.15)', text: '#fb923c', bandText: '#fdba74' },
+        'D / Disqualify': { border: '#ef4444', bg: 'rgba(239, 68, 68, 0.15)', text: '#f87171', bandText: '#fca5a5' }
+    };
+
+    function renderLeadScore(leadScore) {
+        if (!leadScore) return;
+        const total = leadScore.total || 0;
+        const band = leadScore.band || 'Unscored';
+
+        document.getElementById('scoreValue').textContent = total;
+        const scoreBandEl = document.getElementById('scoreBand');
+        scoreBandEl.textContent = band.toUpperCase();
+
+        const summaryTitle = document.getElementById('scoreSummaryTitle');
+        const summaryText = document.getElementById('scoreSummaryText');
+        if (summaryTitle && summaryText) {
+            summaryTitle.textContent = `${band} (${total}/100)`;
+            const recAction = TIER_ACTIONS[band] || 'Scored according to deterministic ICP criteria.';
+            summaryText.innerHTML = `<strong>Recommended Action:</strong> ${escapeHtml(recAction)}`;
+        }
+
+        const tableBody = document.getElementById('scoreBreakdownBody');
+        if (leadScore.breakdown && leadScore.breakdown.length > 0) {
+            tableBody.innerHTML = leadScore.breakdown.map(factor => `
+                <tr>
+                    <td><strong>${formatKey(factor.factor)}</strong></td>
+                    <td>${factor.weight}%</td>
+                    <td><strong style="color: var(--logo-color);">${factor.points_awarded}</strong> / ${factor.weight}</td>
+                    <td>${escapeHtml(factor.evidence || '-')}</td>
+                </tr>
+            `).join('');
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="4" style="color: var(--text-muted); text-align: center;">No breakdown available.</td></tr>';
+        }
+
+        if (leadScore.zero_evidence_factors && leadScore.zero_evidence_factors.length > 0) {
+            const zeroCard = document.getElementById('zeroEvidenceCard');
+            const zeroList = document.getElementById('zeroEvidenceList');
+            zeroList.innerHTML = leadScore.zero_evidence_factors.map(f => `<li>${formatKey(f)}</li>`).join('');
+            zeroCard.style.display = 'block';
+        }
+    }
+
+    // CRM Export
+    async function loadCRMExport() {
+        try {
+            const response = await fetch('/api/v1/prospects/' + encodeURIComponent(jobId) + '/crm-export');
+            if (response.ok) {
+                const crm = await response.json();
+                cachedCrm = crm;
+                document.getElementById('crmPreview').textContent = JSON.stringify(crm, null, 2);
+            }
+        } catch (error) {
+            console.error('Error loading CRM export:', error);
+        }
+    }
+
+    // Outreach
+    async function loadOutreach(forceRefresh = false) {
+        const btn = document.getElementById('refreshOutreachBtn');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-indicator"></span> Generating...';
+        }
+
+        try {
+            const response = await fetch('/api/v1/prospects/' + encodeURIComponent(jobId) + '/outreach', {
+                method: 'POST'
+            });
+            if (response.ok) {
+                const drafts = await response.json();
+                cachedOutreach = drafts;
+                document.getElementById('emailSubject').textContent = drafts.email_subject || 'No subject generated';
+                document.getElementById('emailTouch1').textContent = drafts.email_touch_1 || drafts.email_body || 'Touch 1 not generated';
+                document.getElementById('emailTouch2').textContent = drafts.email_touch_2 || 'Touch 2 not generated';
+                document.getElementById('emailTouch3').textContent = drafts.email_touch_3 || 'Touch 3 not generated';
+                document.getElementById('linkedinConnection').textContent = drafts.linkedin_connection || drafts.linkedin_message || 'Connection note not generated';
+                document.getElementById('linkedinPitch').textContent = drafts.linkedin_pitch || 'LinkedIn pitch not generated';
+            } else {
+                console.error('Failed to generate outreach:', response.status);
+            }
+        } catch (error) {
+            console.error('Error generating outreach:', error);
+        }
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = 'Regenerate Sequence';
+        }
+    }
+
+    // Proposal
+    async function loadProposal(forceRefresh = false) {
+        const btn = document.getElementById('regenerateProposalBtn');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-indicator"></span> Generating...';
+        }
+
+        try {
+            const response = await fetch('/api/v1/prospects/' + encodeURIComponent(jobId) + '/proposal', {
+                method: 'POST'
+            });
+            if (response.ok) {
+                const proposal = await response.json();
+                cachedProposal = proposal;
+                if (proposal.proposal_title) {
+                    document.getElementById('proposalTitleHeader').textContent = proposal.proposal_title;
+                }
+                document.getElementById('proposalPreview').textContent = proposal.rendered_markdown || JSON.stringify(proposal, null, 2);
+            } else {
+                console.error('Failed to generate proposal:', response.status);
+            }
+        } catch (error) {
+            console.error('Error generating proposal:', error);
+        }
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = 'Regenerate Proposal';
+        }
+    }
+
+    // Export / Download handlers
+    document.getElementById('downloadBriefBtn').addEventListener('click', function() {
+        window.location.href = '/api/v1/prospects/' + encodeURIComponent(jobId) + '/brief?format=markdown';
+    });
+
+    document.getElementById('downloadCrmCsvBtn').addEventListener('click', function() {
+        window.location.href = '/api/v1/prospects/' + encodeURIComponent(jobId) + '/crm-export?format=csv';
+    });
+
+    document.getElementById('copyCrmJsonBtn').addEventListener('click', function() {
+        if (cachedCrm) {
+            navigator.clipboard.writeText(JSON.stringify(cachedCrm, null, 2)).then(() => alert('CRM JSON copied!'));
+        }
+    });
+
+    document.getElementById('downloadProposalBtn').addEventListener('click', function() {
+        window.location.href = '/api/v1/prospects/' + encodeURIComponent(jobId) + '/proposal?format=markdown';
+    });
+
+    document.getElementById('copyProposalBtn').addEventListener('click', function() {
+        const text = document.getElementById('proposalPreview').textContent;
+        navigator.clipboard.writeText(text).then(() => alert('Proposal text copied!'));
+    });
+
+    document.getElementById('regenerateProposalBtn').addEventListener('click', function() {
+        loadProposal(true);
+    });
+
+    document.getElementById('refreshOutreachBtn').addEventListener('click', function() {
+        loadOutreach(true);
+    });
+
+    // Helpers
+    function formatKey(key) {
+        if (!key) return '';
+        return key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function copyElementText(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        navigator.clipboard.writeText(el.textContent).then(() => {
+            alert('Copied to clipboard!');
+        }).catch(err => {
+            console.error('Copy failed:', err);
+        });
+    }
+
+    function openEmail(subjectId, bodyId) {
+        const subject = document.getElementById(subjectId)?.textContent || '';
+        const body = document.getElementById(bodyId)?.textContent || '';
+        window.open('mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body));
+    }
+
+    init();
+</script>
+{% endblock %}
