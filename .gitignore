@@ -110,4 +110,33 @@ prospect-intelligence/data/knowledge_base/
 Coextend_AI_Complete_Interview_Master_Guide.pdf
 Coextend_AI_Project_Presentation.pdf
 
+# Root Word, Excel, CSV, ODT source documents
+*.docx
+*.xlsx
+*.odt
+80d207ea-24ff-4a05-aab1-cf88fb990f97_crm.csv
+PROJECT_EXPLANATION_AND_KNOWLEDGE_BASE.md
+convert_knowledge_docs.py
+
+# Extra demo reports & documentation markdowns
+prospect-intelligence/DEMO_*
+prospect-intelligence/INTEGRATION_GUIDE_RAG_ONLY.md
+prospect-intelligence/FINAL_VERIFICATION_TEST_REPORT.md
+prospect-intelligence/PROJECT_COMPLETION_SUMMARY.md
+prospect-intelligence/VERIFICATION_SIGN_OFF.md
+prospect-intelligence/DOCKER.md
+prospect-intelligence/context.md
+prospect-intelligence/create_knowledge_pdfs.py
+prospect-intelligence/data/Coextend_Prospect_Intelligence_Data.xlsx
+prospect-intelligence/data/companies_100.json
+prospect-intelligence/data/generate_100_companies.py
+prospect-intelligence/export_db_to_excel.py
+prospect-intelligence/backfill_db.py
+static-demo/
+docs/
+render.yaml
+prospect-intelligence/render.yaml
+requirements.md
+
+
 
