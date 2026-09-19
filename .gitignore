@@ -103,3 +103,11 @@ prospect-intelligence/data/vector_store/
 # Generated Knowledge Base PDFs (generated via create_knowledge_pdfs.py)
 prospect-intelligence/data/knowledge_base/
 
+# PPT and Interview Master Files
+*Presentation*
+*Interview*
+*.pptx
+Coextend_AI_Complete_Interview_Master_Guide.pdf
+Coextend_AI_Project_Presentation.pdf
+
+
