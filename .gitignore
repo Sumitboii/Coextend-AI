@@ -141,8 +141,6 @@ prospect-intelligence/export_db_to_excel.py
 prospect-intelligence/backfill_db.py
 static-demo/
 docs/
-render.yaml
-prospect-intelligence/render.yaml
 requirements.md
 
 
