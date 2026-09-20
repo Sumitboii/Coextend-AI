@@ -65,12 +65,13 @@ def score(findings: ResearchFindings) -> LeadScore:
         if factor.finding_field not in present_fields:
             zero_evidence_factors.append(factor.name)
 
+        clean_val = value.strip("'\"") if isinstance(value, str) else str(value)
         breakdown.append(
             ScoreFactor(
                 factor=factor.name,
                 weight=factor.weight,
                 points_awarded=points,
-                evidence=f"[{factor.finding_field}] = {value!r}",
+                evidence=clean_val,
             )
         )
         total += points

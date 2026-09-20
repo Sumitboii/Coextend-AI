@@ -217,10 +217,18 @@
         margin-top: 0.2rem;
     }
 
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-top: 1rem;
+        border-radius: 8px;
+    }
+
     .score-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 1rem;
+        min-width: 550px;
     }
 
     .score-table th {
@@ -229,13 +237,16 @@
         background: var(--table-header-bg);
         color: var(--logo-color);
         border-bottom: 1px solid var(--card-border);
+        font-size: 0.85rem;
+        white-space: nowrap;
     }
 
     .score-table td {
         padding: 0.75rem 1rem;
         border-bottom: 1px solid var(--card-border);
         color: var(--text-color);
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        word-break: break-word;
     }
 
     .template-box {
@@ -506,21 +517,23 @@
 
     <div class="brief-card">
         <h3>Score Factor Breakdown</h3>
-        <table class="score-table">
-            <thead>
-                <tr>
-                    <th>Factor</th>
-                    <th>Weight</th>
-                    <th>Points Awarded</th>
-                    <th>Evidence / Finding</th>
-                </tr>
-            </thead>
-            <tbody id="scoreBreakdownBody">
-                <tr>
-                    <td colspan="4" style="color: var(--text-muted); text-align: center;">Loading breakdown...</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="score-table">
+                <thead>
+                    <tr>
+                        <th>Factor</th>
+                        <th>Weight</th>
+                        <th>Points Awarded</th>
+                        <th>Evidence / Finding</th>
+                    </tr>
+                </thead>
+                <tbody id="scoreBreakdownBody">
+                    <tr>
+                        <td colspan="4" style="color: var(--text-muted); text-align: center;">Loading breakdown...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="brief-card" id="zeroEvidenceCard" style="display: none;">
@@ -915,14 +928,19 @@
 
         const tableBody = document.getElementById('scoreBreakdownBody');
         if (leadScore.breakdown && leadScore.breakdown.length > 0) {
-            tableBody.innerHTML = leadScore.breakdown.map(factor => `
-                <tr>
-                    <td><strong>${formatKey(factor.factor)}</strong></td>
-                    <td>${factor.weight}%</td>
-                    <td><strong style="color: var(--logo-color);">${factor.points_awarded}</strong> / ${factor.weight}</td>
-                    <td>${escapeHtml(factor.evidence || '-')}</td>
-                </tr>
-            `).join('');
+            tableBody.innerHTML = leadScore.breakdown.map(factor => {
+                let evidenceText = factor.evidence || '-';
+                // Clean up any [field_name] = '...' wrappers for clean direct display
+                evidenceText = evidenceText.replace(/^\[[^\]]+\]\s*=\s*/, '').replace(/^['"]|['"]$/g, '');
+                return `
+                    <tr>
+                        <td><strong>${formatKey(factor.factor)}</strong></td>
+                        <td>${factor.weight}%</td>
+                        <td><strong style="color: var(--logo-color);">${factor.points_awarded}</strong> / ${factor.weight}</td>
+                        <td>${escapeHtml(evidenceText)}</td>
+                    </tr>
+                `;
+            }).join('');
         } else {
             tableBody.innerHTML = '<tr><td colspan="4" style="color: var(--text-muted); text-align: center;">No breakdown available.</td></tr>';
         }
