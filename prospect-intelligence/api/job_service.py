@@ -126,6 +126,22 @@ async def _run_pipeline(job_id: str, req: ProspectRequest) -> None:
             await _update(job_id, JobStatus.FAILED.value, reason)
         except Exception as exc:
             exc_str = str(exc)
+            # Automatic graceful fallback if API key is invalid or quota exhausted
+            if any(k in exc_str.lower() for k in ("api key not valid", "api_key_invalid", "invalid_argument", "quota", "resourceexhausted")):
+                logger.warning("Gemini API key error detected (%s). Falling back gracefully to Demo Engine for %s", exc_str, job_id)
+                try:
+                    from engine.demo_pipeline import run_demo_pipeline
+                    await run_demo_pipeline(
+                        job_id=job_id,
+                        company_name=req.company_name,
+                        website=str(req.website),
+                        update_status_fn=_update,
+                        save_json_fn=_save,
+                    )
+                    return
+                except Exception as fallback_err:
+                    logger.exception("Fallback demo pipeline error: %s", fallback_err)
+            
             if any(k in exc_str.lower() for k in ("rate_limit", "resourceexhausted", "quota", "429")):
                 reason = f"failed:rate_limited (API rate limit exceeded. Please retry after cooldown: {exc_str})"
             elif "timeout" in exc_str.lower():

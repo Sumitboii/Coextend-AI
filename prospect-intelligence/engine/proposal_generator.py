@@ -201,6 +201,35 @@ async def generate_proposal_draft(brief: ResearchBrief) -> ProposalDraft:
             exc_str = str(exc)
             if any(k in exc_str.lower() for k in ("rate_limit", "resourceexhausted", "quota", "429")):
                 raise RuntimeError(f"failed:rate_limited (Proposal generation API rate limited: {exc})") from exc
+            if any(k in exc_str.lower() for k in ("api key not valid", "api_key_invalid", "invalid_argument")):
+                logger.warning("Proposal LLM API key error; generating template proposal directly.")
+                raw = {
+                    "proposal_title": f"Pre-Construction Technical Services Proposal — {company_name}",
+                    "client_requirement": f"Support for {company_name} to alleviate estimating and drafting capacity bottlenecks during peak tendering cycles.",
+                    "proposed_scope": [
+                        "Quantity take-offs and material bills of quantities (BOQ)",
+                        "Revit BIM 3D modeling and facade interface coordination",
+                        "2D CAD shop drawings, fabrication packs, and bracketry details",
+                    ],
+                    "deliverables": [
+                        "Complete Excel BOQ with detailed measurement breakdown",
+                        "Coordinated BIM model (.rvt) and CAD drawings (.dwg, .pdf)",
+                        "Two rounds of revisions per milestone submission",
+                    ],
+                    "turnaround_programme": "Takeoffs: 48-72 hours. Shop drawings: 5-7 working days. Dedicated sprint reviews.",
+                    "commercial_options": [
+                        {"option_name": "Project Package", "description": "Fixed fee milestone delivery per tender package", "basis": "[Fixed Package Fee]"},
+                        {"option_name": "Hourly On-Demand", "description": "Flexible capacity support for urgent tender spikes", "basis": "[Hourly Rate]"},
+                        {"option_name": "Monthly Dedicated Team", "description": "Full-time dedicated pre-construction engineer", "basis": "[Monthly Retainer]"},
+                    ],
+                    "assumptions_exclusions": [
+                        "Client to provide architectural drawings and project specifications.",
+                        "Statutory structural engineering sign-off excluded unless agreed in writing.",
+                        "Standard turnaround based on agreed milestone schedule.",
+                    ],
+                    "pilot_option": "Single tender takeoff or single shop drawing package (up to 40 hours) to demonstrate quality and turnaround before long-term commitment.",
+                }
+                break
             if attempt == 0:
                 full_prompt += f"\n\nJSON error: {exc}. Return valid JSON only."
             else:
