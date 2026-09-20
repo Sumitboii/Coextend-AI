@@ -2,6 +2,16 @@
 
 An autonomous AI-powered pre-construction prospect research and intelligence system built for **Coextend Global LLP**. Given a prospective company name and website, the system executes real-time web research, deterministically scores commercial fit against a 100-point ICP rubric, grounds company positioning against internal technical standards (CWCT, BS EN 13830, ASTM) via ChromaDB RAG, and produces decision-ready executive briefs, CRM-ready exports (HubSpot), and tailored outreach drafts.
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+[![Live on Render](https://img.shields.io/badge/Live_App-Render-success?style=for-the-badge&logo=render)](https://coextend-ai.onrender.com)
+
+---
+
+## 🌐 Live Production Deployment
+- **Live Web Application:** [https://coextend-ai.onrender.com](https://coextend-ai.onrender.com)
+- **Interactive Swagger API Docs:** [https://coextend-ai.onrender.com/docs](https://coextend-ai.onrender.com/docs)
+- **Health Check Endpoint:** [https://coextend-ai.onrender.com/api/v1/health](https://coextend-ai.onrender.com/api/v1/health)
+
 ---
 
 ## 👨‍💻 Project Information & Developer
