@@ -16,7 +16,7 @@ from config import settings
 
 logger = logging.getLogger(__name__)
 
-_FETCH_TIMEOUT = 1.5  # seconds per HTTP request (fail fast on dead or slow sites)
+_FETCH_TIMEOUT = 4.0  # seconds per HTTP request (fail fast on dead or slow sites, allows larger homepages)
 _SEARCH_TIMEOUT = 8.0  # seconds per Tavily search API call
 _MAX_PAGE_CHARS = 8_000  # truncate very large pages to keep context clean
 

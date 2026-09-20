@@ -29,8 +29,8 @@ async def _make_dynamic_findings(job_id: str, company_name: str, website: str) -
     domain = urlparse(website).netloc or website.replace("https://", "").replace("http://", "").split("/")[0]
 
     # Fetch live homepage and targeted web search snippets
-    homepage_task = fetch_page(website, timeout=2.0)
-    search_task = web_search(f'"{company_name}" {domain} facade cladding contractor leadership directors', num_results=5)
+    homepage_task = fetch_page(website, timeout=4.0)
+    search_task = web_search(f'"{company_name}" {domain} about company overview leadership ceo directors', num_results=5)
     
     homepage_text, search_results = await asyncio.gather(homepage_task, search_task, return_exceptions=True)
     

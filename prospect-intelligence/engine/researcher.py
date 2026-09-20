@@ -252,31 +252,56 @@ def _extract_heuristic_fallback(
     elif snippets:
         primary_source = snippets[0].get("link", website)
 
-    # 1. Trade fit & sector
-    detected_trade = "specialist building contractor"
-    detected_sector = "Commercial Construction"
+    # 1. Trade fit & sector detection
+    detected_trade = None
+    detected_sector = None
+
+    # Check construction / envelope specialist first
     if any(k in all_lower for k in ["facade", "façade", "curtain wall", "cladding", "rainscreen"]):
         detected_trade = "facade and cladding contractor"
         detected_sector = "Facade, Cladding & Building Envelope"
-    elif any(k in all_lower for k in ["roofing", "roof", "waterproofing"]):
+    elif any(k in all_lower for k in ["roofing", "waterproofing", "roof contractor"]):
         detected_trade = "roofing and cladding contractor"
         detected_sector = "Roofing & Cladding Contracting"
-    elif any(k in all_lower for k in ["glazing", "glass", "window", "fenestration"]):
+    elif any(k in all_lower for k in ["glazing", "fenestration", "curtain walling"]):
         detected_trade = "architectural glazing and curtain wall contractor"
         detected_sector = "Architectural Glazing & Curtain Walling"
-    elif any(k in all_lower for k in ["structural steel", "steelwork", "framing"]):
+    elif any(k in all_lower for k in ["structural steel", "steelwork", "steel framing"]):
         detected_trade = "structural steel and framing contractor"
         detected_sector = "Structural Steel & Framing"
-    elif any(k in all_lower for k in ["fit-out", "fit out", "interior"]):
+    elif any(k in all_lower for k in ["fit-out", "fit out", "interior fit out"]):
         detected_trade = "commercial fit-out contractor"
         detected_sector = "Commercial Interior & Fit-out"
-    elif any(k in all_lower for k in ["civil", "groundwork", "infrastructure"]):
+    elif any(k in all_lower for k in ["civil engineering", "groundwork", "groundworks"]):
         detected_trade = "civil engineering and groundworks contractor"
         detected_sector = "Civil Engineering & Groundworks"
+    elif any(k in all_lower for k in ["general contractor", "main contractor", "building contractor", "construction management"]):
+        detected_trade = "commercial general contractor"
+        detected_sector = "Commercial Construction"
+    # Detect other non-construction industries accurately
+    elif any(k in all_lower for k in ["cosmetic", "cosmetics", "makeup", "make-up", "skincare", "beauty products", "personal care"]):
+        detected_trade = "cosmetics & beauty brand"
+        detected_sector = "Beauty, Cosmetics & Personal Care"
+    elif any(k in all_lower for k in ["software", "saas", "cloud platform", "artificial intelligence", "tech"]):
+        detected_trade = "technology & software provider"
+        detected_sector = "Information Technology & Software"
+    elif any(k in all_lower for k in ["ecommerce", "e-commerce", "retailer", "apparel", "clothing"]):
+        detected_trade = "retail & e-commerce"
+        detected_sector = "Retail & Consumer Goods"
+    elif any(k in all_lower for k in ["consulting", "advisory", "financial services", "accounting"]):
+        detected_trade = "professional services"
+        detected_sector = "Financial & Professional Services"
+    elif any(k in all_lower for k in ["manufacturing", "manufacturer", "industrial", "fabrication"]):
+        detected_trade = "manufacturing & industrial"
+        detected_sector = "Industrial Manufacturing"
+    else:
+        detected_trade = "commercial business"
+        detected_sector = "Commercial Enterprise"
 
     # 2. Geography & location
-    detected_geo = "UK / International"
-    detected_loc = "UK"
+    detected_geo = "International"
+    detected_loc = "Global"
+
     uk_postcode_match = re.search(r"\b([A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2})\b", all_text, re.IGNORECASE)
     uk_cities = [
         "London", "Manchester", "Birmingham", "Leeds", "Glasgow", "Liverpool",
@@ -284,112 +309,157 @@ def _extract_heuristic_fallback(
         "Nottingham", "Southampton", "Reading", "Wiltshire", "Crowborough", "East Sussex",
         "Surrey", "Kent", "Essex", "Salisbury"
     ]
-    found_city = None
+    found_uk_city = None
     for city in uk_cities:
         if re.search(rf"\b{re.escape(city)}\b", all_text, re.IGNORECASE):
-            found_city = city
+            found_uk_city = city
             break
 
-    if uk_postcode_match or found_city or ".co.uk" in domain or "england" in all_lower or "uk" in all_lower:
-        if found_city and uk_postcode_match:
-            detected_loc = f"{found_city} ({uk_postcode_match.group(1).upper()}), UK"
-            detected_geo = f"UK - based in {found_city}, projects across UK"
-        elif found_city:
-            detected_loc = f"{found_city}, UK"
-            detected_geo = f"UK - based in {found_city}, national coverage"
+    indian_cities = ["Mumbai", "Delhi", "New Delhi", "Bangalore", "Bengaluru", "Hyderabad", "Chennai", "Kolkata", "Pune", "Ahmedabad"]
+    found_indian_city = None
+    for icity in indian_cities:
+        if re.search(rf"\b{re.escape(icity)}\b", all_text, re.IGNORECASE):
+            found_indian_city = icity
+            break
+
+    us_cities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Dallas", "Austin", "San Francisco", "Seattle", "Miami"]
+    found_us_city = None
+    for ucity in us_cities:
+        if re.search(rf"\b{re.escape(ucity)}\b", all_text, re.IGNORECASE):
+            found_us_city = ucity
+            break
+
+    if uk_postcode_match or found_uk_city or domain.endswith(".co.uk") or domain.endswith(".uk") or re.search(r"\b(?:united kingdom|england|scotland|wales)\b", all_lower):
+        if found_uk_city and uk_postcode_match:
+            detected_loc = f"{found_uk_city} ({uk_postcode_match.group(1).upper()}), UK"
+            detected_geo = f"UK - based in {found_uk_city}, projects across UK"
+        elif found_uk_city:
+            detected_loc = f"{found_uk_city}, UK"
+            detected_geo = f"UK - based in {found_uk_city}, national coverage"
         elif uk_postcode_match:
             detected_loc = f"UK ({uk_postcode_match.group(1).upper()})"
             detected_geo = f"UK ({uk_postcode_match.group(1).upper()})"
         else:
             detected_loc = "United Kingdom"
             detected_geo = "UK - operating nationally"
-    elif any(k in all_lower for k in ["usa", "united states", "america", "tx", "ca", "ny", "florida"]):
-        detected_loc = "United States"
-        detected_geo = "USA - North America"
-    elif "canada" in all_lower:
+    elif domain.endswith(".in") or domain.endswith(".co.in") or found_indian_city or re.search(r"\b(?:india|indian)\b", all_lower):
+        if found_indian_city:
+            detected_loc = f"{found_indian_city}, India"
+            detected_geo = f"India - based in {found_indian_city}"
+        else:
+            detected_loc = "India"
+            detected_geo = "India"
+    elif domain.endswith(".ca") or re.search(r"\b(?:canada|canadian|ontario|toronto|vancouver)\b", all_lower):
         detected_loc = "Canada"
         detected_geo = "Canada - North America"
+    elif domain.endswith(".au") or re.search(r"\b(?:australia|australian|sydney|melbourne)\b", all_lower):
+        detected_loc = "Australia"
+        detected_geo = "Australia"
+    elif found_us_city or re.search(r"\b(?:united states|usa)\b", all_lower):
+        if found_us_city:
+            detected_loc = f"{found_us_city}, United States"
+            detected_geo = f"USA - based in {found_us_city}"
+        else:
+            detected_loc = "United States"
+            detected_geo = "USA - North America"
 
     # 3. Company size / headcount
-    detected_size = "Mid-sized contracting specialist"
-    emp_match = re.search(r"(\d{2,4})\s*(?:\+|plus)?\s*(?:employees|staff|team members|people)", all_text, re.IGNORECASE)
+    detected_size = "Established commercial enterprise"
+    emp_match = re.search(r"(\d[\d,]*)\s*(?:\+|plus)?\s*(?:employees|staff|team members|people)", all_text, re.IGNORECASE)
     if emp_match:
         detected_size = f"~{emp_match.group(1)} employees"
     elif any(k in all_lower for k in ["tier 1", "tier-1", "large scale", "major contractor"]):
-        detected_size = "Large specialist contractor (100+ employees)"
-    elif any(k in all_lower for k in ["tier 2", "tier-2", "specialist subcontractor"]):
-        detected_size = "Established specialist contractor (50-150 employees)"
+        detected_size = "Large enterprise (100+ employees)"
+    elif any(k in all_lower for k in ["tier 2", "tier-2", "specialist subcontractor", "mid-sized"]):
+        detected_size = "Mid-sized specialist (50-150 employees)"
 
     # 4. Commercial attractiveness / turnover / clients
-    detected_comm = "Commercial contractor with active project portfolio"
-    rev_match = re.search(r"(?:£|\$|€)\s*(\d+(?:\.\d+)?\s*(?:m|million|bn|billion))", all_text, re.IGNORECASE)
+    detected_comm = f"Established commercial operations in {detected_loc}"
+    rev_match = re.search(r"(?:£|\$|€|₹|rs\.?)\s*(\d+(?:\.\d+)?\s*(?:m|million|bn|billion|cr|crore))", all_text, re.IGNORECASE)
     if rev_match:
-        detected_comm = f"Reported revenue ~{rev_match.group(0)}, active commercial project contracts"
+        detected_comm = f"Reported financial scale ~{rev_match.group(0)}, commercial market presence"
     elif any(k in all_lower for k in ["award", "accreditation", "iso", "chas", "constructionline"]):
-        detected_comm = "Accredited contractor with established commercial client base"
+        detected_comm = "Accredited organisation with established commercial client base"
 
     # 5. Overview
-    overview = f"{company} is an established {detected_trade} delivering projects across {detected_loc}."
-    about_match = re.search(r"(?:about us|who we are|what we do)[\s:\-–—]+([^\.\n]{50,300}\.)", all_text, re.IGNORECASE)
+    overview = f"{company} is an established {detected_trade} based in {detected_loc}."
+    about_match = re.search(r"(?:about us|who we are|what we do|overview)[\s:\-–—]+([^\.\n]{50,300}\.)", all_text, re.IGNORECASE)
     if about_match:
         overview = f"{company}: {about_match.group(1).strip()}"
+    else:
+        # Check title / first sentence of text
+        for line in all_text.split("\n"):
+            line_s = line.strip()
+            if 40 < len(line_s) < 250 and not any(tag in line_s for tag in ["<", ">", "{", "}"]):
+                overview = f"{company} — {line_s}"
+                break
 
     # 6. Decision makers / Leadership
-    dm_value = "Commercial Director / Leadership Team"
-    dm_name = "Commercial Director"
+    dm_value = "Leadership Team"
     first_name = "Team"
     last_name = ""
-    title = "Commercial Director"
+    title = "Director"
 
-    officer_match = re.search(r"(?:director|managing director|commercial director|founder)[\s:\-–—]+([A-Z][a-z]+ [A-Z][a-z]+)", all_text)
-    reverse_match = re.search(r"([A-Z][a-z]+ [A-Z][a-z]+)[\s,–—\-]+(?:managing director|director|commercial director|founder|ceo)", all_text)
+    # Match named executives: "Name (CEO)", "Name - CEO", "Name, Managing Director"
+    dm_paren_match = re.search(r"\b([A-Z][a-z]+ [A-Z][a-z]+)\s*\((Chief Executive Officer|CEO|Managing Director|Founder|Director|Commercial Director)\)", all_text)
+    dm_dash_match = re.search(r"\b([A-Z][a-z]+ [A-Z][a-z]+)\s*[\s,–—\-:]+\s*(Chief Executive Officer|CEO|Managing Director|Founder|Director|Commercial Director)\b", all_text)
+    reverse_match = re.search(r"\b(Chief Executive Officer|CEO|Managing Director|Founder|Director|Commercial Director)[\s:\-–—]+([A-Z][a-z]+ [A-Z][a-z]+)\b", all_text)
     companies_house_match = re.search(r"([A-Z]{2,}),\s*([A-Z][a-z]+)\s*(?:[A-Z][a-z]+)?\s*Role Active\s*:\s*Director", all_text)
 
     if companies_house_match:
         l_name = companies_house_match.group(1).capitalize()
         f_name = companies_house_match.group(2).capitalize()
         dm_value = f"{f_name} {l_name} – Director (Companies House)"
-        dm_name = f"{f_name} {l_name}"
         first_name = f_name
         last_name = l_name
         title = "Director"
+    elif dm_paren_match:
+        full_n = dm_paren_match.group(1).strip()
+        matched_title = dm_paren_match.group(2).strip()
+        parts = full_n.split()
+        first_name = parts[0]
+        last_name = parts[-1] if len(parts) > 1 else ""
+        title = matched_title
+        dm_value = f"{full_n} – {matched_title}"
+    elif dm_dash_match:
+        full_n = dm_dash_match.group(1).strip()
+        matched_title = dm_dash_match.group(2).strip()
+        parts = full_n.split()
+        first_name = parts[0]
+        last_name = parts[-1] if len(parts) > 1 else ""
+        title = matched_title
+        dm_value = f"{full_n} – {matched_title}"
     elif reverse_match:
-        full_n = reverse_match.group(1)
+        matched_title = reverse_match.group(1).strip()
+        full_n = reverse_match.group(2).strip()
         parts = full_n.split()
         first_name = parts[0]
         last_name = parts[-1] if len(parts) > 1 else ""
-        dm_name = full_n
-        dm_value = f"{full_n} – Director / Leadership"
-    elif officer_match:
-        full_n = officer_match.group(1)
-        parts = full_n.split()
-        first_name = parts[0]
-        last_name = parts[-1] if len(parts) > 1 else ""
-        dm_name = full_n
-        dm_value = f"{full_n} – Director / Leadership"
+        title = matched_title
+        dm_value = f"{full_n} – {matched_title}"
 
     # 7. Project signals & Estimating / BIM need
-    tender_signal = f"Commercial tender activity and delivered projects listed for {company}"
-    if any(k in all_lower for k in ["tender", "framework", "contracts finder", "procurement", "pipeline"]):
-        tender_signal = "Active on commercial tenders and public framework contracts"
+    tender_signal = f"Commercial activity and operations documented for {company}"
+    if any(k in all_lower for k in ["tender", "framework", "contracts finder", "procurement", "bidding"]):
+        tender_signal = "Active on commercial tenders and procurement frameworks"
     elif any(k in all_lower for k in ["portfolio", "case studies", "our projects", "recent work"]):
-        tender_signal = "Ongoing pipeline of active commercial & residential projects"
+        tender_signal = "Active portfolio of ongoing commercial projects"
 
-    estimating_signal = "Standard estimating and quantity takeoff capacity required for bid volumes"
+    estimating_signal = "Estimating and commercial proposal capacity required for ongoing business development"
     if any(k in all_lower for k in ["estimating", "estimator", "take-off", "takeoff", "quantity survey", "boq"]):
         estimating_signal = "Estimating and quantity surveying workflows active; potential capacity bottleneck during peak bidding"
 
-    bim_signal = "CAD drafting and technical submittal requirements for project specifications"
+    bim_signal = "Technical drafting and digital specifications"
     if any(k in all_lower for k in ["bim", "revit", "autocad", "tekla", "shop drawing", "detailing"]):
         bim_signal = "BIM coordination and shop drawing packages required for project delivery"
 
-    hiring_signal = "Operational recruitment aligned with active contract delivery"
+    hiring_signal = "Recruitment aligned with business expansion"
     if any(k in all_lower for k in ["vacancy", "vacancies", "careers", "we are hiring", "join our team"]):
         hiring_signal = "Active careers / hiring page indicates current organizational growth and staffing needs"
 
-    outsourcing_signal = "Subcontracting and external partner workflows typical for specialist packages"
+    outsourcing_signal = "External partner and supplier ecosystem in place"
     if any(k in all_lower for k in ["subcontract", "outsourc", "partner", "supply chain"]):
-        outsourcing_signal = "Supply chain and subcontracting model indicates openness to specialized external technical support"
+        outsourcing_signal = "Supply chain and external partnership model indicates openness to specialized external technical support"
 
     source_list = [primary_source]
 
@@ -485,13 +555,13 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
     
     # 1. Parallel targeted web searches AND homepage fetch simultaneously
     search_queries = [
-        f'"{company}" {domain} facade cladding curtain wall roofing contractor services about',
-        f'"{company}" projects tenders case studies commercial residential',
-        f'"{company}" leadership team directors estimating commercial director',
+        f'"{company}" {domain} about company overview headquarters',
+        f'"{company}" {domain} leadership ceo founder directors management',
+        f'"{company}" {domain} services products projects',
     ]
 
     search_tasks = [web_search(q, num_results=5) for q in search_queries]
-    homepage_task = fetch_page(website, timeout=1.5)
+    homepage_task = fetch_page(website, timeout=4.0)
 
     all_initial = await asyncio.gather(*search_tasks, homepage_task, return_exceptions=True)
 
@@ -538,7 +608,7 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
 
     if urls_to_fetch:
         try:
-            fetch_tasks = [fetch_page(u, timeout=1.5) for u in urls_to_fetch]
+            fetch_tasks = [fetch_page(u, timeout=3.0) for u in urls_to_fetch]
             fetched_texts = await asyncio.gather(*fetch_tasks, return_exceptions=True)
             for u, res in zip(urls_to_fetch, fetched_texts):
                 if isinstance(res, str) and res.strip():
@@ -660,16 +730,16 @@ The pages in this research are labeled at the top like "=== PAGE: https://... ==
 Include those exact URLs in source_urls.
 
 REQUIRED FIELD NAMES for company_snapshot:
-- "trade_fit": type of contractor (facade/cladding/roofing/curtain wall/general contractor)
-- "geography": where based (UK/US/Canada/other)
-- "company_size_band": employee count (e.g. "~80 employees", "Tier 1 £20M-£100M+")
-- "tender_volume_signal": active tenders/projects/frameworks
-- "estimating_need_signal": estimating team / takeoffs / QS signals
-- "drafting_bim_need_signal": BIM/shop drawing need
-- "hiring_trigger": vacancies for estimating/BIM/QS roles
-- "decision_maker_access": named leadership (e.g. "John Smith – Commercial Director")
-- "outsourcing_readiness": evidence of subcontracting/outsourcing
-- "commercial_attractiveness": financial signals, turnover, clients
+- "trade_fit": actual trade or core business activity of the company (e.g. "facade/cladding/roofing contractor", "general contractor", or if non-construction, specify its real industry such as "cosmetics & personal care brand", "software/SaaS provider", etc.)
+- "geography": country or region where based (e.g. UK, US, India, Canada, etc.)
+- "company_size_band": employee count (e.g. "~80 employees", "Tier 1 £20M-£100M+", "2,500 employees")
+- "tender_volume_signal": active tenders/projects/frameworks or commercial activity
+- "estimating_need_signal": estimating team / takeoffs / proposal signals
+- "drafting_bim_need_signal": BIM/shop drawing need or technical design requirements
+- "hiring_trigger": vacancies or hiring signals
+- "decision_maker_access": named leadership (e.g. "John Smith – Commercial Director" or "Pushkaraj Shenai – CEO")
+- "outsourcing_readiness": evidence of subcontracting/outsourcing or supply chain
+- "commercial_attractiveness": financial signals, turnover, clients, market scale
 
 Also include general fields like: "company_name", "location", "overview", "website", "size".
 Label each finding: Verified, Probable, or Unverified.
