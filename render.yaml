@@ -2,7 +2,6 @@ services:
   - type: web
     name: coextend-prospect-intelligence
     env: docker
-    rootDir: prospect-intelligence
     dockerfilePath: Dockerfile
     plan: free
     healthCheckPath: /api/v1/health
