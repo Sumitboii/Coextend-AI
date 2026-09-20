@@ -38,9 +38,7 @@ def _get_or_create_collection(client: chromadb.ClientAPI) -> chromadb.Collection
     )
 
 
-# ---------------------------------------------------------------------------
 # PDF text extraction
-# ---------------------------------------------------------------------------
 
 def extract_text_from_pdf(pdf_path: Path) -> list[dict]:
     """
@@ -62,9 +60,7 @@ def extract_text_from_pdf(pdf_path: Path) -> list[dict]:
         return []
 
 
-# ---------------------------------------------------------------------------
 # Heading-aware chunking
-# ---------------------------------------------------------------------------
 
 _HEADING_RE = re.compile(r"^#{1,4}\s+.+|^[A-Z][A-Z\s]{4,}$", re.MULTILINE)
 
@@ -114,9 +110,7 @@ def _split_into_chunks(text: str, source_doc: str, page: int) -> Generator[dict,
             start = end - OVERLAP_CHARS if end < len(seg_text) else end
 
 
-# ---------------------------------------------------------------------------
 # Embedding
-# ---------------------------------------------------------------------------
 
 async def _embed_texts(texts: list[str]) -> list[list[float]]:
     """Embed texts using Gemini embedding model with rate pacing and exponential retry."""
@@ -168,9 +162,7 @@ async def _embed_texts(texts: list[str]) -> list[list[float]]:
     return all_embeddings
 
 
-# ---------------------------------------------------------------------------
 # Main ingestion entry point
-# ---------------------------------------------------------------------------
 
 async def ingest_knowledge_base() -> int:
     """

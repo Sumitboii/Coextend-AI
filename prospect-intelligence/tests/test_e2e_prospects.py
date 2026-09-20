@@ -22,9 +22,7 @@ def _findings(job_id: str, fields: dict) -> ResearchFindings:
     )
 
 
-# ---------------------------------------------------------------------------
 # 5 test prospects
-# ---------------------------------------------------------------------------
 
 # Prospect 1 — Clear High-fit (UK facade contractor, strong signals)
 PROSPECT_1 = _findings("p1-high-fit", {

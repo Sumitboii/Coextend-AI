@@ -28,9 +28,7 @@ from engine.web_utils import fetch_page, web_search
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
 # Extraction JSON schema
-# ---------------------------------------------------------------------------
 
 _EXTRACTION_SCHEMA = {
     "type": "object",
@@ -273,9 +271,7 @@ def _is_scrapable_url(url: str) -> bool:
     return not any(b in u_lower for b in blocked_domains)
 
 
-# ---------------------------------------------------------------------------
 # Main research function — Parallelized & Bounded
-# ---------------------------------------------------------------------------
 
 async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
     company = req.company_name
@@ -431,9 +427,7 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
     )
 
 
-# ---------------------------------------------------------------------------
 # LLM extraction helper
-# ---------------------------------------------------------------------------
 
 _SYSTEM_PROMPT = """\
 You are a B2B research assistant extracting structured information about a prospect company.

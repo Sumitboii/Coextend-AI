@@ -23,9 +23,7 @@ from scoring.rubric import (
 )
 
 
-# ---------------------------------------------------------------------------
 # Helpers
-# ---------------------------------------------------------------------------
 
 def make_findings(fields: dict, job_id: str = "test-job") -> ResearchFindings:
     """Build a minimal ResearchFindings with specific field values."""
@@ -36,9 +34,7 @@ def make_findings(fields: dict, job_id: str = "test-job") -> ResearchFindings:
     return ResearchFindings(job_id=job_id, company_snapshot=snapshot)
 
 
-# ---------------------------------------------------------------------------
 # Trade / service fit
-# ---------------------------------------------------------------------------
 
 class TestTradeFit:
     def test_facade_scores_max(self):
@@ -63,9 +59,7 @@ class TestTradeFit:
         assert _trade_fit_score("software company") == 0
 
 
-# ---------------------------------------------------------------------------
 # Geography
-# ---------------------------------------------------------------------------
 
 class TestGeography:
     def test_uk_scores_10(self):
@@ -93,9 +87,7 @@ class TestGeography:
         assert _geography_score("Germany") == 0
 
 
-# ---------------------------------------------------------------------------
 # Company size
-# ---------------------------------------------------------------------------
 
 class TestCompanySize:
     def test_200_employees_scores_10(self):
@@ -117,9 +109,7 @@ class TestCompanySize:
         assert _company_size_score("no evidence found") == 0
 
 
-# ---------------------------------------------------------------------------
 # Tender volume
-# ---------------------------------------------------------------------------
 
 class TestTenderVolume:
     def test_multiple_tenders_scores_15(self):
@@ -135,9 +125,7 @@ class TestTenderVolume:
         assert _tender_volume_score("no evidence found") == 0
 
 
-# ---------------------------------------------------------------------------
 # Estimating need
-# ---------------------------------------------------------------------------
 
 class TestEstimatingNeed:
     def test_estimating_scores_10(self):
@@ -156,9 +144,7 @@ class TestEstimatingNeed:
         assert _estimating_need_score("no evidence found") == 0
 
 
-# ---------------------------------------------------------------------------
 # Drafting / BIM
-# ---------------------------------------------------------------------------
 
 class TestDraftingBIM:
     def test_bim_scores_10(self):
@@ -177,9 +163,7 @@ class TestDraftingBIM:
         assert _drafting_bim_score("no evidence found") == 0
 
 
-# ---------------------------------------------------------------------------
 # Hiring trigger
-# ---------------------------------------------------------------------------
 
 class TestHiringTrigger:
     def test_bim_hiring_scores_10(self):
@@ -195,9 +179,7 @@ class TestHiringTrigger:
         assert _hiring_trigger_score("no evidence found") == 0
 
 
-# ---------------------------------------------------------------------------
 # Decision maker access
-# ---------------------------------------------------------------------------
 
 class TestDecisionMakerAccess:
     def test_managing_director_scores_5(self):
@@ -213,9 +195,7 @@ class TestDecisionMakerAccess:
         assert _decision_maker_score("no evidence found") == 0
 
 
-# ---------------------------------------------------------------------------
 # Outsourcing readiness
-# ---------------------------------------------------------------------------
 
 class TestOutsourcingReadiness:
     def test_outsourcing_evidence_scores_5(self):
@@ -228,9 +208,7 @@ class TestOutsourcingReadiness:
         assert _outsourcing_readiness_score("no evidence found") == 0
 
 
-# ---------------------------------------------------------------------------
 # Commercial attractiveness
-# ---------------------------------------------------------------------------
 
 class TestCommercialAttractiveness:
     def test_million_scores_5(self):
@@ -246,9 +224,7 @@ class TestCommercialAttractiveness:
         assert _commercial_attractiveness_score("no evidence found") == 0
 
 
-# ---------------------------------------------------------------------------
 # Band assignment (5-tier ICP classification)
-# ---------------------------------------------------------------------------
 
 class TestBandAssignment:
     def test_a_plus_band(self):
@@ -272,9 +248,7 @@ class TestBandAssignment:
         assert assign_band(34) == "D / Disqualify"
 
 
-# ---------------------------------------------------------------------------
 # Full score function
-# ---------------------------------------------------------------------------
 
 class TestScoreFunction:
     def test_strong_prospect_scores_high(self):
@@ -360,9 +334,7 @@ class TestScoreFunction:
         lead_score = score(findings)
         assert lead_score.total <= 100
 
-# ---------------------------------------------------------------------------
 # zero_evidence_factors tracking (Req 4.5, 4.7)
-# ---------------------------------------------------------------------------
 
 class TestZeroEvidenceFactors:
     def test_all_factors_in_zero_evidence_when_empty(self):

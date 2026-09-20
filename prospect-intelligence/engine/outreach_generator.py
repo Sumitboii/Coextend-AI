@@ -33,9 +33,7 @@ def _get_genai_client() -> genai.Client:
     return _GENAI_CLIENT
 
 
-# ---------------------------------------------------------------------------
 # JSON schema for outreach generation
-# ---------------------------------------------------------------------------
 
 _OUTREACH_SCHEMA = {
     "type": "object",

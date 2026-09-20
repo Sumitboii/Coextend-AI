@@ -49,9 +49,7 @@ class Base(DeclarativeBase):
     pass
 
 
-# ---------------------------------------------------------------------------
 # ORM Models
-# ---------------------------------------------------------------------------
 
 class JobRow(Base):
     __tablename__ = "jobs"
@@ -182,9 +180,7 @@ class OutreachRow(Base):
     job = relationship("JobRow", back_populates="outreach")
 
 
-# ---------------------------------------------------------------------------
 # Database Initialization & View Setup
-# ---------------------------------------------------------------------------
 
 VIEW_SQLS = [
     """
@@ -279,9 +275,7 @@ async def get_session() -> AsyncSession:
         yield session
 
 
-# ---------------------------------------------------------------------------
 # Clean Storage Adapter Interface
-# ---------------------------------------------------------------------------
 
 class StorageAdapter:
     """Clean storage interface for all pipeline persistence operations."""
@@ -529,9 +523,7 @@ class StorageAdapter:
         await session.commit()
 
 
-# ---------------------------------------------------------------------------
 # Backward-compatible function helpers
-# ---------------------------------------------------------------------------
 
 async def create_job(session: AsyncSession, row: JobRow) -> None:
     session.add(row)

@@ -8,14 +8,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable
 
-# ---------------------------------------------------------------------------
 # Rubric version — bump this whenever scoring logic changes
-# ---------------------------------------------------------------------------
 RUBRIC_VERSION = "v1.0"
 
-# ---------------------------------------------------------------------------
 # Priority band thresholds (5-tier system from ICP document)
-# ---------------------------------------------------------------------------
 BAND_A_PLUS = "A+ / Priority"
 BAND_A = "A / Strong fit"
 BAND_B = "B / Nurture"
@@ -56,9 +52,7 @@ def get_tier_action(band: str) -> str:
     return TIER_RECOMMENDED_ACTIONS.get(band, "")
 
 
-# ---------------------------------------------------------------------------
 # Factor definitions
-# ---------------------------------------------------------------------------
 
 @dataclass
 class RubricFactor:
@@ -261,9 +255,7 @@ def _commercial_attractiveness_score(value: str) -> int:
     return 0
 
 
-# ---------------------------------------------------------------------------
 # Ordered rubric factors
-# ---------------------------------------------------------------------------
 
 RUBRIC_FACTORS: list[RubricFactor] = [
     RubricFactor("trade_service_fit",       20, _trade_fit_score,           "trade_fit"),

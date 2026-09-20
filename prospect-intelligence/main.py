@@ -18,9 +18,7 @@ from api.database import init_db
 from api.routes import router
 from config import settings
 
-# ---------------------------------------------------------------------------
 # Logging setup
-# ---------------------------------------------------------------------------
 
 logging.basicConfig(
     level=getattr(logging, settings.log_level.upper(), logging.INFO),
@@ -29,9 +27,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
 # Lifespan (startup / shutdown)
-# ---------------------------------------------------------------------------
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -47,9 +43,7 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down.")
 
 
-# ---------------------------------------------------------------------------
 # App
-# ---------------------------------------------------------------------------
 
 app = FastAPI(
     title="Coextend Prospect Intelligence MVP",
@@ -80,9 +74,7 @@ templates = Jinja2Templates(env=_jinja_env)
 app.include_router(router, prefix="/api/v1")
 
 
-# ---------------------------------------------------------------------------
 # UI routes
-# ---------------------------------------------------------------------------
 
 @app.get("/manifest.json", include_in_schema=False)
 async def manifest():

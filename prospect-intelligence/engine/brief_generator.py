@@ -42,9 +42,7 @@ def _get_genai_client() -> genai.Client:
     return _GENAI_CLIENT
 
 
-# ---------------------------------------------------------------------------
 # JSON schema for brief generation
-# ---------------------------------------------------------------------------
 
 _BRIEF_SCHEMA = {
     "type": "object",
@@ -146,9 +144,7 @@ _BRIEF_SCHEMA = {
 }
 
 
-# ---------------------------------------------------------------------------
 # System prompt
-# ---------------------------------------------------------------------------
 
 _SYSTEM_PROMPT = """\
 You are assembling a founder-ready research brief for Coextend Global LLP.
@@ -178,9 +174,7 @@ STRICT RULES:
 """
 
 
-# ---------------------------------------------------------------------------
 # Main generation function
-# ---------------------------------------------------------------------------
 
 async def generate_brief(
     findings: ResearchFindings,

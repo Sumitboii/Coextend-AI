@@ -30,18 +30,14 @@ router = APIRouter()
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
 
 
-# ---------------------------------------------------------------------------
 # Health
-# ---------------------------------------------------------------------------
 
 @router.get("/health", tags=["ops"])
 async def health() -> dict:
     return {"status": "ok"}
 
 
-# ---------------------------------------------------------------------------
 # Prospect / job lifecycle
-# ---------------------------------------------------------------------------
 
 @router.post("/prospects", response_model=JobRecord, status_code=202, tags=["prospects"])
 async def create_prospect(req: ProspectRequest, session: SessionDep) -> JobRecord:
@@ -91,9 +87,7 @@ async def get_prospect_status(job_id: str, session: SessionDep) -> JobRecord:
     return record
 
 
-# ---------------------------------------------------------------------------
 # Brief
-# ---------------------------------------------------------------------------
 
 @router.get("/prospects/{job_id}/brief", tags=["prospects"])
 async def get_brief(job_id: str, session: SessionDep, format: str = "json"):
@@ -117,9 +111,7 @@ async def get_brief(job_id: str, session: SessionDep, format: str = "json"):
     return data
 
 
-# ---------------------------------------------------------------------------
 # CRM export
-# ---------------------------------------------------------------------------
 
 @router.get("/prospects/{job_id}/crm-export", tags=["prospects"])
 async def get_crm_export(job_id: str, session: SessionDep, format: str = "json"):
@@ -147,9 +139,7 @@ async def get_crm_export(job_id: str, session: SessionDep, format: str = "json")
     return data
 
 
-# ---------------------------------------------------------------------------
 # Outreach drafts
-# ---------------------------------------------------------------------------
 
 @router.post("/prospects/{job_id}/outreach", response_model=OutreachDrafts, tags=["prospects"])
 async def generate_outreach(job_id: str, session: SessionDep) -> OutreachDrafts:
@@ -176,9 +166,7 @@ async def generate_outreach(job_id: str, session: SessionDep) -> OutreachDrafts:
     return drafts
 
 
-# ---------------------------------------------------------------------------
 # Proposal Drafts (08 - Proposal Templates.docx)
-# ---------------------------------------------------------------------------
 
 @router.post("/prospects/{job_id}/proposal", response_model=ProposalDraft, tags=["prospects"])
 async def generate_proposal(job_id: str, session: SessionDep) -> ProposalDraft:
@@ -229,9 +217,7 @@ async def get_proposal(job_id: str, session: SessionDep, format: str = "json"):
 
 
 
-# ---------------------------------------------------------------------------
 # Knowledge re-ingestion
-# ---------------------------------------------------------------------------
 
 @router.post("/knowledge/ingest", tags=["knowledge"])
 async def ingest_knowledge() -> dict:
@@ -244,9 +230,7 @@ async def ingest_knowledge() -> dict:
     return {"status": "ok", "chunks_indexed": result}
 
 
-# ---------------------------------------------------------------------------
 # Feedback
-# ---------------------------------------------------------------------------
 
 @router.post(
     "/prospects/{job_id}/feedback",
@@ -350,9 +334,7 @@ async def list_all_feedback(session: SessionDep) -> list[FeedbackRecord]:
     return [FeedbackRecord(**rec) for rec in records]
 
 
-# ---------------------------------------------------------------------------
 # Rendering helpers
-# ---------------------------------------------------------------------------
 
 
 def _brief_to_markdown(brief: ResearchBrief) -> str:

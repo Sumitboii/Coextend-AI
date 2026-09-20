@@ -23,9 +23,7 @@ from config import settings
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
 # Interface
-# ---------------------------------------------------------------------------
 
 class CRMAdapter(ABC):
     """Single interface — swap implementations without touching the pipeline."""
@@ -36,9 +34,7 @@ class CRMAdapter(ABC):
         ...
 
 
-# ---------------------------------------------------------------------------
 # Mock HubSpot adapter (sandbox / local files only)
-# ---------------------------------------------------------------------------
 
 class MockHubSpotAdapter(CRMAdapter):
     """

@@ -12,9 +12,7 @@ from typing import Literal
 from pydantic import AnyHttpUrl, BaseModel, Field, field_validator
 
 
-# ---------------------------------------------------------------------------
 # Intake
-# ---------------------------------------------------------------------------
 
 class ProspectRequest(BaseModel):
     """Submitted by a salesperson to trigger a research job."""
@@ -51,9 +49,7 @@ class JobRecord(BaseModel):
     error_message: str | None = None
 
 
-# ---------------------------------------------------------------------------
 # Evidence primitives
-# ---------------------------------------------------------------------------
 
 class EvidenceLabel(str, Enum):
     VERIFIED = "Verified"
@@ -78,9 +74,7 @@ class Finding(BaseModel):
     sources: list[SourceRef] = Field(default_factory=list)
 
 
-# ---------------------------------------------------------------------------
 # Research findings (external research layer)
-# ---------------------------------------------------------------------------
 
 class ResearchFindings(BaseModel):
     """All structured findings for one prospect, produced by the Research Engine."""
@@ -95,9 +89,7 @@ class ResearchFindings(BaseModel):
     sources_rejected: list[str] = Field(default_factory=list, description="Sources excluded because they don't match the searched company")
 
 
-# ---------------------------------------------------------------------------
 # Lead scoring
-# ---------------------------------------------------------------------------
 
 class ScoreFactor(BaseModel):
     """One row in the scoring breakdown."""
@@ -125,9 +117,7 @@ class LeadScore(BaseModel):
     zero_evidence_factors: list[str] = Field(default_factory=list)
 
 
-# ---------------------------------------------------------------------------
 # Research brief (output of Brief Generator)
-# ---------------------------------------------------------------------------
 
 class RecommendedApproach(BaseModel):
     summary: str
@@ -184,9 +174,7 @@ class ResearchBrief(BaseModel):
     generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
 
-# ---------------------------------------------------------------------------
 # Outreach drafts
-# ---------------------------------------------------------------------------
 
 class OutreachDrafts(BaseModel):
     """Email + LinkedIn drafts Ã¢â‚¬â€ multi-touch cadence per 05 - Follow Up Messages.docx."""
@@ -218,9 +206,7 @@ class OutreachDrafts(BaseModel):
             self.linkedin_message = self.linkedin_connection
 
 
-# ---------------------------------------------------------------------------
 # CRM export
-# ---------------------------------------------------------------------------
 
 class CRMExportRecord(BaseModel):
     """HubSpot-style record for one completed research job."""
@@ -239,9 +225,7 @@ class CRMExportRecord(BaseModel):
 
 
 
-# ---------------------------------------------------------------------------
 # Feedback
-# ---------------------------------------------------------------------------
 
 class FeedbackCreate(BaseModel):
     """Submitted by a user/salesperson to review scoring & brief quality."""
@@ -269,9 +253,7 @@ class FeedbackRecord(BaseModel):
     priority_band: str | None = None
 
 
-# ---------------------------------------------------------------------------
 # Proposal Drafts (08 - Proposal Templates.docx)
-# ---------------------------------------------------------------------------
 
 class ProposalDraft(BaseModel):
     """Tailored Scope of Work proposal draft generated from 08 template."""
