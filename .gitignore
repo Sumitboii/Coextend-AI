@@ -107,8 +107,12 @@ prospect-intelligence/data/knowledge_base/
 *Presentation*
 *Interview*
 *.pptx
+*.pdf
+interview_and_presentations/
+generate_materials.py
 Coextend_AI_Complete_Interview_Master_Guide.pdf
 Coextend_AI_Project_Presentation.pdf
+
 
 # Root Word, Excel, CSV, ODT source documents
 *.docx
