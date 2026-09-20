@@ -113,6 +113,7 @@ generate_materials.py
 build_company_deck.py
 build_student_deck.py
 build_interview_pdf.py
+build_project_explanation_pdf.py
 Coextend_AI_Complete_Interview_Master_Guide.pdf
 Coextend_AI_Project_Presentation.pdf
 
