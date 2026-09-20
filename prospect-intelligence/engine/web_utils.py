@@ -87,17 +87,51 @@ async def web_search(query: str, num_results: int = 5) -> list[dict]:
             {"title": r.get("title", ""), "link": r.get("url", ""), "snippet": r.get("content", "")}
             for r in results
         ]
-        _SEARCH_CACHE[cache_key] = formatted
-        return formatted
+        if formatted:
+            _SEARCH_CACHE[cache_key] = formatted
+            return formatted
     except asyncio.TimeoutError:
         logger.warning("Tavily search timed out for '%s' after %ds", query[:60], _SEARCH_TIMEOUT)
-        return []
     except Exception as exc:
         exc_str = str(exc)
         if any(k in exc_str.lower() for k in ("rate_limit", "quota", "429")):
             logger.error("Tavily rate limit exceeded for query '%s': %s", query[:60], exc)
         else:
             logger.warning("Tavily search failed for '%s': %s", query[:60], exc)
+
+    # Fallback: DuckDuckGo HTML search (no API key required)
+    try:
+        ddg_results = await _ddg_search_fallback(query, num_results)
+        if ddg_results:
+            _SEARCH_CACHE[cache_key] = ddg_results
+            return ddg_results
+    except Exception as ddg_exc:
+        logger.debug("DuckDuckGo fallback search failed for '%s': %s", query[:60], ddg_exc)
+
+    return []
+
+
+async def _ddg_search_fallback(query: str, num_results: int = 5) -> list[dict]:
+    """Resilient fallback search via DuckDuckGo HTML when Tavily is rate-limited or unconfigured."""
+    try:
+        client = _get_http_client()
+        resp = await client.post(
+            "https://html.duckduckgo.com/html/",
+            data={"q": query},
+            timeout=4.0,
+        )
+        if resp.status_code != 200:
+            return []
+        snippets = re.findall(r'<a class="result__snippet"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
+        urls = re.findall(r'<a class="result__url"[^>]*href="([^"]*)"', resp.text)
+        out = []
+        for i, s in enumerate(snippets[:num_results]):
+            clean = re.sub(r'<[^>]+>', '', s).strip()
+            link = urls[i].strip() if i < len(urls) else ""
+            if clean:
+                out.append({"title": f"Web Result {i+1}", "link": link, "snippet": clean})
+        return out
+    except Exception:
         return []
 
 
