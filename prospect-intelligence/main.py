@@ -55,6 +55,21 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+
+@app.exception_handler(Exception)
+async def global_unhandled_exception_handler(request: Request, exc: Exception):
+    """
+    Ensure production-ready error hygiene:
+    Unhandled exceptions return a clean, generic JSON error message.
+    Internal tracebacks, local paths, and internal variable names are never leaked.
+    """
+    logger.exception("Unhandled server exception processing %s %s: %s", request.method, request.url.path, exc)
+    from fastapi.responses import JSONResponse
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal server error. An unexpected error occurred on the server."},
+    )
+
 # Mount static files and templates for the minimal UI
 _static = Path(__file__).parent / "ui" / "static"
 _templates_dir = Path(__file__).parent / "ui" / "templates"

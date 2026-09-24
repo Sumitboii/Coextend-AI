@@ -25,7 +25,10 @@ class ProspectRequest(BaseModel):
     @field_validator("company_name")
     @classmethod
     def strip_company_name(cls, v: str) -> str:
-        return v.strip()
+        stripped = v.strip()
+        if not stripped:
+            raise ValueError("company_name cannot be empty or whitespace-only.")
+        return stripped
 
 
 class JobStatus(str, Enum):

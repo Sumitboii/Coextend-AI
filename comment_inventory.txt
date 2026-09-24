@@ -1,0 +1,297 @@
+prospect-intelligence\backfill_db.py:31: Check existing jobs
+prospect-intelligence\backfill_db.py:44: Backfill score
+prospect-intelligence\backfill_db.py:53: Backfill findings
+prospect-intelligence\backfill_db.py:62: Backfill brief
+prospect-intelligence\backfill_db.py:71: Backfill crm export
+prospect-intelligence\backfill_db.py:80: Also backfill from real-world-test-results.json if present
+prospect-intelligence\backfill_db.py:91: Check if job exists
+prospect-intelligence\config.py:18: --- LLM (Gemini - free tier) ---
+prospect-intelligence\config.py:24: --- Web Search (Tavily - free tier) ---
+prospect-intelligence\config.py:27: --- Storage ---
+prospect-intelligence\config.py:34: --- Job settings ---
+prospect-intelligence\config.py:37: --- Retry / backoff ---
+prospect-intelligence\config.py:41: --- Logging ---
+prospect-intelligence\config.py:44: --- Demo mode (no API keys required) ---
+prospect-intelligence\config.py:48: Singleton â€” import `settings` everywhere
+prospect-intelligence\create_knowledge_pdfs.py:27: 1. Services
+prospect-intelligence\create_knowledge_pdfs.py:55: 2. Company Profile
+prospect-intelligence\create_knowledge_pdfs.py:88: 3. Capabilities
+prospect-intelligence\create_knowledge_pdfs.py:122: 4. ICP
+prospect-intelligence\create_knowledge_pdfs.py:165: 5. Outreach Templates
+prospect-intelligence\export_db_to_excel.py:45: Sheet 1: Ranked Prospects Overview (from vw_jobs_by_score_desc + CRM hook)
+prospect-intelligence\export_db_to_excel.py:76: Sheet 2: Priority Summary (from vw_jobs_by_band)
+prospect-intelligence\export_db_to_excel.py:87: Sheet 3: Lead Scores Detailed Breakdown
+prospect-intelligence\export_db_to_excel.py:99: Parse breakdown JSON if possible
+prospect-intelligence\export_db_to_excel.py:111: Sheet 4: CRM Exports
+prospect-intelligence\export_db_to_excel.py:132: Sheet 5: Prospect Intelligence Briefs
+prospect-intelligence\export_db_to_excel.py:145: Sheet 6: All Jobs
+prospect-intelligence\export_db_to_excel.py:164: Sheet 7: Research Findings (Categorized Facts)
+prospect-intelligence\export_db_to_excel.py:181: Sheet 8: Failed Jobs (Audit View)
+prospect-intelligence\export_db_to_excel.py:192: Sheet 9: Feedback
+prospect-intelligence\export_db_to_excel.py:202: Check if feedback table exists before querying
+prospect-intelligence\export_db_to_excel.py:233: Apply Global Formatting to all sheets
+prospect-intelligence\export_db_to_excel.py:235: Style Header
+prospect-intelligence\export_db_to_excel.py:242: Style Rows
+prospect-intelligence\export_db_to_excel.py:251: Check Priority Band color
+prospect-intelligence\export_db_to_excel.py:266: Center numeric / short code columns
+prospect-intelligence\export_db_to_excel.py:272: Column widths auto-adjustment
+prospect-intelligence\export_db_to_excel.py:290: Save to multiple convenient destinations
+prospect-intelligence\ingest_kb.py:11: Add project root to path
+prospect-intelligence\main.py:21: Logging setup
+prospect-intelligence\main.py:30: Lifespan (startup / shutdown)
+prospect-intelligence\main.py:36: Ensure output directories exist
+prospect-intelligence\main.py:46: App
+prospect-intelligence\main.py:58: Mount static files and templates for the minimal UI
+prospect-intelligence\main.py:65: Workaround for Starlette 1.6.0 + Jinja2 cache key incompatibility
+prospect-intelligence\main.py:73: API routes
+prospect-intelligence\main.py:77: UI routes
+prospect-intelligence\api\crm_adapter.py:26: Interface
+prospect-intelligence\api\crm_adapter.py:37: Mock HubSpot adapter (sandbox / local files only)
+prospect-intelligence\api\crm_adapter.py:60: ── Map to HubSpot-style fields ─────────────────────────────────
+prospect-intelligence\api\crm_adapter.py:96: ── Duplicate detection ──────────────────────────────────────────
+prospect-intelligence\api\crm_adapter.py:110: ── Write to sandbox files ────────────────────────────────────────
+prospect-intelligence\api\database.py:52: ORM Models
+prospect-intelligence\api\database.py:67: Legacy JSON columns kept for backward compatibility with existing tests
+prospect-intelligence\api\database.py:75: Relationships
+prospect-intelligence\api\database.py:183: Database Initialization & View Setup
+prospect-intelligence\api\database.py:261: Migrate schema if proposal_json is missing on existing SQLite db
+prospect-intelligence\api\database.py:278: Clean Storage Adapter Interface
+prospect-intelligence\api\database.py:327: Also save legacy JSON column for backward compatibility
+prospect-intelligence\api\database.py:333: Populate normalized findings rows
+prospect-intelligence\api\database.py:334: Remove existing if re-running
+prospect-intelligence\api\database.py:370: Save legacy JSON
+prospect-intelligence\api\database.py:376: Normalized table
+prospect-intelligence\api\database.py:391: Save legacy JSON
+prospect-intelligence\api\database.py:397: Normalized table
+prospect-intelligence\api\database.py:526: Backward-compatible function helpers
+prospect-intelligence\api\job_service.py:84: DEMO MODE - no API keys required
+prospect-intelligence\api\job_service.py:97: LIVE MODE - uses Gemini + Tavily API keys
+prospect-intelligence\api\job_service.py:129: Automatic graceful fallback if API key is invalid or quota exhausted
+prospect-intelligence\api\models.py:15: Intake
+prospect-intelligence\api\models.py:52: Evidence primitives
+prospect-intelligence\api\models.py:77: Research findings (external research layer)
+prospect-intelligence\api\models.py:86: Explicit "no evidence found" entries Ã¢â‚¬â€ never silently omitted
+prospect-intelligence\api\models.py:88: Sources rejected during verification — visible in audit trail
+prospect-intelligence\api\models.py:92: Lead scoring
+prospect-intelligence\api\models.py:116: Req 4.5, 4.7 Ã¢â‚¬â€ factors that scored 0 because their finding field was absent
+prospect-intelligence\api\models.py:120: Research brief (output of Brief Generator)
+prospect-intelligence\api\models.py:147: Snapshot section
+prospect-intelligence\api\models.py:149: Contact/decision-maker section
+prospect-intelligence\api\models.py:151: Company research section
+prospect-intelligence\api\models.py:153: Projects and buying signals
+prospect-intelligence\api\models.py:155: Likely requirements (presented as hypotheses)
+prospect-intelligence\api\models.py:157: Pain-point hypotheses Ã¢â‚¬â€ explicitly labelled as hypotheses
+prospect-intelligence\api\models.py:159: Deterministic score
+prospect-intelligence\api\models.py:161: Recommended approach (grounded in internal knowledge)
+prospect-intelligence\api\models.py:163: Risks / unknowns
+prospect-intelligence\api\models.py:165: Next action
+prospect-intelligence\api\models.py:167: All source URLs used
+prospect-intelligence\api\models.py:169: Citations mapping brief statements to their Knowledge_Chunk origins (Req. 3.5)
+prospect-intelligence\api\models.py:171: Set to True when the post-generation label-escalation check could not run (Req. 10.7)
+prospect-intelligence\api\models.py:173: Generation metadata
+prospect-intelligence\api\models.py:177: Outreach drafts
+prospect-intelligence\api\models.py:191: Always "draft"; the system NEVER changes this to anything else
+prospect-intelligence\api\models.py:197: Keep backward compatibility aliases synchronized
+prospect-intelligence\api\models.py:209: CRM export
+prospect-intelligence\api\models.py:215: HubSpot company properties
+prospect-intelligence\api\models.py:217: HubSpot contact properties
+prospect-intelligence\api\models.py:219: HubSpot deal properties
+prospect-intelligence\api\models.py:228: Feedback
+prospect-intelligence\api\models.py:256: Proposal Drafts (08 - Proposal Templates.docx)
+prospect-intelligence\api\routes.py:33: Health
+prospect-intelligence\api\routes.py:40: Prospect / job lifecycle
+prospect-intelligence\api\routes.py:90: Brief
+prospect-intelligence\api\routes.py:114: CRM export
+prospect-intelligence\api\routes.py:142: Outreach drafts
+prospect-intelligence\api\routes.py:156: Already generated — return cached
+prospect-intelligence\api\routes.py:169: Proposal Drafts (08 - Proposal Templates.docx)
+prospect-intelligence\api\routes.py:220: Knowledge re-ingestion
+prospect-intelligence\api\routes.py:233: Feedback
+prospect-intelligence\api\routes.py:256: Fetch score info if available
+prospect-intelligence\api\routes.py:337: Rendering helpers
+prospect-intelligence\data\generate_100_companies.py:9: --- UK Specialists (45 companies) ---
+prospect-intelligence\data\generate_100_companies.py:56: --- US Specialists (40 companies) ---
+prospect-intelligence\data\generate_100_companies.py:98: --- Canada Specialists (15 companies) ---
+prospect-intelligence\engine\brief_generator.py:45: JSON schema for brief generation
+prospect-intelligence\engine\brief_generator.py:147: System prompt
+prospect-intelligence\engine\brief_generator.py:177: Main generation function
+prospect-intelligence\engine\brief_generator.py:188: Retrieve relevant internal knowledge in a single batch
+prospect-intelligence\engine\brief_generator.py:198: Build user message
+prospect-intelligence\engine\brief_generator.py:209: Convert raw dict → ResearchBrief
+prospect-intelligence\engine\brief_generator.py:212: Post-generation evidence label validation
+prospect-intelligence\engine\brief_generator.py:298: Build lookup maps from findings
+prospect-intelligence\engine\brief_generator.py:302: ── SNAPSHOT: Gemini output OR findings fallback ──────────────────────
+prospect-intelligence\engine\brief_generator.py:305: Core keys — always populate from findings if Gemini left them empty
+prospect-intelligence\engine\brief_generator.py:321: Add any extra keys Gemini put in
+prospect-intelligence\engine\brief_generator.py:325: Clean empty
+prospect-intelligence\engine\brief_generator.py:328: ── CONTACT: Gemini output OR decision_maker findings fallback ────────
+prospect-intelligence\engine\brief_generator.py:347: ── COMPANY RESEARCH: Gemini OR all non-scoring snapshot fields ───────
+prospect-intelligence\engine\brief_generator.py:361: ── PROJECTS & SIGNALS ────────────────────────────────────────────────
+prospect-intelligence\engine\brief_generator.py:365: Use actual findings
+prospect-intelligence\engine\brief_generator.py:371: Add scoring signals as signals too
+prospect-intelligence\engine\brief_generator.py:383: ── RECOMMENDED APPROACH ──────────────────────────────────────────────
+prospect-intelligence\engine\brief_generator.py:409: ── RISKS & NEXT ACTION ───────────────────────────────────────────────
+prospect-intelligence\engine\brief_generator.py:426: ── SOURCES ───────────────────────────────────────────────────────────
+prospect-intelligence\engine\demo_pipeline.py:31: Fetch live homepage and targeted web search snippets
+prospect-intelligence\engine\demo_pipeline.py:45: Run dynamic heuristic extraction from live scraped data
+prospect-intelligence\engine\demo_pipeline.py:167: Detect industry type for dynamic messaging
+prospect-intelligence\engine\demo_pipeline.py:179: Dynamic likely requirements by sector
+prospect-intelligence\engine\outreach_generator.py:36: JSON schema for outreach generation
+prospect-intelligence\engine\outreach_generator.py:91: Only use Verified or Probable findings
+prospect-intelligence\engine\outreach_generator.py:94: Retrieve message-library templates from internal knowledge in a single batch
+prospect-intelligence\engine\outreach_generator.py:103: Build user message
+prospect-intelligence\engine\outreach_generator.py:143: Post-generation: verify no Unverified finding is stated as fact
+prospect-intelligence\engine\outreach_generator.py:160: Also include snapshot facts
+prospect-intelligence\engine\outreach_generator.py:222: Handle case where API returns a list instead of dict
+prospect-intelligence\engine\proposal_generator.py:139: Retrieve proposal and capability templates in a single batch
+prospect-intelligence\engine\proposal_generator.py:148: Format findings
+prospect-intelligence\engine\proposal_generator.py:238: Render Markdown
+prospect-intelligence\engine\researcher.py:31: Extraction JSON schema
+prospect-intelligence\engine\researcher.py:247: Combine text from all fetched pages and snippets
+prospect-intelligence\engine\researcher.py:256: Determine best source URL
+prospect-intelligence\engine\researcher.py:263: 1. Trade fit & sector detection
+prospect-intelligence\engine\researcher.py:267: Check construction / envelope specialist first
+prospect-intelligence\engine\researcher.py:308: 2. Geography & location
+prospect-intelligence\engine\researcher.py:391: 3. Company size / headcount
+prospect-intelligence\engine\researcher.py:409: 4. Commercial attractiveness / turnover / clients
+prospect-intelligence\engine\researcher.py:419: Remove replacement char and surrounding context entirely
+prospect-intelligence\engine\researcher.py:425: Pre-clean all_text for overview search
+prospect-intelligence\engine\researcher.py:428: 5. Overview – prefer rich descriptor patterns, fall back to clean sentence, then generic
+prospect-intelligence\engine\researcher.py:430: Rich pattern matching (e.g. "Internet-first brand of …", "Leading Indian brand of …")
+prospect-intelligence\engine\researcher.py:441: Reject if more than 5% of chars are ? (garbled encoding) or very short
+prospect-intelligence\engine\researcher.py:444: Trim trailing fragments: stop at last sentence-ending punctuation
+prospect-intelligence\engine\researcher.py:449: Remove dangling capital-word fragments at end
+prospect-intelligence\engine\researcher.py:451: Construct overview properly based on candidate structure
+prospect-intelligence\engine\researcher.py:469: Must be clean text, no HTML-like tags, no nav/cookie lines, no garbled encoding
+prospect-intelligence\engine\researcher.py:481: 6. Decision makers / Leadership
+prospect-intelligence\engine\researcher.py:541: 7. Project signals & Estimating / BIM need
+prospect-intelligence\engine\researcher.py:622: Avoid mailto, tel, pdf, image links
+prospect-intelligence\engine\researcher.py:634: Skip binary / non-html extensions
+prospect-intelligence\engine\researcher.py:637: Skip social / walled domains where direct GET either hangs or is blocked (Tavily snippets cover them)
+prospect-intelligence\engine\researcher.py:647: Main research function — Parallelized & Bounded
+prospect-intelligence\engine\researcher.py:657: 1. Parallel targeted web searches AND homepage fetch simultaneously
+prospect-intelligence\engine\researcher.py:678: Deduplicate search URLs
+prospect-intelligence\engine\researcher.py:687: 2. Page Fetching (Homepage + internal/search URLs up to hard cap MAX_PAGES_TO_FETCH)
+prospect-intelligence\engine\researcher.py:698: Append scrapable search results to fetch queue up to cap
+prospect-intelligence\engine\researcher.py:706: Cap total pages to fetch
+prospect-intelligence\engine\researcher.py:720: 3. LLM structured extraction with hard timeout; graceful fallback to heuristic scraper
+prospect-intelligence\engine\researcher.py:730: 4. Convert to domain models
+prospect-intelligence\engine\researcher.py:755: Assign fetched page URLs to findings (since LLM may not cite them)
+prospect-intelligence\engine\researcher.py:756: This ensures all findings reference the pages they came from
+prospect-intelligence\engine\researcher.py:759: Get fallback search result URLs for when pages cannot be fetched
+prospect-intelligence\engine\researcher.py:762: For each finding that lacks sources, assign available URLs
+prospect-intelligence\engine\researcher.py:770: Prefer fetched pages, fall back to search results
+prospect-intelligence\engine\researcher.py:780: Ensure required scoring fields are present
+prospect-intelligence\engine\researcher.py:808: LLM extraction helper
+prospect-intelligence\engine\researcher.py:866: Build list of available source URLs for LLM to cite
+prospect-intelligence\engine\source_verification.py:22: Similarity threshold: company name must match 70%+ with fetched page content
+prospect-intelligence\engine\source_verification.py:25: Keywords that indicate a real company page vs. demo/placeholder
+prospect-intelligence\engine\source_verification.py:32: Domains that are known to host directories/listings (often misleading matches)
+prospect-intelligence\engine\source_verification.py:39: Keywords that indicate a company page is genuine
+prospect-intelligence\engine\source_verification.py:51: Patterns to extract company name from pages
+prospect-intelligence\engine\source_verification.py:72: 1. Check for demo/placeholder content
+prospect-intelligence\engine\source_verification.py:77: 2. Extract company name from page and compare
+prospect-intelligence\engine\source_verification.py:95: 3. Check for credibility signals (company description, contact info, etc.)
+prospect-intelligence\engine\source_verification.py:116: 1. Check if it's a known directory/listing domain
+prospect-intelligence\engine\source_verification.py:121: 2. Fetch page if not provided
+prospect-intelligence\engine\source_verification.py:128: 3. Check for company name mention
+prospect-intelligence\engine\source_verification.py:132: Exact match (case-insensitive)
+prospect-intelligence\engine\source_verification.py:136: Fuzzy match for variations (Ltd/Ltd., Inc, LLC, etc.)
+prospect-intelligence\engine\source_verification.py:190: Verify homepage first
+prospect-intelligence\engine\source_verification.py:203: Verify other fetched pages
+prospect-intelligence\engine\source_verification.py:218: Verify search result URLs
+prospect-intelligence\engine\source_verification.py:256: Module-level function aliases for backward compatibility
+prospect-intelligence\engine\web_utils.py:102: Fallback: DuckDuckGo HTML search (no API key required)
+prospect-intelligence\knowledge\ingestion.py:41: PDF text extraction
+prospect-intelligence\knowledge\ingestion.py:63: Heading-aware chunking
+prospect-intelligence\knowledge\ingestion.py:73: Find all heading positions
+prospect-intelligence\knowledge\ingestion.py:88: Update current_section to the heading at `pos`
+prospect-intelligence\knowledge\ingestion.py:95: Hard-split large segments
+prospect-intelligence\knowledge\ingestion.py:113: Embedding
+prospect-intelligence\knowledge\ingestion.py:129: Retry with exponential backoff on 429
+prospect-intelligence\knowledge\ingestion.py:159: Small delay between batches to stay under rate caps
+prospect-intelligence\knowledge\ingestion.py:165: Main ingestion entry point
+prospect-intelligence\knowledge\ingestion.py:182: Collect all chunks first so we can batch-embed them
+prospect-intelligence\knowledge\ingestion.py:193: Deduplicate chunks by text content
+prospect-intelligence\knowledge\ingestion.py:211: Rebuild the collection (delete + recreate to avoid stale data)
+prospect-intelligence\knowledge\ingestion.py:230: ChromaDB upsert in batches of 500
+prospect-intelligence\knowledge\retrieval.py:20: In-memory cache for query embeddings to avoid duplicate API calls
+prospect-intelligence\scoring\engine.py:47: Build a set of all field names present across the three finding lists
+prospect-intelligence\scoring\engine.py:48: so we can distinguish "field present but scored 0" from "field absent entirely".
+prospect-intelligence\scoring\engine.py:59: Cap at weight (should not happen with correct rules, but safety net)
+prospect-intelligence\scoring\engine.py:61: Ensure non-negative
+prospect-intelligence\scoring\engine.py:64: Track factors that scored 0 because their field was entirely absent (Req 4.5)
+prospect-intelligence\scoring\rubric.py:11: Rubric version — bump this whenever scoring logic changes
+prospect-intelligence\scoring\rubric.py:14: Priority band thresholds (5-tier system from ICP document)
+prospect-intelligence\scoring\rubric.py:55: Factor definitions
+prospect-intelligence\scoring\rubric.py:95: PRIMARY (10 pts) - UK, US, Canada
+prospect-intelligence\scoring\rubric.py:101: Word boundary check for 'us' to avoid matching 'australia', 'plus', etc.
+prospect-intelligence\scoring\rubric.py:106: APPROVED EXPANSION (5 pts)
+prospect-intelligence\scoring\rubric.py:111: Country code shortcuts
+prospect-intelligence\scoring\rubric.py:130: Extract first number mentioned
+prospect-intelligence\scoring\rubric.py:258: Ordered rubric factors
+prospect-intelligence\scoring\rubric.py:273: Sanity check: weights must sum to 100
+prospect-intelligence\tests\test_anti_fabrication.py:17: Every factor must have 0 points — never a positive score from nothing
+prospect-intelligence\tests\test_anti_fabrication.py:62: Scoring reads the value but must not touch the label
+prospect-intelligence\tests\test_anti_fabrication.py:83: No number found → 0 points (conservative)
+prospect-intelligence\tests\test_e2e_prospects.py:25: 5 test prospects
+prospect-intelligence\tests\test_e2e_prospects.py:27: Prospect 1 — Clear High-fit (UK facade contractor, strong signals)
+prospect-intelligence\tests\test_e2e_prospects.py:41: Prospect 2 — Clear Poor-fit (software company, wrong geography)
+prospect-intelligence\tests\test_e2e_prospects.py:55: Prospect 3 — Ambiguous (some signals, incomplete info)
+prospect-intelligence\tests\test_e2e_prospects.py:69: Prospect 4 — Ambiguous (facade but small/unknown size, no DM access)
+prospect-intelligence\tests\test_e2e_prospects.py:83: Prospect 5 — Australia expansion target (medium fit)
+prospect-intelligence\tests\test_e2e_prospects.py:115: company_size_band is ambiguous string — should score 0 for that factor
+prospect-intelligence\tests\test_e2e_prospects.py:121: Australia gives half geography points; roofing gives max trade fit
+prospect-intelligence\tests\test_e2e_prospects.py:122: Expect moderate score
+prospect-intelligence\tests\test_failure_injection.py:24: ftp:// is not a valid AnyHttpUrl — should reject
+prospect-intelligence\tests\test_failure_injection.py:109: First attempt fails — would trigger tenacity retry in prod
+prospect-intelligence\tests\test_failure_injection.py:115: Second attempt (simulated retry) succeeds
+prospect-intelligence\tests\test_failure_injection.py:120: Caller of fetch_page catches the first error and retries manually
+prospect-intelligence\tests\test_feedback.py:17: 1. Create unique test job
+prospect-intelligence\tests\test_feedback.py:26: 2. Submit feedback via POST /api/v1/prospects/{job_id}/feedback
+prospect-intelligence\tests\test_feedback.py:44: 3. Submit second feedback for same job (allow multiple submissions)
+prospect-intelligence\tests\test_feedback.py:55: 4. Query job feedbacks via GET /api/v1/prospects/{job_id}/feedback
+prospect-intelligence\tests\test_feedback.py:62: 5. Query all feedback via GET /api/v1/feedback
+prospect-intelligence\tests\test_feedback.py:68: 6. Test 404 for invalid job_id
+prospect-intelligence\tests\test_models.py:1000: Missing pilot_option
+prospect-intelligence\tests\test_outreach.py:21: Construct realistic research brief for a façade contractor
+prospect-intelligence\tests\test_outreach.py:89: 1. Assert all fields exist and are populated
+prospect-intelligence\tests\test_outreach.py:100: 2. Assert LinkedIn connection request length constraint (strictly <= 300 chars)
+prospect-intelligence\tests\test_outreach.py:105: 3. Assert backward compatibility aliases
+prospect-intelligence\tests\test_proposal.py:114: Save mock job and brief to database using StorageAdapter
+prospect-intelligence\tests\test_proposal.py:130: 1. Generate Proposal via POST
+prospect-intelligence\tests\test_proposal.py:138: 2. Retrieve Proposal via GET (JSON)
+prospect-intelligence\tests\test_proposal.py:145: 3. Retrieve Proposal via GET (Markdown format)
+prospect-intelligence\tests\test_scoring.py:26: Helpers
+prospect-intelligence\tests\test_scoring.py:37: Trade / service fit
+prospect-intelligence\tests\test_scoring.py:62: Geography
+prospect-intelligence\tests\test_scoring.py:90: Company size
+prospect-intelligence\tests\test_scoring.py:112: Tender volume
+prospect-intelligence\tests\test_scoring.py:128: Estimating need
+prospect-intelligence\tests\test_scoring.py:147: Drafting / BIM
+prospect-intelligence\tests\test_scoring.py:166: Hiring trigger
+prospect-intelligence\tests\test_scoring.py:182: Decision maker access
+prospect-intelligence\tests\test_scoring.py:198: Outsourcing readiness
+prospect-intelligence\tests\test_scoring.py:211: Commercial attractiveness
+prospect-intelligence\tests\test_scoring.py:227: Band assignment (5-tier ICP classification)
+prospect-intelligence\tests\test_scoring.py:251: Full score function
+prospect-intelligence\tests\test_scoring.py:337: zero_evidence_factors tracking (Req 4.5, 4.7)
+prospect-intelligence\tests\test_scoring.py:357: 9 factors have no corresponding field in findings
+prospect-intelligence\tests\test_source_verification.py:30: Should extract company name variations
+prospect-intelligence\tests\test_source_verification.py:42: This would be in a real async test - showing logic
+prospect-intelligence\tests\test_source_verification.py:127: This is a scenario where multiple companies have similar names
+prospect-intelligence\tests\test_source_verification.py:129: Genuine Harley Facades page
+prospect-intelligence\tests\test_source_verification.py:136: Different company with same name
+prospect-intelligence\tests\test_source_verification.py:143: Both pages have "Harley Facades" but they're different companies
+prospect-intelligence\tests\test_source_verification.py:144: The verification should still accept both if matching, but context matters
+prospect-intelligence\tests\test_source_verification.py:145: In production, location checks would be added to disambiguate
+prospect-intelligence\tests\test_source_verification.py:150: Both should verify positively based on name alone, but in real scenario
+prospect-intelligence\tests\test_source_verification.py:151: we'd also check location/domain to disambiguate
+prospect-intelligence\tests\test_source_verification.py:161: Eden Facades Ltd (UK - building façades)
+prospect-intelligence\tests\test_source_verification.py:172: Eden Facades Inc (US - different type of company, coincidentally same name)
+prospect-intelligence\tests\test_source_verification.py:182: When searching for "Eden Facades" with UK context, should match UK page
+prospect-intelligence\tests\test_source_verification.py:186: US page might also match by name, but location/content is different
+prospect-intelligence\tests\test_source_verification.py:188: This might or might not verify depending on similarity threshold
+prospect-intelligence\tests\test_source_verification.py:189: But it should at least record the concern
+prospect-intelligence\tests\test_source_verification.py:194: Searching for "Design Solutions Ltd" returns generic industry article
+prospect-intelligence\tests\test_source_verification.py:203: Should detect that this is generic article, not about the specific company

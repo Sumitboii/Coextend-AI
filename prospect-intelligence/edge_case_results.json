@@ -1,0 +1,49 @@
+{
+  "1_extremely_long_name": {
+    "status": "PASS",
+    "request": "company_name = \"A\" * 50000 (50,000 chars), website = \"https://example.com\"",
+    "response": "ValidationError: String should have at most 255 characters (type: string_too_long)"
+  },
+  "2_unicode_emoji_special": {
+    "status": "PASS",
+    "request": "company_name = \"\u00c9lite Fa\u00e7ades \u4e2d\u6587 \ud83c\udfd7\ufe0f & Co. #1\", website = \"https://example.com\"",
+    "response": "HTTP 200/Model Validated: company_name retained as \"\u00c9lite Fa\u00e7ades \u4e2d\u6587 \ud83c\udfd7\ufe0f & Co. #1\""
+  },
+  "3_whitespace_only_empty_string": {
+    "status": "PASS",
+    "request": "company_name in [\"\", \"    \", \"  \\t  \\n  \"]",
+    "response": [
+      "empty_string ('') -> Rejected: String should have at least 1 character",
+      "spaces_only ('    ') -> Rejected: Value error, company_name cannot be empty or whitespace-only.",
+      "mixed_tabs_newlines ('  \\t  \\n  ') -> Rejected: Value error, company_name cannot be empty or whitespace-only."
+    ]
+  },
+  "4_malformed_urls": {
+    "status": "PASS",
+    "request": [
+      "example.com",
+      "https://example.com/%%invalid##garbage^^",
+      "http://192.168.1.1:8080/path"
+    ],
+    "response": [
+      "missing_scheme (example.com) -> Rejected: Input should be a valid URL, relative URL without a base",
+      "trailing_garbage (https://example.com/%%invalid##garbage^^) -> Accepted as valid AnyHttpUrl: https://example.com/%%invalid##garbage^^",
+      "ip_address (http://192.168.1.1:8080/path) -> Accepted as valid AnyHttpUrl: http://192.168.1.1:8080/path"
+    ]
+  },
+  "5_slow_timeout_handling": {
+    "status": "PASS",
+    "request": "GET https://10.255.255.1/slow-dead-sink (non-routable IP with timeout=1.0s)",
+    "response": "Completed safely in 0.6s without hanging; returned '' (empty string fallback, pipeline unblocked)"
+  },
+  "6_rapid_duplicate_submissions": {
+    "status": "PASS",
+    "request": "POST /api/v1/prospects twice within ~10ms for Duplicate Facades Test Ltd",
+    "response": "Submission 1: HTTP 202, duplicate_warning=False, job_id=fb497405-e311-43fc-9e0a-cc504697a5a1; Submission 2: HTTP 202, duplicate_warning=True, job_id=09e9c213-a246-4edb-bc2d-02783aae6f67"
+  },
+  "7_concurrent_simultaneous_submissions": {
+    "status": "PASS",
+    "request": "asyncio.gather(POST /api/v1/prospects for Alpha, POST /api/v1/prospects for Beta)",
+    "response": "Both created concurrently in 0.491s: Job 1=f5005938-c56f-4531-ad8b-969602f4bf54 (status=pending); Job 2=20b2bb16-9dfb-490c-990a-006026b0f72a (status=pending)"
+  }
+}

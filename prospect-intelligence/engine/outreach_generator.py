@@ -116,8 +116,39 @@ async def generate_outreach_drafts(brief: ResearchBrief) -> OutreachDrafts:
     )
 
     logger.info("LLM prompt prepared for job %s with %d findings", brief.job_id, len(safe_findings))
-    raw = await _call_llm_with_retry(user_content)
-    logger.info("LLM response received: %s", raw)
+    try:
+        raw = await _call_llm_with_retry(user_content)
+        logger.info("LLM response received: %s", raw)
+    except Exception as exc:
+        logger.warning("LLM outreach call failed (%s). Generating structured fallback drafts for job %s", exc, brief.job_id)
+        raw = {
+            "email_subject": f"Estimating capacity & technical support / {company_name}",
+            "email_touch_1": (
+                f"Hi {contact_name or 'there'},\n\n"
+                f"I noticed {company_name}'s recent project activity in the building envelope sector. "
+                "Coextend provides dedicated estimating takeoffs and Revit BIM shop drawing support "
+                "for specialist contractors during peak tendering periods.\n\n"
+                "Would you be open to a brief conversation on how we support peer teams with variable capacity?"
+            ),
+            "email_touch_2": (
+                f"Hi {contact_name or 'there'},\n\n"
+                f"Following up on my previous note regarding {company_name}'s takeoff and estimating workflows. "
+                "Is technical bandwidth support currently relevant for your upcoming tenders?"
+            ),
+            "email_touch_3": (
+                f"Hi {contact_name or 'there'},\n\n"
+                f"I understand timing is everything in commercial contracting. If {company_name} ever encounters "
+                "estimating bottlenecks or drafting deadlines, happy to share a 1-page overview of our packages."
+            ),
+            "linkedin_connection": (
+                f"Hi {contact_name or 'there'}, following {company_name}'s façade and envelope work. "
+                "We provide dedicated estimating & BIM capacity for commercial subcontractors. Would welcome connecting."
+            )[:290],
+            "linkedin_pitch": (
+                "Thanks for connecting. We assist envelope contractors with 24-48hr turnaround on quantity takeoffs "
+                "and BIM packages. Glad to share sample deliverable schedules whenever helpful."
+            ),
+        }
 
     email_t1 = raw.get("email_touch_1") or raw.get("email_body", "")
     email_t2 = raw.get("email_touch_2", "")

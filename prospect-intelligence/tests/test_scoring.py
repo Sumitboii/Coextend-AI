@@ -58,6 +58,11 @@ class TestTradeFit:
     def test_unrelated_scores_0(self):
         assert _trade_fit_score("software company") == 0
 
+    def test_higher_education_institution_scores_0(self):
+        """Non-commercial / educational entities receive 0 trade fit points."""
+        assert _trade_fit_score("higher education institution") == 0
+        assert _trade_fit_score("Education & Academic Research") == 0
+
 
 # Geography
 

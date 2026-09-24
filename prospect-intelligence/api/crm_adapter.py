@@ -107,15 +107,16 @@ class MockHubSpotAdapter(CRMAdapter):
             exported_at=datetime.now(UTC),
         )
 
-        # ── Write to sandbox files ────────────────────────────────────────
-        await self._write_json(record)
-        await self._write_csv(record)
-
+        # ── Write to sandbox files ONLY if NOT a duplicate (Req 8.5) ────────
         if possible_dup:
             logger.warning(
-                "Possible CRM duplicate detected for '%s' (%s)", company_name, website
+                "Possible CRM duplicate detected for '%s' (%s) — skipping export file creation per Requirement 8.5",
+                company_name,
+                website,
             )
         else:
+            await self._write_json(record)
+            await self._write_csv(record)
             logger.info("CRM export written for job %s", brief.job_id)
 
         return record

@@ -23,6 +23,7 @@ from api.models import (
     SourceRef,
 )
 from config import settings
+from engine.source_verification import SourceVerification
 from engine.web_utils import fetch_page, web_search
 
 logger = logging.getLogger(__name__)
@@ -234,9 +235,12 @@ def _extract_heuristic_fallback(
     snippets: list[dict],
 ) -> dict:
     """
-    Extract dynamic real prospect data using heuristic/regex patterns
-    when Gemini LLM is unavailable, rate-limited, or encountering key issues.
-    Parses real facts directly from fetched website pages and search snippets.
+    Extract dynamic real prospect data using conservative heuristic patterns
+    when Gemini LLM is unavailable or rate-limited.
+    ANTI-FABRICATION GUARANTEE:
+    - Never fabricates commercial sectors or placeholder decision-makers.
+    - Non-construction and unverified entities return 'no evidence found' for trade_fit and decision_maker_access.
+    - All extracted items in fallback mode are labeled 'Unverified'.
     """
     import re
     from urllib.parse import urlparse
@@ -244,7 +248,6 @@ def _extract_heuristic_fallback(
 
     domain = urlparse(website).netloc or website.replace("https://", "").replace("http://", "").split("/")[0]
 
-    # Combine text from all fetched pages and snippets
     all_text = ""
     for p in pages:
         all_text += " " + p.get("text", "")
@@ -252,62 +255,105 @@ def _extract_heuristic_fallback(
         all_text += " " + s.get("title", "") + " " + s.get("snippet", "")
 
     all_lower = all_text.lower()
+    domain_lower = domain.lower()
 
-    # Determine best source URL
     primary_source = website
     if pages:
         primary_source = pages[0].get("url", website)
     elif snippets:
         primary_source = snippets[0].get("link", website)
 
-    # 1. Trade fit & sector detection
+    source_list = [primary_source]
+    notes_missing: list[str] = []
+
+    # 1. Non-commercial and unverified detection (Institutions, Education, Government, Healthcare, Law, Non-Profit)
+    is_academic = (
+        domain_lower.endswith((".edu", ".ac.uk", ".ac.in", ".edu.au"))
+        or bool(re.search(r"\b(?:university|college|polytechnic|higher education|academic research|chancellor|vice-chancellor)\b", all_lower))
+    )
+    is_gov = (
+        domain_lower.endswith((".gov", ".gov.uk", ".gov.in", ".gov.au", ".mil"))
+        or bool(re.search(r"\b(?:department of|ministry of|government agency|public sector body)\b", all_lower))
+    )
+    is_healthcare = (
+        domain_lower.endswith(".nhs.uk")
+        or bool(re.search(r"\b(?:nhs trust|healthcare trust|medical center|medical centre|general infirmary|nhs foundation)\b", all_lower))
+        or (bool(re.search(r"\b(?:hospital|clinic|patient care)\b", all_lower)) and bool(re.search(r"\b(?:patients|clinical care|outpatient|emergency department)\b", all_lower)))
+    )
+    is_law = bool(re.search(r"\b(?:law firm|solicitors|barristers|attorneys at law|legal practice|chambers)\b", all_lower))
+    is_charity = bool(re.search(r"\b(?:registered charity|non-profit organization|nonprofit|ngo|humanitarian aid)\b", all_lower))
+
+    # 2. Construction / facade contractor detection (requires explicit multi-keyword domain context)
+    facade_match = bool(re.search(r"\b(?:facade contractor|façade contractor|cladding contractor|curtain walling contractor|rainscreen cladding|architectural glazing contractor|facade solutions?|façade solutions?)\b", all_lower)) or (
+        bool(re.search(r"\b(?:facade|façade|cladding|curtain wall)\b", all_lower))
+        and bool(re.search(r"\b(?:contractor|installer|subcontractor|installation|envelope specialist|curtain walling|rainscreen|glazing|windows|facades?|façades?)\b", all_lower))
+    )
+    roofing_match = bool(re.search(r"\b(?:roofing contractor|industrial roofing|waterproofing contractor)\b", all_lower))
+    glazing_match = bool(re.search(r"\b(?:glazing contractor|architectural glazing|fenestration contractor)\b", all_lower))
+    structural_match = bool(re.search(r"\b(?:structural steel contractor|steel fabrication|steel framework contractor)\b", all_lower))
+    fitout_match = bool(re.search(r"\b(?:interior fit-out contractor|commercial fit out|commercial refurbishment contractor)\b", all_lower))
+    groundworks_match = bool(re.search(r"\b(?:civil engineering contractor|groundworks contractor)\b", all_lower))
+    general_construction_match = bool(re.search(r"\b(?:general contractor|building contractor|main contractor|construction management)\b", all_lower))
+
+    # Specific category-exclusive patterns for non-construction commercial sectors
+    cosmetics_exclusive = (
+        not (is_academic or is_gov or is_healthcare or is_charity)
+        and bool(re.search(r"\b(?:cosmetic products|cosmetics brand|makeup products|skincare brand|beauty products company|lipsticks|sunscreen lotions)\b", all_lower))
+        and bool(re.search(r"\b(?:beauty|skincare|cosmetics|makeup)\b", all_lower))
+    )
+
     detected_trade = None
     detected_sector = None
 
-    # Check construction / envelope specialist first
-    if any(k in all_lower for k in ["facade", "façade", "curtain wall", "cladding", "rainscreen"]):
+    # Non-commercial classifications in order of specificity
+    if is_healthcare:
+        detected_trade = "healthcare provider / medical institution"
+        detected_sector = "Healthcare & Medical"
+    elif is_gov:
+        detected_trade = "government body or public entity"
+        detected_sector = "Public Sector & Government"
+    elif is_academic:
+        detected_trade = "higher education institution"
+        detected_sector = "Education & Academic Research"
+    elif is_law:
+        detected_trade = "legal services practice"
+        detected_sector = "Legal Services"
+    elif is_charity:
+        detected_trade = "non-profit organization"
+        detected_sector = "Charity & Non-Profit"
+    elif facade_match:
         detected_trade = "facade and cladding contractor"
         detected_sector = "Facade, Cladding & Building Envelope"
-    elif any(k in all_lower for k in ["roofing", "waterproofing", "roof contractor"]):
+    elif roofing_match:
         detected_trade = "roofing and cladding contractor"
         detected_sector = "Roofing & Cladding Contracting"
-    elif any(k in all_lower for k in ["glazing", "fenestration", "curtain walling"]):
-        detected_trade = "architectural glazing and curtain wall contractor"
+    elif glazing_match:
+        detected_trade = "architectural glazing contractor"
         detected_sector = "Architectural Glazing & Curtain Walling"
-    elif any(k in all_lower for k in ["structural steel", "steelwork", "steel framing"]):
+    elif structural_match:
         detected_trade = "structural steel and framing contractor"
         detected_sector = "Structural Steel & Framing"
-    elif any(k in all_lower for k in ["fit-out", "fit out", "interior fit out"]):
+    elif fitout_match:
         detected_trade = "commercial fit-out contractor"
         detected_sector = "Commercial Interior & Fit-out"
-    elif any(k in all_lower for k in ["civil engineering", "groundwork", "groundworks"]):
+    elif groundworks_match:
         detected_trade = "civil engineering and groundworks contractor"
         detected_sector = "Civil Engineering & Groundworks"
-    elif any(k in all_lower for k in ["cosmetic", "cosmetics", "makeup", "make-up", "skincare", "skin care", "beauty products", "personal care", "lipsticks", "foundation", "sunscreen"]):
-        detected_trade = "cosmetics & beauty brand"
-        detected_sector = "Beauty, Cosmetics & Personal Care"
-    elif any(k in all_lower for k in ["general contractor", "main contractor", "building contractor", "construction management"]):
+    elif general_construction_match:
         detected_trade = "commercial general contractor"
         detected_sector = "Commercial Construction"
-    elif any(k in all_lower for k in ["software", "saas", "cloud platform", "artificial intelligence", "tech"]):
-        detected_trade = "technology & software provider"
-        detected_sector = "Information Technology & Software"
-    elif any(k in all_lower for k in ["ecommerce", "e-commerce", "retailer", "apparel", "clothing"]):
-        detected_trade = "retail & e-commerce"
-        detected_sector = "Retail & Consumer Goods"
-    elif any(k in all_lower for k in ["consulting", "advisory", "financial services", "accounting"]):
-        detected_trade = "professional services"
-        detected_sector = "Financial & Professional Services"
-    elif any(k in all_lower for k in ["manufacturing", "manufacturer", "industrial", "fabrication"]):
-        detected_trade = "manufacturing & industrial"
-        detected_sector = "Industrial Manufacturing"
+    elif cosmetics_exclusive:
+        detected_trade = "cosmetics & beauty brand"
+        detected_sector = "Beauty, Cosmetics & Personal Care"
     else:
-        detected_trade = "commercial business"
-        detected_sector = "Commercial Enterprise"
+        # Strict conservatism: admit uncertainty rather than producing wrong commercial classification
+        detected_trade = "no evidence found"
+        detected_sector = "no evidence found"
+        notes_missing.append("trade_fit and sector could not be verified in heuristic fallback mode")
 
-    # 2. Geography & location
-    detected_geo = "International"
-    detected_loc = "Global"
+    # 3. Geography & location
+    detected_geo = "no evidence found"
+    detected_loc = "no evidence found"
 
     uk_postcode_match = re.search(r"\b([A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2})\b", all_text, re.IGNORECASE)
     uk_cities = [
@@ -336,12 +382,11 @@ def _extract_heuristic_fallback(
             found_us_city = ucity
             break
 
-    domain_lower = domain.lower()
     is_indian = (
         domain_lower.endswith((".in", ".co.in"))
         or "india" in domain_lower
         or found_indian_city is not None
-        or bool(re.search(r"\b(?:mumbai|maharashtra|delhi|bengaluru|bangalore|hindustan unilever|india|indian)\b", all_lower))
+        or bool(re.search(r"\b(?:mumbai|maharashtra|delhi|bengaluru|bangalore|india|indian)\b", all_lower))
     )
 
     is_uk = (
@@ -355,9 +400,6 @@ def _extract_heuristic_fallback(
         if found_indian_city:
             detected_loc = f"{found_indian_city}, India"
             detected_geo = f"India - based in {found_indian_city}"
-        elif "mumbai" in all_lower:
-            detected_loc = "Mumbai, India"
-            detected_geo = "India - based in Mumbai"
         else:
             detected_loc = "India"
             detected_geo = "India"
@@ -387,9 +429,11 @@ def _extract_heuristic_fallback(
         else:
             detected_loc = "United States"
             detected_geo = "USA - North America"
+    else:
+        notes_missing.append("geography could not be reliably verified in heuristic fallback mode")
 
-    # 3. Company size / headcount
-    detected_size = "Established commercial enterprise"
+    # 4. Company size / headcount
+    detected_size = "no evidence found"
     emp_match = re.search(r"(\d[\d,]*)\s*(?:\+|plus)?\s*(?:employees|staff|team members|people)", all_text, re.IGNORECASE)
     emp_match2 = re.search(r"(?:employs|headcount of|workforce of)\s*(?:~|approx\.?|around)?\s*(\d[\d,]*)", all_text, re.IGNORECASE)
     _emp_val = None
@@ -397,76 +441,41 @@ def _extract_heuristic_fallback(
         _emp_val = int(emp_match.group(1).replace(",", ""))
     elif emp_match2:
         _emp_val = int(emp_match2.group(1).replace(",", ""))
-    if _emp_val and _emp_val >= 20:
-        detected_size = f"{_emp_val:,} employees"
-    elif any(k in all_lower for k in ["tier 1", "tier-1", "large scale", "major contractor"]):
-        detected_size = "Large enterprise (100+ employees)"
-    elif any(k in all_lower for k in ["tier 2", "tier-2", "specialist subcontractor", "mid-sized"]):
-        detected_size = "Mid-sized specialist (50-150 employees)"
-    elif "beauty" in detected_trade or "retail" in detected_trade or "cosmetics" in detected_trade:
-        detected_size = "Established retail & beauty enterprise"
 
-    # 4. Commercial attractiveness / turnover / clients
-    detected_comm = f"Established commercial operations in {detected_loc}"
+    if _emp_val and _emp_val >= 10:
+        detected_size = f"{_emp_val:,} employees"
+    else:
+        notes_missing.append("company_size_band could not be verified in heuristic fallback mode")
+
+    # 5. Commercial attractiveness / turnover / clients
+    detected_comm = "no evidence found"
     rev_match = re.search(r"(?:£|\$|€|₹|rs\.?)\s*(\d+(?:\.\d+)?\s*(?:m|million|bn|billion|cr|crore))", all_text, re.IGNORECASE)
     if rev_match:
-        detected_comm = f"Reported financial scale ~{rev_match.group(0)}, commercial market presence"
-    elif any(k in all_lower for k in ["award", "accreditation", "iso", "chas", "constructionline"]):
-        detected_comm = "Accredited organisation with established commercial client base"
+        detected_comm = f"Reported financial scale ~{rev_match.group(0)}"
+    elif any(k in all_lower for k in ["chas accredited", "constructionline gold", "iso 9001", "iso 14001"]):
+        detected_comm = "Accredited organisation with documented industry certifications"
+    else:
+        notes_missing.append("commercial_attractiveness could not be verified in heuristic fallback mode")
 
     def _clean_text(s: str) -> str:
-        """Strip unicode replacement chars, truncation markers, and excess whitespace."""
-        # Remove replacement char and surrounding context entirely
         s = re.sub(r"[^\x09\x0a\x0d\x20-\x7e\u00a0-\u024f\u1e00-\u1eff]", "", s)
         s = re.sub(r"\[TRUNCATED\]", "", s, flags=re.IGNORECASE)
         s = re.sub(r"\s{2,}", " ", s)
         return s.strip()
 
-    # Pre-clean all_text for overview search
     all_text_clean = _clean_text(all_text)
 
-    # 5. Overview – prefer rich descriptor patterns, fall back to clean sentence, then generic
+    # 6. Overview
     overview = None
-    # Rich pattern matching (e.g. "Internet-first brand of …", "Leading Indian brand of …")
-    desc_match = re.search(
-        r"\b(Internet-first brand of [^|\n;]{15,120}"
-        r"|Platform for [^|\n;]{15,120}"
-        r"|Leading (?:Indian|global|UK|national)?\s*(?:brand|retailer|manufacturer|provider) of [^|\n;]{15,120}"
-        r"|(?:Cosmetics|Beauty|Personal care|Specialist) brand (?:of|offering|for) [^|\n;]{15,120}"
-        r"|(?:is an?|is the) (?:Indian|global|leading|popular)?\s*(?:cosmetics|beauty|personal care|skincare)[^|\n;]{10,120})",
-        all_text_clean, re.IGNORECASE
-    )
-    if desc_match:
-        candidate = desc_match.group(1).strip().rstrip(",;")
-        # Reject if more than 5% of chars are ? (garbled encoding) or very short
-        q_ratio = candidate.count("?") / max(len(candidate), 1)
-        if len(candidate) > 25 and q_ratio < 0.05:
-            # Trim trailing fragments: stop at last sentence-ending punctuation
-            last_period = max(candidate.rfind("."), candidate.rfind("!"), candidate.rfind("?"))
-            if last_period > 20:
-                candidate = candidate[:last_period + 1].strip()
-            else:
-                # Remove dangling capital-word fragments at end
-                candidate = re.sub(r"\s+(?:[A-Z][a-zA-Z]+ )*[A-Z][a-zA-Z]+\s*$", "", candidate).strip()
-            # Construct overview properly based on candidate structure
-            if re.match(r"^is\s+(an?|the)\b", candidate, re.IGNORECASE):
-                overview = f"{company} {candidate}"  # e.g., "Lakme is an Indian cosmetics brand..."
-            elif candidate.lower().startswith(company.lower()):
-                overview = candidate  # already has company name
-            else:
-                overview = f"{company} – {candidate}"
-
-    if not overview:
-        about_match = re.search(r"(?:about us|who we are|what we do|overview)[\s:\-–—]+([^\.\n]{40,250}\.)", all_text_clean, re.IGNORECASE)
-        if about_match:
-            candidate = about_match.group(1).strip()
-            if len(candidate) > 30 and candidate.count("?") / max(len(candidate), 1) < 0.05:
-                overview = f"{company}: {candidate}"
+    about_match = re.search(r"(?:about us|who we are|what we do|overview)[\s:\-–—]+([^\.\n]{40,250}\.)", all_text_clean, re.IGNORECASE)
+    if about_match:
+        candidate = about_match.group(1).strip()
+        if len(candidate) > 30 and candidate.count("?") / max(len(candidate), 1) < 0.05:
+            overview = f"{company}: {candidate}"
 
     if not overview:
         for line in all_text_clean.split("\n"):
             line_s = line.strip()
-            # Must be clean text, no HTML-like tags, no nav/cookie lines, no garbled encoding
             if (40 < len(line_s) < 200
                     and not any(tag in line_s for tag in ["<", ">", "{", "}", "Skip to", "cookie", "javascript", "[TRUNCATED]"])
                     and not line_s.startswith("#")
@@ -476,119 +485,112 @@ def _extract_heuristic_fallback(
                 break
 
     if not overview:
-        overview = f"{company} is an established {detected_trade} based in {detected_loc}."
-
-    # 6. Decision makers / Leadership
-    dm_value = "Leadership Team"
-    first_name = "Team"
-    last_name = ""
-    title = "Director"
-
-    if re.search(r"\bPushkaraj\s+Shenai\b", all_text, re.IGNORECASE):
-        first_name = "Pushkaraj"
-        last_name = "Shenai"
-        title = "CEO"
-        dm_value = "Pushkaraj Shenai – CEO"
-    elif re.search(r"\bPedro\s+Arrarte\b", all_text, re.IGNORECASE):
-        first_name = "Pedro"
-        last_name = "Arrarte"
-        title = "CEO"
-        dm_value = "Pedro Arrarte – CEO"
-    elif re.search(r"\bVipul\s+Chaturvedi\b", all_text, re.IGNORECASE):
-        first_name = "Vipul"
-        last_name = "Chaturvedi"
-        title = "CEO"
-        dm_value = "Vipul Chaturvedi – CEO"
-    elif re.search(r"\bSimone\s+Tata\b", all_text, re.IGNORECASE):
-        first_name = "Simone"
-        last_name = "Tata"
-        title = "Chairperson"
-        dm_value = "Simone Tata – Chairperson"
-    else:
-        companies_house_match = re.search(r"([A-Z]{2,}),\s*([A-Z][a-z]+)\s*(?:[A-Z][a-z]+)?\s*Role Active\s*:\s*Director", all_text)
-        if companies_house_match:
-            l_name = companies_house_match.group(1).capitalize()
-            f_name = companies_house_match.group(2).capitalize()
-            dm_value = f"{f_name} {l_name} – Director (Companies House)"
-            first_name = f_name
-            last_name = l_name
-            title = "Director"
+        if detected_trade != "no evidence found" and detected_loc != "no evidence found":
+            overview = f"{company} is an established {detected_trade} based in {detected_loc}."
         else:
-            STOP_WORDS = {
-                "about", "contact", "terms", "privacy", "cookie", "cookies", "home",
-                "skip", "services", "products", "careers", "company", "overview", "login",
-                "register", "cart", "shop", "blog", "press", "media", "policy", "conditions",
-                "copyright", "rights", "reserved", "customer", "support", "help", "faqs",
-                "faq", "brand", "brands", "items", "item", "order", "bag", "store",
-                company.lower()
-            }
-            candidates = []
-            for m in re.finditer(r"\b(Chief Executive Officer|CEO|Managing Director|Founder|Director|Commercial Director)[\s:\-–—,]+\s*(?:is\s+)?([A-Z][a-z]+ [A-Z][a-z]+)\b", all_text):
-                candidates.append((m.group(2).strip(), m.group(1).strip()))
-            for m in re.finditer(r"\b([A-Z][a-z]+ [A-Z][a-z]+)\s*(?:\(|\s*[\-–—:,]+\s*)(Chief Executive Officer|CEO|Managing Director|Founder|Director|Commercial Director)\b", all_text):
-                candidates.append((m.group(1).strip(), m.group(2).strip()))
-            for name_cand, title_cand in candidates:
-                parts = name_cand.split()
-                if len(parts) == 2:
-                    w1, w2 = parts[0].lower(), parts[1].lower()
-                    if w1 not in STOP_WORDS and w2 not in STOP_WORDS and company.lower() not in name_cand.lower():
-                        first_name = parts[0]
-                        last_name = parts[1]
-                        title = title_cand
-                        dm_value = f"{name_cand} – {title_cand}"
-                        break
+            overview = f"{company} (verified entity record)."
 
-    # 7. Project signals & Estimating / BIM need
-    tender_signal = f"Commercial activity and operations documented for {company}"
-    if any(k in all_lower for k in ["tender", "framework", "contracts finder", "procurement", "bidding"]):
-        tender_signal = "Active on commercial tenders and procurement frameworks"
-    elif any(k in all_lower for k in ["portfolio", "case studies", "our projects", "recent work"]):
-        tender_signal = "Active portfolio of ongoing commercial projects"
+    # 7. Decision makers / Leadership — STRICT: NO GENERIC PLACEHOLDERS
+    dm_value = "no evidence found"
+    first_name = ""
+    last_name = ""
+    title = ""
 
-    estimating_signal = "Estimating and commercial proposal capacity required for ongoing business development"
-    if any(k in all_lower for k in ["estimating", "estimator", "take-off", "takeoff", "quantity survey", "boq"]):
-        estimating_signal = "Estimating and quantity surveying workflows active; potential capacity bottleneck during peak bidding"
+    STOP_WORDS = {
+        "about", "contact", "terms", "privacy", "cookie", "cookies", "home",
+        "skip", "services", "products", "careers", "company", "overview", "login",
+        "register", "cart", "shop", "blog", "press", "media", "policy", "conditions",
+        "copyright", "rights", "reserved", "customer", "support", "help", "faqs",
+        "faq", "brand", "brands", "items", "item", "order", "bag", "store", "team",
+        "leadership", "management", "director", "officer", "executive", "board",
+        company.lower()
+    }
 
-    bim_signal = "Technical drafting and digital specifications"
-    if any(k in all_lower for k in ["bim", "revit", "autocad", "tekla", "shop drawing", "detailing"]):
-        bim_signal = "BIM coordination and shop drawing packages required for project delivery"
+    companies_house_match = re.search(r"([A-Z]{2,}),\s*([A-Z][a-z]+)\s*(?:[A-Z][a-z]+)?\s*Role Active\s*:\s*Director", all_text)
+    if companies_house_match:
+        l_name = companies_house_match.group(1).capitalize()
+        f_name = companies_house_match.group(2).capitalize()
+        dm_value = f"{f_name} {l_name} – Director (Companies House)"
+        first_name = f_name
+        last_name = l_name
+        title = "Director"
+    else:
+        candidates = []
+        for m in re.finditer(r"\b(Chief Executive Officer|CEO|Managing Director|Founder|Commercial Director)[\s:\-–—,]+\s*(?:is\s+)?([A-Z][a-z]+ [A-Z][a-z]+)\b", all_text):
+            candidates.append((m.group(2).strip(), m.group(1).strip()))
+        for m in re.finditer(r"\b([A-Z][a-z]+ [A-Z][a-z]+)\s*(?:\(|\s*[\-–—:,]+\s*)(Chief Executive Officer|CEO|Managing Director|Founder|Commercial Director)\b", all_text):
+            candidates.append((m.group(1).strip(), m.group(2).strip()))
+        for name_cand, title_cand in candidates:
+            parts = name_cand.split()
+            if len(parts) == 2:
+                w1, w2 = parts[0].lower(), parts[1].lower()
+                if w1 not in STOP_WORDS and w2 not in STOP_WORDS and company.lower() not in name_cand.lower():
+                    first_name = parts[0]
+                    last_name = parts[1]
+                    title = title_cand
+                    dm_value = f"{name_cand} – {title_cand}"
+                    break
 
-    hiring_signal = "Recruitment aligned with business expansion"
-    if any(k in all_lower for k in ["vacancy", "vacancies", "careers", "we are hiring", "join our team"]):
-        hiring_signal = "Active careers / hiring page indicates current organizational growth and staffing needs"
+    if dm_value == "no evidence found":
+        notes_missing.append("decision_maker_access could not be verified with named individual in fallback mode")
 
-    outsourcing_signal = "External partner and supplier ecosystem in place"
-    if any(k in all_lower for k in ["subcontract", "outsourc", "partner", "supply chain"]):
-        outsourcing_signal = "Supply chain and external partnership model indicates openness to specialized external technical support"
+    # 8. Project signals & Estimating / BIM need — STRICT EVIDENCE REQUIRED
+    tender_signal = "no evidence found"
+    if any(k in all_lower for k in ["framework agreement", "contracts finder", "tender portal", "active tenders"]):
+        tender_signal = "Active on documented commercial tenders or procurement frameworks"
+    else:
+        notes_missing.append("tender_volume_signal: no unambiguous tender evidence found")
 
-    source_list = [primary_source]
+    estimating_signal = "no evidence found"
+    if any(k in all_lower for k in ["estimating vacancy", "take-off services", "quantity surveying vacancy", "boq preparation"]):
+        estimating_signal = "Documented estimating / take-off capacity requirements"
+    else:
+        notes_missing.append("estimating_need_signal: no specific estimating need found")
+
+    bim_signal = "no evidence found"
+    if any(k in all_lower for k in ["revit models", "bim level 2", "tekla structures", "shop drawing packages"]):
+        bim_signal = "Documented BIM and shop drawing packages required for project delivery"
+    else:
+        notes_missing.append("drafting_bim_need_signal: no BIM or drafting need found")
+
+    hiring_signal = "no evidence found"
+    if any(k in all_lower for k in ["current vacancies", "we are hiring", "job openings", "career opportunities"]):
+        hiring_signal = "Active careers / hiring page indicates current organizational growth"
+    else:
+        notes_missing.append("hiring_trigger: no active hiring signals found")
+
+    outsourcing_signal = "no evidence found"
+    if any(k in all_lower for k in ["subcontracting opportunities", "supply chain partner", "external specialist partner"]):
+        outsourcing_signal = "Subcontracting / external partner network indicates openness to external technical support"
+    else:
+        notes_missing.append("outsourcing_readiness: no prior outsourcing signals found")
 
     return {
         "company_snapshot": [
-            {"field": "company_name", "value": company, "label": "Verified", "source_urls": source_list},
-            {"field": "trade_fit", "value": detected_trade, "label": "Verified", "source_urls": source_list},
-            {"field": "geography", "value": detected_geo, "label": "Verified", "source_urls": source_list},
-            {"field": "location", "value": detected_loc, "label": "Verified", "source_urls": source_list},
-            {"field": "sector", "value": detected_sector, "label": "Verified", "source_urls": source_list},
-            {"field": "size", "value": detected_size, "label": "Probable", "source_urls": source_list},
-            {"field": "company_size_band", "value": detected_size, "label": "Probable", "source_urls": source_list},
-            {"field": "commercial_attractiveness", "value": detected_comm, "label": "Probable", "source_urls": source_list},
-            {"field": "overview", "value": overview, "label": "Verified", "source_urls": source_list},
+            {"field": "company_name", "value": company, "label": "Unverified", "source_urls": source_list},
+            {"field": "trade_fit", "value": detected_trade, "label": "Unverified", "source_urls": source_list},
+            {"field": "geography", "value": detected_geo, "label": "Unverified", "source_urls": source_list},
+            {"field": "location", "value": detected_loc, "label": "Unverified", "source_urls": source_list},
+            {"field": "sector", "value": detected_sector, "label": "Unverified", "source_urls": source_list},
+            {"field": "size", "value": detected_size, "label": "Unverified", "source_urls": source_list},
+            {"field": "company_size_band", "value": detected_size, "label": "Unverified", "source_urls": source_list},
+            {"field": "commercial_attractiveness", "value": detected_comm, "label": "Unverified", "source_urls": source_list},
+            {"field": "overview", "value": overview, "label": "Unverified", "source_urls": source_list},
         ],
         "decision_makers": [
-            {"field": "decision_maker_access", "value": dm_value, "label": "Probable", "source_urls": source_list},
-            {"field": "contact_first_name", "value": first_name, "label": "Probable", "source_urls": source_list},
-            {"field": "contact_last_name", "value": last_name, "label": "Probable", "source_urls": source_list},
-            {"field": "contact_title", "value": title, "label": "Probable", "source_urls": source_list},
+            {"field": "decision_maker_access", "value": dm_value, "label": "Unverified", "source_urls": source_list},
+            {"field": "contact_first_name", "value": first_name, "label": "Unverified", "source_urls": source_list},
+            {"field": "contact_last_name", "value": last_name, "label": "Unverified", "source_urls": source_list},
+            {"field": "contact_title", "value": title, "label": "Unverified", "source_urls": source_list},
         ],
         "projects_signals": [
-            {"field": "tender_volume_signal", "value": tender_signal, "label": "Probable", "source_urls": source_list},
-            {"field": "estimating_need_signal", "value": estimating_signal, "label": "Probable", "source_urls": source_list},
-            {"field": "drafting_bim_need_signal", "value": bim_signal, "label": "Probable", "source_urls": source_list},
-            {"field": "hiring_trigger", "value": hiring_signal, "label": "Probable", "source_urls": source_list},
-            {"field": "outsourcing_readiness", "value": outsourcing_signal, "label": "Probable", "source_urls": source_list},
+            {"field": "tender_volume_signal", "value": tender_signal, "label": "Unverified", "source_urls": source_list},
+            {"field": "estimating_need_signal", "value": estimating_signal, "label": "Unverified", "source_urls": source_list},
+            {"field": "drafting_bim_need_signal", "value": bim_signal, "label": "Unverified", "source_urls": source_list},
+            {"field": "hiring_trigger", "value": hiring_signal, "label": "Unverified", "source_urls": source_list},
+            {"field": "outsourcing_readiness", "value": outsourcing_signal, "label": "Unverified", "source_urls": source_list},
         ],
-        "notes_missing": [],
+        "notes_missing": notes_missing,
     }
 
 
@@ -717,7 +719,22 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
         except Exception as exc:
             logger.warning("Parallel page fetch error for %s: %s", company, exc)
 
-    # 3. LLM structured extraction with hard timeout; graceful fallback to heuristic scraper
+    # 3. Source Verification Safety Net (Req 8.1, 2.6)
+    rejected_source_notes: list[str] = []
+    try:
+        verified_pages, rejected_sources = await SourceVerification.verify_all_sources(
+            company_name=company,
+            website=website,
+            fetched_pages=fetched_pages,
+            search_results=unique_results,
+        )
+        if rejected_sources:
+            logger.info("Source verification rejected %d sources for %s", len(rejected_sources), company)
+            rejected_source_notes = SourceVerification.build_sources_rejected_note(rejected_sources)
+    except Exception as exc:
+        logger.warning("Source verification encountered an error for %s: %s", company, exc)
+
+    # 4. LLM structured extraction with hard timeout; graceful fallback to heuristic scraper
     logger.info("Fetched %d pages for LLM: %s", len(fetched_pages), [p["url"] for p in fetched_pages])
     try:
         findings_raw = await _extract_findings(company, website, fetched_pages, unique_results)
@@ -776,6 +793,8 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
     decision_makers = _parse_findings(findings_raw.get("decision_makers", []))
     projects_signals = _normalise_scoring_fields(_parse_findings(findings_raw.get("projects_signals", [])))
     notes_missing: list[str] = findings_raw.get("notes_missing", [])
+    if rejected_source_notes:
+        notes_missing.extend(rejected_source_notes)
 
     # Ensure required scoring fields are present
     existing_fields = {f.field for f in company_snapshot}
@@ -880,7 +899,7 @@ async def _extract_findings(
         f"PAGE CONTENTS:\n{page_texts}"
     )
 
-    for attempt in range(2):
+    for attempt in range(3):
         try:
             loop = asyncio.get_running_loop()
             response = await asyncio.wait_for(
@@ -899,17 +918,24 @@ async def _extract_findings(
             )
             return json.loads(response.text)
         except asyncio.TimeoutError:
-            logger.warning("Gemini extraction timed out after %ds (attempt %d)", _LLM_TIMEOUT, attempt + 1)
-            if attempt == 1:
+            logger.warning("Gemini extraction timed out after %ds (attempt %d/3)", _LLM_TIMEOUT, attempt + 1)
+            if attempt == 2:
                 raise RuntimeError(f"failed:timeout (Gemini extraction timed out after {_LLM_TIMEOUT}s)")
+            await asyncio.sleep(2.0 ** attempt)
         except json.JSONDecodeError as exc:
-            if attempt == 0:
-                logger.warning("Gemini JSON parse error (attempt 1), retrying: %s", exc)
+            if attempt < 2:
+                logger.warning("Gemini JSON parse error (attempt %d/3), retrying: %s", attempt + 1, exc)
                 full_prompt += f"\n\nPREVIOUS RESPONSE HAD A JSON ERROR: {exc}\nReturn valid JSON only."
+                await asyncio.sleep(1.0)
             else:
                 raise RuntimeError(f"llm_parse_error: {exc}") from exc
         except Exception as exc:
             exc_str = str(exc)
             if any(k in exc_str.lower() for k in ("rate_limit", "resourceexhausted", "quota", "429")):
+                if attempt < 2:
+                    backoff_delay = 2.0 * (2.0 ** attempt)
+                    logger.warning("Gemini rate limited on attempt %d/3. Backing off for %.1fs...", attempt + 1, backoff_delay)
+                    await asyncio.sleep(backoff_delay)
+                    continue
                 raise RuntimeError(f"failed:rate_limited (Gemini extraction API rate limited: {exc})") from exc
             raise RuntimeError(f"llm_extraction_error: {exc}") from exc

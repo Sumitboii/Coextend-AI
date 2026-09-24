@@ -11,6 +11,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Response
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from api.auth import verify_api_key
 from api.database import get_session, get_job, StorageAdapter
 from api.job_service import create_research_job, get_job_record
 from api.models import (
@@ -28,6 +29,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
+AuthDep = Annotated[str, Depends(verify_api_key)]
 
 
 # Health
@@ -40,7 +42,7 @@ async def health() -> dict:
 # Prospect / job lifecycle
 
 @router.post("/prospects", response_model=JobRecord, status_code=202, tags=["prospects"])
-async def create_prospect(req: ProspectRequest, session: SessionDep) -> JobRecord:
+async def create_prospect(req: ProspectRequest, session: SessionDep, _auth: AuthDep = None) -> JobRecord:
     """
     Submit a new prospect for research.
     Returns immediately with a job_id; poll GET /prospects/{job_id} for status.
@@ -49,7 +51,7 @@ async def create_prospect(req: ProspectRequest, session: SessionDep) -> JobRecor
 
 
 @router.get("/prospects", tags=["prospects"])
-async def list_prospects(session: SessionDep, limit: int = 50, offset: int = 0) -> list[dict]:
+async def list_prospects(session: SessionDep, _auth: AuthDep = None, limit: int = 50, offset: int = 0) -> list[dict]:
     """List all researched prospects ordered by score descending."""
     try:
         stmt = text(
@@ -79,7 +81,7 @@ async def list_prospects(session: SessionDep, limit: int = 50, offset: int = 0) 
 
 
 @router.get("/prospects/{job_id}", response_model=JobRecord, tags=["prospects"])
-async def get_prospect_status(job_id: str, session: SessionDep) -> JobRecord:
+async def get_prospect_status(job_id: str, session: SessionDep, _auth: AuthDep = None) -> JobRecord:
     """Return current job status and summary."""
     record = await get_job_record(job_id, session)
     if record is None:
@@ -90,7 +92,7 @@ async def get_prospect_status(job_id: str, session: SessionDep) -> JobRecord:
 # Brief
 
 @router.get("/prospects/{job_id}/brief", tags=["prospects"])
-async def get_brief(job_id: str, session: SessionDep, format: str = "json"):
+async def get_brief(job_id: str, session: SessionDep, _auth: AuthDep = None, format: str = "json"):
     """
     Return the completed research brief.
     ?format=json (default) or ?format=markdown
@@ -114,7 +116,7 @@ async def get_brief(job_id: str, session: SessionDep, format: str = "json"):
 # CRM export
 
 @router.get("/prospects/{job_id}/crm-export", tags=["prospects"])
-async def get_crm_export(job_id: str, session: SessionDep, format: str = "json"):
+async def get_crm_export(job_id: str, session: SessionDep, _auth: AuthDep = None, format: str = "json"):
     """
     Return the CRM-ready export for a completed job.
     ?format=json (default) or ?format=csv
@@ -142,7 +144,7 @@ async def get_crm_export(job_id: str, session: SessionDep, format: str = "json")
 # Outreach drafts
 
 @router.post("/prospects/{job_id}/outreach", response_model=OutreachDrafts, tags=["prospects"])
-async def generate_outreach(job_id: str, session: SessionDep) -> OutreachDrafts:
+async def generate_outreach(job_id: str, session: SessionDep, _auth: AuthDep = None) -> OutreachDrafts:
     """Generate outreach drafts on demand for a completed research job."""
     row = await get_job(session, job_id)
     if row is None:
@@ -169,7 +171,7 @@ async def generate_outreach(job_id: str, session: SessionDep) -> OutreachDrafts:
 # Proposal Drafts (08 - Proposal Templates.docx)
 
 @router.post("/prospects/{job_id}/proposal", response_model=ProposalDraft, tags=["prospects"])
-async def generate_proposal(job_id: str, session: SessionDep) -> ProposalDraft:
+async def generate_proposal(job_id: str, session: SessionDep, _auth: AuthDep = None) -> ProposalDraft:
     """Generate a tailored Scope of Work proposal draft for a prospect."""
     row = await get_job(session, job_id)
     if row is None:
@@ -193,7 +195,7 @@ async def generate_proposal(job_id: str, session: SessionDep) -> ProposalDraft:
 
 
 @router.get("/prospects/{job_id}/proposal", tags=["prospects"])
-async def get_proposal(job_id: str, session: SessionDep, format: str = "json"):
+async def get_proposal(job_id: str, session: SessionDep, _auth: AuthDep = None, format: str = "json"):
     """
     Retrieve generated proposal draft.
     ?format=json (default) or ?format=markdown
@@ -220,7 +222,7 @@ async def get_proposal(job_id: str, session: SessionDep, format: str = "json"):
 # Knowledge re-ingestion
 
 @router.post("/knowledge/ingest", tags=["knowledge"])
-async def ingest_knowledge() -> dict:
+async def ingest_knowledge(_auth: AuthDep = None) -> dict:
     """
     (Re)ingest all Coextend PDFs from the configured knowledge_base_path.
     Safe to call again when a document is updated — no code change required.
@@ -242,6 +244,7 @@ async def submit_feedback(
     job_id: str,
     feedback_in: FeedbackCreate,
     session: SessionDep,
+    _auth: AuthDep = None,
 ) -> FeedbackRecord:
     """
     Submit user feedback on scoring accuracy, brief quality, and outreach quality.
@@ -287,6 +290,7 @@ async def submit_feedback(
 async def get_job_feedback(
     job_id: str,
     session: SessionDep,
+    _auth: AuthDep = None,
 ) -> list[FeedbackRecord]:
     """Retrieve all feedback submissions for a specific job."""
     job = await get_job(session, job_id)
@@ -328,7 +332,7 @@ async def get_job_feedback(
     response_model=list[FeedbackRecord],
     tags=["feedback"],
 )
-async def list_all_feedback(session: SessionDep) -> list[FeedbackRecord]:
+async def list_all_feedback(session: SessionDep, _auth: AuthDep = None) -> list[FeedbackRecord]:
     """List all feedback across all jobs joined with company_name and lead score."""
     records = await StorageAdapter.get_all_feedback(session)
     return [FeedbackRecord(**rec) for rec in records]

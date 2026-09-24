@@ -44,6 +44,9 @@ class Settings(BaseSettings):
     # --- Demo mode (no API keys required) ---
     demo_mode: bool = False
 
+    # --- API Authentication ---
+    api_key: str = ""
+
 
 # Singleton â€” import `settings` everywhere
 settings = Settings()

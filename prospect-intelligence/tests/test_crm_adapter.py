@@ -117,6 +117,11 @@ class TestMockHubSpotAdapter:
         brief = make_brief()
         record = await adapter.export(brief)
         assert record.possible_duplicate is True
+        # Req 8.5: Confirm no files are written for duplicate
+        json_path = (tmp_path / "exports") / f"{brief.job_id}_crm.json"
+        csv_path = (tmp_path / "exports") / f"{brief.job_id}_crm.csv"
+        assert not json_path.exists()
+        assert not csv_path.exists()
 
     @pytest.mark.asyncio
     async def test_duplicate_detected_by_domain(self, tmp_path, monkeypatch):
@@ -132,6 +137,32 @@ class TestMockHubSpotAdapter:
         brief = make_brief()
         record = await adapter.export(brief)
         assert record.possible_duplicate is True
+        # Req 8.5: Confirm no files are written for duplicate
+        json_path = (tmp_path / "exports") / f"{brief.job_id}_crm.json"
+        csv_path = (tmp_path / "exports") / f"{brief.job_id}_crm.csv"
+        assert not json_path.exists()
+        assert not csv_path.exists()
+
+    @pytest.mark.asyncio
+    async def test_duplicate_prevents_file_creation_req_8_5(self, tmp_path, monkeypatch):
+        """Req 8.5: System surfaces duplicate instead of creating a new lead/record."""
+        from config import settings
+        exports_dir = tmp_path / "exports"
+        sample_path = tmp_path / "sample_crm.json"
+        sample_path.write_text(json.dumps([
+            {"company_name": "Apex Facades", "website": "https://apexfacades.com"}
+        ]))
+        monkeypatch.setattr(settings, "exports_path", str(exports_dir))
+        monkeypatch.setattr(settings, "crm_sample_path", str(sample_path))
+
+        adapter = MockHubSpotAdapter()
+        dup_brief = make_brief(job_id="dup-lead-001", company_name="Apex Facades", website="https://apexfacades.com")
+        record = await adapter.export(dup_brief)
+
+        assert record.possible_duplicate is True
+        # Assert neither JSON nor CSV file was written
+        assert not (exports_dir / f"{dup_brief.job_id}_crm.json").exists()
+        assert not (exports_dir / f"{dup_brief.job_id}_crm.csv").exists()
 
     @pytest.mark.asyncio
     async def test_export_includes_score_band(self, tmp_path, monkeypatch):
