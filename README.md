@@ -19,14 +19,14 @@ An autonomous AI-powered pre-construction prospect research and intelligence sys
 - **Email:** `ssingh46681@gmail.com`
 - **Role:** AI Automation Engineer
 - **Project Assessment:** Coextend AI Automation Engineer — Pilot Project Implementation
-- **Status:** **Completed & Verified (221/221 Automated Tests Passing)**
+- **Status:** **Completed & Verified (233/233 Automated Tests Passing)**
 
 ---
 
 ## 🚀 Key Capabilities
 
 1. **Deterministic 100-Point Lead Scoring:**
-   - 10-factor weighted scoring implemented in pure Python (`engine/scoring.py`), completely eliminating non-deterministic LLM scoring drift.
+   - 10-factor weighted scoring implemented in pure Python (`scoring/engine.py`), completely eliminating non-deterministic LLM scoring drift.
    - 5-Tier ICP priority classification:
      - `80–100`: **A+ / Priority**
      - `65–79`: **A / Strong fit**
@@ -39,15 +39,18 @@ An autonomous AI-powered pre-construction prospect research and intelligence sys
    - Generates cited executive briefs and Scope of Work proposals referencing exact standards (CWCT, Bluebeam, Revit).
 
 3. **External Real-Time Web Research Engine:**
-   - Asynchronous multi-stage external research via Tavily API with high-resilience regex fallback scraping.
+   - Asynchronous multi-stage external research via Tavily API with high-resilience fallback scraping.
    - Extracts key decision-makers (Managing Director, Commercial Director, Pre-Construction Director, Estimating Manager).
 
-4. **Strict Anti-Fabrication & Evidence Classification:**
+4. **Strict Anti-Fabrication & Evidence Classification (Req 8.1, 2.6):**
+   - Pre-validation and source verification filter out wrong-company directory pages and demo portals.
+   - Heuristic fallback strictly protects against false commercial sector assignment: educational, governmental, healthcare, legal, and non-profit entities are never mapped to construction or retail trades.
    - Every material claim is labeled as `[Verified]`, `[Probable]`, or `[Unverified]` with exact source URL citations.
    - Outputs `"no evidence found"` when data is absent instead of hallucinating.
 
 5. **CRM-Ready Export & Outreach Drafts:**
    - Direct JSON and CSV export mapped to HubSpot Contact / Company / Deal schemas.
+   - Duplicate prospect detection surfaces existing records without creating new files (Req 8.5).
    - Character-limited LinkedIn connection notes (<300 chars) and 3-step cold email cadences.
 
 6. **Interactive Demo Showcase:**
@@ -62,8 +65,9 @@ An autonomous AI-powered pre-construction prospect research and intelligence sys
 │   ├── api/                      # Routes, database models, CRM adapter, feedback service
 │   ├── engine/                   # External research, pure Python scoring, brief & proposal generators
 │   ├── knowledge/                # ChromaDB ingestion and grounded RAG retrieval
+│   ├── scoring/                  # Deterministic 100-point rubric and test suites
 │   ├── ui/                       # Frontend templates (Jinja2 + Tailwind) & Service Worker
-│   ├── tests/                    # 221 comprehensive automated tests
+│   ├── tests/                    # 233 comprehensive automated tests
 │   ├── Dockerfile                # Multi-stage production container
 │   ├── render.yaml               # 1-Click Render deployment configuration
 │   └── requirements.txt          # Python dependencies
@@ -114,7 +118,7 @@ Open **http://localhost:8000** in your browser to access the dashboard.
 cd prospect-intelligence
 pytest -v
 ```
-All **221 tests** will execute across anti-fabrication, scoring determinism, CRM adapters, and end-to-end pipelines.
+All **233 tests** will execute across anti-fabrication, scoring determinism, CRM adapters, non-commercial entities, and end-to-end pipelines.
 
 ---
 
