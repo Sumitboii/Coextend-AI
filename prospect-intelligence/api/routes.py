@@ -39,6 +39,62 @@ async def health() -> dict:
     return {"status": "ok"}
 
 
+@router.get("/diagnostic/gemini-check", tags=["ops"])
+async def diagnostic_gemini_check() -> dict:
+    """Diagnostic endpoint to inspect environment keys and verify live Gemini connectivity."""
+    import os
+    from google import genai
+    from config import settings
+
+    raw_gemini_env = os.environ.get("GEMINI_API_KEY")
+    raw_google_env = os.environ.get("GOOGLE_API_KEY")
+    raw_tavily_env = os.environ.get("TAVILY_API_KEY")
+    settings_gemini = settings.gemini_api_key
+
+    def _mask(s: str | None) -> dict:
+        if not s:
+            return {"set": False, "len": 0}
+        return {
+            "set": True,
+            "len": len(s),
+            "prefix": s[:4],
+            "suffix": s[-4:] if len(s) >= 4 else s,
+            "is_default": s in ("REPLACE_ME", ""),
+        }
+
+    diag = {
+        "env_GEMINI_API_KEY": _mask(raw_gemini_env),
+        "env_GOOGLE_API_KEY": _mask(raw_google_env),
+        "env_TAVILY_API_KEY": _mask(raw_tavily_env),
+        "settings_gemini_api_key": _mask(settings_gemini),
+        "configured_llm_model": settings.gemini_llm_model,
+    }
+
+    # Test live Gemini API call
+    key = (settings_gemini or raw_gemini_env or raw_google_env or "").strip().strip("'").strip('"')
+    if key and key != "REPLACE_ME":
+        try:
+            client = genai.Client(api_key=key)
+            models_to_test = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-flash", "gemini-3.5-flash-lite"]
+            test_results = {}
+            for m in models_to_test:
+                try:
+                    res = client.models.generate_content(
+                        model=m,
+                        contents="Respond with only: OK",
+                    )
+                    test_results[m] = {"status": "success", "text": res.text.strip()}
+                except Exception as model_err:
+                    test_results[m] = {"status": "error", "error": str(model_err)}
+            diag["api_call_test"] = test_results
+        except Exception as exc:
+            diag["api_call_test"] = {"status": "init_error", "error": str(exc)}
+    else:
+        diag["api_call_test"] = {"status": "skipped", "reason": "No valid key found in environment"}
+
+    return diag
+
+
 # Prospect / job lifecycle
 
 @router.post("/prospects", response_model=JobRecord, status_code=202, tags=["prospects"])
