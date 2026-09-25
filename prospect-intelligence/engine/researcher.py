@@ -130,40 +130,40 @@ _FIELD_ALIASES: dict[str, str] = {
 
 
 def _normalise_scoring_fields(findings_list: list) -> list:
+    """
+    Ensure canonical scoring fields are populated from aliases without duplicating fields.
+    Deduplicates findings so each field appears exactly once.
+    """
     from copy import copy
-    existing_fields = {f.field for f in findings_list}
-    new_findings = list(findings_list)
+    field_map: dict[str, Any] = {}
     for f in findings_list:
-        if f.field in _FIELD_ALIASES:
-            target_field = _FIELD_ALIASES[f.field]
-            if target_field not in existing_fields:
-                aliased = copy(f)
-                aliased.field = target_field
-                new_findings.append(aliased)
-                existing_fields.add(target_field)
-            else:
-                # If target field is empty/no evidence but alias has valid value, sync it
-                target_item = next((item for item in new_findings if item.field == target_field), None)
-                if target_item and target_item.value in ("no evidence found", "", "unknown") and f.value not in ("no evidence found", "", "unknown"):
-                    target_item.value = f.value
-                    target_item.label = f.label
-                    target_item.sources = f.sources
+        if f.field not in field_map or (field_map[f.field].value in ("no evidence found", "", "unknown") and f.value not in ("no evidence found", "", "unknown")):
+            field_map[f.field] = f
 
-    # Also reverse-sync: if geography has value and location is empty/missing, update location
-    for alias_src, alias_target in _FIELD_ALIASES.items():
-        src_item = next((item for item in new_findings if item.field == alias_src), None)
-        target_item = next((item for item in new_findings if item.field == alias_target), None)
-        if target_item and target_item.value not in ("no evidence found", "", "unknown"):
-            if src_item and src_item.value in ("no evidence found", "", "unknown"):
-                src_item.value = target_item.value
-                src_item.label = target_item.label
-                src_item.sources = target_item.sources
-            elif not src_item:
-                new_item = copy(target_item)
-                new_item.field = alias_src
-                new_findings.append(new_item)
+    # If canonical scoring target field is missing or empty, populate it from alias if available
+    for alias_src, target_field in _FIELD_ALIASES.items():
+        if alias_src in field_map:
+            src_item = field_map[alias_src]
+            if src_item.value not in ("no evidence found", "", "unknown"):
+                if target_field not in field_map or field_map[target_field].value in ("no evidence found", "", "unknown"):
+                    aliased = copy(src_item)
+                    aliased.field = target_field
+                    field_map[target_field] = aliased
 
-    return new_findings
+    # Also sync core UI fields location <-> geography, sector <-> trade_fit, size <-> company_size_band
+    reverse_core_aliases = {
+        "geography": "location",
+        "trade_fit": "sector",
+        "company_size_band": "size",
+    }
+    for core_src, core_target in reverse_core_aliases.items():
+        if core_src in field_map and field_map[core_src].value not in ("no evidence found", "", "unknown"):
+            if core_target not in field_map or field_map[core_target].value in ("no evidence found", "", "unknown"):
+                aliased = copy(field_map[core_src])
+                aliased.field = core_target
+                field_map[core_target] = aliased
+
+    return list(field_map.values())
 
 
 def _adapt_gemini_response(raw: dict) -> dict:

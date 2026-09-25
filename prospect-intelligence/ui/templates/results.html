@@ -877,12 +877,18 @@
         // Contact
         const contactEl = document.getElementById('contactGrid');
         if (brief.contact && Object.keys(brief.contact).length > 0) {
-            contactEl.innerHTML = Object.entries(brief.contact).map(([k, v]) => `
-                <div class="data-item">
-                    <strong>${formatKey(k)}</strong>
-                    ${renderDataValue(k, v, brief)}
-                </div>
-            `).join('');
+            const skipContactKeys = new Set(['about_page', 'contact_page', 'website', 'about_us_url', 'contact_us_url']);
+            const contactEntries = Object.entries(brief.contact).filter(([k, v]) => !skipContactKeys.has(k.toLowerCase()) && v);
+            if (contactEntries.length > 0) {
+                contactEl.innerHTML = contactEntries.map(([k, v]) => `
+                    <div class="data-item">
+                        <strong>${formatKey(k)}</strong>
+                        ${renderDataValue(k, v, brief)}
+                    </div>
+                `).join('');
+            } else {
+                contactEl.innerHTML = '<p style="color: var(--text-muted);">No direct contact details found.</p>';
+            }
         } else {
             contactEl.innerHTML = '<p style="color: var(--text-muted);">No direct contact information found.</p>';
         }
@@ -890,12 +896,21 @@
         // Company Research
         const researchEl = document.getElementById('companyResearchContent');
         if (brief.company_research && Object.keys(brief.company_research).length > 0) {
-            researchEl.innerHTML = Object.entries(brief.company_research).map(([k, v]) => `
-                <div style="margin-bottom: 0.75rem;">
-                    <strong style="color: var(--logo-color); display: block; font-size: 0.95rem;">${formatKey(k)}:</strong>
-                    <p style="color: var(--text-color); margin-top: 0.2rem;">${escapeHtml(String(v))}</p>
-                </div>
-            `).join('');
+            const snapshotVals = new Set(Object.values(brief.snapshot || {}).map(v => String(v).trim().toLowerCase()));
+            const researchEntries = Object.entries(brief.company_research).filter(([k, v]) => {
+                const vStr = String(v).trim().toLowerCase();
+                return vStr && !snapshotVals.has(vStr) && !['no evidence found', 'unknown', 'n/a'].includes(vStr);
+            });
+            if (researchEntries.length > 0) {
+                researchEl.innerHTML = researchEntries.map(([k, v]) => `
+                    <div style="margin-bottom: 0.75rem;">
+                        <strong style="color: var(--logo-color); display: block; font-size: 0.95rem;">${formatKey(k)}:</strong>
+                        <p style="color: var(--text-color); margin-top: 0.2rem;">${escapeHtml(String(v))}</p>
+                    </div>
+                `).join('');
+            } else {
+                researchEl.innerHTML = '<p style="color: var(--text-muted);">No additional company research available.</p>';
+            }
         } else {
             researchEl.innerHTML = '<p style="color: var(--text-muted);">No additional company research available.</p>';
         }
@@ -903,12 +918,23 @@
         // Projects & Signals
         const signalsEl = document.getElementById('projectsSignalsContent');
         if (brief.projects_signals && brief.projects_signals.length > 0) {
-            signalsEl.innerHTML = '<ul>' + brief.projects_signals.map(s => `
-                <li style="margin-bottom: 0.5rem;">
-                    <span class="evidence-tag tag-${(s.label || 'unverified').toLowerCase()}">${escapeHtml(s.label || 'Signal')}</span>
-                    <strong>${formatKey(s.field)}:</strong> ${escapeHtml(s.value)}
-                </li>
-            `).join('') + '</ul>';
+            const seenSigVals = new Set();
+            const uniqueSignals = brief.projects_signals.filter(s => {
+                const vStr = (s.value || '').trim().toLowerCase();
+                if (!vStr || vStr === 'no evidence found' || seenSigVals.has(vStr)) return false;
+                seenSigVals.add(vStr);
+                return true;
+            });
+            if (uniqueSignals.length > 0) {
+                signalsEl.innerHTML = '<ul>' + uniqueSignals.map(s => `
+                    <li style="margin-bottom: 0.5rem;">
+                        <span class="evidence-tag tag-${(s.label || 'unverified').toLowerCase()}">${escapeHtml(s.label || 'Signal')}</span>
+                        <strong>${formatKey(s.field)}:</strong> ${escapeHtml(s.value)}
+                    </li>
+                `).join('') + '</ul>';
+            } else {
+                signalsEl.innerHTML = '<p style="color: var(--text-muted);">No active project signals recorded.</p>';
+            }
         } else {
             signalsEl.innerHTML = '<p style="color: var(--text-muted);">No active project signals recorded.</p>';
         }

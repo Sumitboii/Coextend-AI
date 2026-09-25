@@ -85,8 +85,6 @@ def is_js_shell(html: str, text: str) -> bool:
         return True
     if len(html) > 1200 and len(t_clean) < 180:
         return True
-    if any(k in t_clean for k in ["you need to enable javascript", "enable javascript to run this app", "javascript is required"]):
-        return True
     return False
 
 
@@ -95,7 +93,25 @@ _RAW_PAGE_CACHE: dict[str, str] = {}
 
 def get_raw_page(url: str) -> str:
     """Retrieve raw HTML if cached, else empty string."""
-    return _RAW_PAGE_CACHE.get(url, "")
+    if not url:
+        return ""
+    if url in _RAW_PAGE_CACHE:
+        return _RAW_PAGE_CACHE[url]
+    u_norm = url.rstrip("/")
+    if u_norm in _RAW_PAGE_CACHE:
+        return _RAW_PAGE_CACHE[u_norm]
+    if (u_norm + "/") in _RAW_PAGE_CACHE:
+        return _RAW_PAGE_CACHE[u_norm + "/"]
+    try:
+        from urllib.parse import urlparse
+        target_netloc = urlparse(url).netloc.lower().replace("www.", "")
+        if target_netloc:
+            for k, v in _RAW_PAGE_CACHE.items():
+                if urlparse(k).netloc.lower().replace("www.", "") == target_netloc and v:
+                    return v
+    except Exception:
+        pass
+    return ""
 
 
 NON_BUSINESS_TRIGGERS = [
@@ -444,18 +460,23 @@ def extract_company_channels_and_links(
             results["linkedin_url"] = f"https://www.linkedin.com/company/{clean_slug}"
 
     # 2. About Us URL Extraction
-    about_hrefs = re.findall(
-        r'href=["\']([^"\']*(?:about|about-us|pages/about|who-we-are|our-story|our-company|company|our-brand)[^"\']*)["\']',
-        html,
-        re.IGNORECASE,
-    )
+    about_patterns = [
+        r'href=["\']([^"\']*(?:about-us|pages/about|our-story|our-company|who-we-are|our-brand)[^"\']*)["\']',
+        r'href=["\']([^"\']*/about[^"\']*)["\']',
+    ]
     valid_about = []
-    for h in about_hrefs:
-        if any(h.lower().endswith(ext) for ext in ('.pdf', '.jpg', '.png', '.svg', '.zip', '.css', '.js')):
-            continue
-        full_u = urljoin(base_clean, h)
-        if urlparse(full_u).netloc.replace('www.', '') == domain_clean:
-            valid_about.append(full_u)
+    for pat in about_patterns:
+        matches = re.findall(pat, html, re.IGNORECASE)
+        for h in matches:
+            if any(h.lower().endswith(ext) for ext in ('.pdf', '.jpg', '.png', '.svg', '.zip', '.css', '.js')):
+                continue
+            full_u = urljoin(base_clean, h)
+            n_loc = urlparse(full_u).netloc.replace('www.', '').lower()
+            if n_loc == domain_clean or n_loc.endswith("." + domain_clean) or domain_clean.endswith("." + n_loc):
+                if full_u not in valid_about:
+                    valid_about.append(full_u)
+        if valid_about:
+            break
             
     if valid_about:
         results["about_us_url"] = valid_about[0]
@@ -469,17 +490,23 @@ def extract_company_channels_and_links(
             results["about_us_url"] = urljoin(base_clean, "/about")
 
     # 3. Contact Us URL Extraction
-    contact_hrefs = re.findall(
-        r'href=["\']([^"\']*(?:contact|contact-us|pages/contact|get-in-touch|reach-us|support|help|customer-service|enquiries)[^"\']*)["\']',
-        html,
-        re.IGNORECASE,
-    )
+    contact_patterns = [
+        r'href=["\']([^"\']*(?:contact-us|pages/contact|get-in-touch|reach-us|customer-service|support|enquiries)[^"\']*)["\']',
+        r'href=["\']([^"\']*/contact[^"\']*)["\']',
+    ]
     valid_contact = []
-    for h in contact_hrefs:
-        if any(h.lower().endswith(ext) for ext in ('.pdf', '.jpg', '.png', '.svg', '.zip', '.css', '.js')):
-            continue
-        full_u = urljoin(base_clean, h)
-        valid_contact.append(full_u)
+    for pat in contact_patterns:
+        matches = re.findall(pat, html, re.IGNORECASE)
+        for h in matches:
+            if any(h.lower().endswith(ext) for ext in ('.pdf', '.jpg', '.png', '.svg', '.zip', '.css', '.js')):
+                continue
+            full_u = urljoin(base_clean, h)
+            n_loc = urlparse(full_u).netloc.replace('www.', '').lower()
+            if n_loc == domain_clean or n_loc.endswith("." + domain_clean) or domain_clean.endswith("." + n_loc) or "contact" in full_u.lower():
+                if full_u not in valid_contact:
+                    valid_contact.append(full_u)
+        if valid_contact:
+            break
         
     if valid_contact:
         results["contact_us_url"] = valid_contact[0]

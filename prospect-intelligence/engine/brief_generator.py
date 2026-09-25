@@ -356,81 +356,148 @@ def _build_brief(
         if ch_val:
             snapshot[ch_key] = ch_val
 
-    # Add any extra keys Gemini put in
-    for k, v in llm_snap.items():
-        if k not in snapshot and not _is_invalid_str(v):
-            snapshot[k] = v
-    # Clean empty
-    snapshot = {k: v for k, v in snapshot.items() if v}
+    # Clean empty and ignore any scoring duplicates
+    snapshot = {k: v for k, v in snapshot.items() if v and not _is_invalid_str(v)}
 
     # ── CONTACT: Gemini output OR decision_maker findings fallback ────────
     llm_contact = raw.get("contact") if isinstance(raw.get("contact"), dict) else {}
-    contact: dict[str, str] = {k: v for k, v in llm_contact.items() if not _is_invalid_str(v)}
-    if not contact:
-        dm_val = dm_fields.get("decision_maker_access") or snap_fields.get("decision_maker_access", "")
-        if not _is_invalid_str(dm_val):
-            sep = " - " if " - " in dm_val else (" – " if " – " in dm_val else None)
-            if sep:
-                parts = dm_val.split(sep, 1)
-                contact["name"]  = parts[0].strip()
-                contact["title"] = parts[1].strip()
-            else:
-                contact["name"] = dm_val
-        elif findings.decision_makers:
-            for dm in findings.decision_makers:
-                if dm.field not in ("contact_linkedin", "linkedin_url", "email", "phone") and not dm.value.startswith(("http://", "https://")) and not _is_invalid_str(dm.value):
-                    contact["name"] = dm.value[:80]
-                    break
-        if not contact.get("name") or contact.get("name").startswith(("http://", "https://")):
-            contact["name"] = f"{cname} Executive Management"
+    contact: dict[str, str] = {}
+    
+    # Pick name and title
+    dm_val = llm_contact.get("name") or dm_fields.get("decision_maker_access") or snap_fields.get("decision_maker_access", "")
+    if not _is_invalid_str(dm_val):
+        sep = " - " if " - " in dm_val else (" – " if " – " in dm_val else None)
+        if sep:
+            parts = dm_val.split(sep, 1)
+            contact["name"]  = parts[0].strip()
+            contact["title"] = parts[1].strip()
+        else:
+            contact["name"] = dm_val
+            if llm_contact.get("title") and not _is_invalid_str(llm_contact["title"]):
+                contact["title"] = llm_contact["title"]
+    elif findings.decision_makers:
+        for dm in findings.decision_makers:
+            if dm.field not in ("contact_linkedin", "linkedin_url", "email", "phone") and not dm.value.startswith(("http://", "https://")) and not _is_invalid_str(dm.value):
+                contact["name"] = dm.value[:80]
+                break
+    if not contact.get("name") or contact.get("name").startswith(("http://", "https://")):
+        contact["name"] = f"{cname} Executive Management"
 
-    # Direct contact channels
-    for contact_k, f_keys in [
-        ("linkedin_url", ("contact_linkedin", "linkedin_url", "decision_maker_linkedin")),
-        ("email", ("email", "contact_email")),
-        ("phone", ("phone", "contact_phone")),
-        ("contact_page", ("contact_us_url", "contact_page")),
-        ("about_page", ("about_us_url", "about_page")),
-    ]:
-        if contact_k not in contact:
-            for fk in f_keys:
-                fv = dm_fields.get(fk) or snap_fields.get(fk) or llm_contact.get(fk)
-                if fv and not _is_invalid_str(fv):
-                    contact[contact_k] = fv
-                    break
+    # Contact-specific direct channels (LinkedIn profile, direct email, direct phone)
+    li = llm_contact.get("linkedin_url") or dm_fields.get("contact_linkedin") or dm_fields.get("linkedin_url") or snapshot.get("linkedin_url")
+    if li and not _is_invalid_str(li):
+        contact["linkedin_url"] = li
+    
+    em = llm_contact.get("email") or dm_fields.get("email") or dm_fields.get("contact_email") or snapshot.get("contact_email")
+    if em and not _is_invalid_str(em):
+        contact["email"] = em
 
-    # ── COMPANY RESEARCH: Gemini OR all non-scoring snapshot fields ───────
+    ph = llm_contact.get("phone") or dm_fields.get("phone") or dm_fields.get("contact_phone") or snapshot.get("contact_phone")
+    if ph and not _is_invalid_str(ph):
+        contact["phone"] = ph
+
+    # ── COMPANY RESEARCH: Unique extra intelligence only (no snapshot repeats) ───────
     llm_cr = raw.get("company_research") if isinstance(raw.get("company_research"), dict) else {}
-    company_research: dict[str, str] = {k: v for k, v in llm_cr.items() if not _is_invalid_str(v)}
-    if not company_research:
-        skip = {"trade_fit","geography","company_size_band","tender_volume_signal",
-                "estimating_need_signal","drafting_bim_need_signal","hiring_trigger",
-                "decision_maker_access","outsourcing_readiness","commercial_attractiveness",
-                "company_name","location","sector","size","overview"}
-        company_research = {
-            k.replace("_", " ").title(): v
-            for k, v in snap_fields.items()
-            if k not in skip and not _is_invalid_str(v)
-        }
+    company_research: dict[str, str] = {}
+    
+    # Exclude all snapshot keys, contact keys, scoring keys, and scoring aliases
+    excluded_cr_keys = {
+        "trade_fit", "geography", "company_size_band", "tender_volume_signal",
+        "estimating_need_signal", "drafting_bim_need_signal", "hiring_trigger",
+        "decision_maker_access", "outsourcing_readiness", "commercial_attractiveness",
+        "company_name", "location", "sector", "size", "overview", "website",
+        "linkedin_url", "about_us_url", "contact_us_url", "contact_email", "contact_phone",
+        "contact_page", "about_page", "email", "phone", "name", "title",
+        "trade", "trade_type", "business_type", "company_type",
+        "country", "region", "headquarters", "based_in",
+        "company_size", "employees", "headcount", "staff_count",
+        "financials", "turnover", "revenue", "commercial",
+        "tender_activity", "projects", "tender_volume", "project_activity",
+        "estimating_need", "estimating", "quantity_surveying", "qs_need",
+        "bim_need", "drafting_need", "shop_drawings", "bim",
+        "hiring", "vacancies", "recruitment", "job_postings",
+        "decision_maker", "key_contact", "director",
+        "outsourcing", "subcontracting", "external_resources"
+    }
 
-    # ── PROJECTS & SIGNALS ────────────────────────────────────────────────
+    # Add valid Gemini-provided company research
+    for k, v in llm_cr.items():
+        k_clean = k.strip().lower()
+        if k_clean not in excluded_cr_keys and not _is_invalid_str(v):
+            company_research[k.replace("_", " ").title()] = v
+
+    # If LLM didn't provide company research, pick unique additional fields from findings
+    if not company_research:
+        for k, v in snap_fields.items():
+            k_clean = k.strip().lower()
+            if k_clean not in excluded_cr_keys and not _is_invalid_str(v):
+                # Check if this value is already in overview or snapshot
+                if v.lower() not in snapshot.get("overview", "").lower() and v not in snapshot.values():
+                    company_research[k.replace("_", " ").title()] = v
+
+    # ── PROJECTS & SIGNALS: Canonicalized & Deduplicated ──────────────────
     raw_ps = raw.get("projects_signals") or []
-    projects_signals = _parse_finding_list(raw_ps)
-    if not projects_signals:
-        # Use actual findings
+    parsed_ps = _parse_finding_list(raw_ps)
+    
+    # Standard signal canonical names mapping
+    SIGNAL_FIELD_MAP = {
+        "tender_volume_signal": "Tender & Procurement Activity",
+        "tender_volume": "Tender & Procurement Activity",
+        "tender_activity": "Tender & Procurement Activity",
+        "projects": "Project & Workload Activity",
+        "project_activity": "Project & Workload Activity",
+        "estimating_need_signal": "Estimating & Commercial Takeoff Need",
+        "estimating_need": "Estimating & Commercial Takeoff Need",
+        "estimating": "Estimating & Commercial Takeoff Need",
+        "drafting_bim_need_signal": "BIM Coordination & Shop Drawing Need",
+        "drafting_need": "BIM Coordination & Shop Drawing Need",
+        "bim_need": "BIM Coordination & Shop Drawing Need",
+        "bim": "BIM Coordination & Shop Drawing Need",
+        "hiring_trigger": "Hiring & Talent Acquisition Trigger",
+        "hiring": "Hiring & Talent Acquisition Trigger",
+        "vacancies": "Hiring & Talent Acquisition Trigger",
+        "recruitment": "Hiring & Talent Acquisition Trigger",
+        "outsourcing_readiness": "Outsourcing & Subcontracting Readiness",
+        "outsourcing": "Outsourcing & Subcontracting Readiness",
+        "subcontracting": "Outsourcing & Subcontracting Readiness",
+    }
+
+    unique_signals: list[Finding] = []
+    seen_signal_keys: set[str] = set()
+    seen_signal_values: set[str] = set()
+
+    for item in parsed_ps:
+        val_clean = item.value.strip()
+        if _is_invalid_str(val_clean):
+            continue
+        canonical_name = SIGNAL_FIELD_MAP.get(item.field, item.field.replace("_", " ").title())
+        if canonical_name not in seen_signal_keys and val_clean.lower() not in seen_signal_values:
+            seen_signal_keys.add(canonical_name)
+            seen_signal_values.add(val_clean.lower())
+            unique_signals.append(Finding(
+                field=canonical_name,
+                value=item.value,
+                label=item.label,
+                sources=item.sources,
+            ))
+
+    if not unique_signals:
         for f in findings.projects_signals:
-            if not _is_invalid_str(f.value):
-                projects_signals.append(Finding(
-                    field=f.field, value=f.value, label=f.label, sources=f.sources
+            val_clean = f.value.strip()
+            if _is_invalid_str(val_clean):
+                continue
+            canonical_name = SIGNAL_FIELD_MAP.get(f.field, f.field.replace("_", " ").title())
+            if canonical_name not in seen_signal_keys and val_clean.lower() not in seen_signal_values:
+                seen_signal_keys.add(canonical_name)
+                seen_signal_values.add(val_clean.lower())
+                unique_signals.append(Finding(
+                    field=canonical_name,
+                    value=f.value,
+                    label=f.label,
+                    sources=f.sources,
                 ))
-    # Add scoring signals as signals too
-    if not projects_signals:
-        for sf in ["tender_volume_signal","estimating_need_signal","hiring_trigger"]:
-            val = snap_fields.get(sf, "")
-            if not _is_invalid_str(val):
-                projects_signals.append(Finding(
-                    field=sf, value=val, label=EvidenceLabel.PROBABLE, sources=[]
-                ))
+
+    projects_signals = unique_signals
 
     likely_requirements   = _parse_finding_list(raw.get("likely_requirements") or [])
     pain_point_hypotheses = _parse_finding_list(raw.get("pain_point_hypotheses") or [])
