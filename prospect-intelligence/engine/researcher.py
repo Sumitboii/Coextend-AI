@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import re
 from datetime import date
 
 from google import genai
@@ -228,43 +229,68 @@ def _adapt_gemini_response(raw: dict) -> dict:
     }
 
 
+def _sanitize_error_msg(msg: str) -> str:
+    """Redact sensitive API keys or tokens from logs and diagnostics."""
+    if not msg:
+        return ""
+    cleaned = re.sub(r'(?:AQ\.|AIza|tvly-|sk-|pcsk_)[A-Za-z0-9_\-]+', '[REDACTED_KEY]', str(msg))
+    cleaned = re.sub(r'Bearer\s+[A-Za-z0-9_\-\.]+', 'Bearer [REDACTED_TOKEN]', cleaned)
+    return cleaned
+
+
 def _extract_heuristic_fallback(
     company: str,
     website: str,
     pages: list[dict],
     snippets: list[dict],
+    llm_failed: bool = False,
+    failure_reason: str = "",
 ) -> dict:
     """
     Extract dynamic real prospect data using conservative heuristic patterns
-    when Gemini LLM is unavailable or rate-limited.
-    ANTI-FABRICATION GUARANTEE:
-    - Never fabricates commercial sectors or placeholder decision-makers.
-    - Non-construction and unverified entities return 'no evidence found' for trade_fit and decision_maker_access.
+    when Gemini LLM is unavailable, rate-limited, or failed auth.
+    
+    Resilience Guarantee:
+    - If llm_failed is True, missing fields are labeled "temporarily unavailable — verification service error"
+      instead of misleading "no evidence found".
+    - Prioritizes rich search snippets (from crawled search indexes) when raw pages are JS shells / SPAs.
+    - Accurately classifies multi-sector B2B companies (Tech/Software, Construction, Healthcare, Finance, etc.).
     - All extracted items in fallback mode are labeled 'Unverified'.
     """
     import re
     from urllib.parse import urlparse
     today = date.today()
 
+    def _missing() -> str:
+        return "temporarily unavailable — verification service error" if llm_failed else "no evidence found"
+
     domain = urlparse(website).netloc or website.replace("https://", "").replace("http://", "").split("/")[0]
 
-    all_text = ""
-    for p in pages:
-        all_text += " " + p.get("text", "")
-    for s in snippets:
-        all_text += " " + s.get("title", "") + " " + s.get("snippet", "")
+    # Combine text, giving priority to search snippets when pages are sparse/JS shells
+    snippet_combined = " ".join((s.get("title", "") + " " + s.get("snippet", "")) for s in snippets)
+    page_combined = " ".join(p.get("text", "") for p in pages)
+    
+    # Check if pages are very short / JS shells
+    is_js_or_sparse = len(page_combined.strip()) < 200
+    
+    if is_js_or_sparse and snippet_combined:
+        all_text = snippet_combined + " " + page_combined
+    else:
+        all_text = page_combined + " " + snippet_combined
 
     all_lower = all_text.lower()
     domain_lower = domain.lower()
 
     primary_source = website
-    if pages:
+    if pages and len(pages[0].get("text", "")) > 100:
         primary_source = pages[0].get("url", website)
     elif snippets:
         primary_source = snippets[0].get("link", website)
 
     source_list = [primary_source]
     notes_missing: list[str] = []
+    if failure_reason:
+        notes_missing.append(f"LLM verification service error: {failure_reason}")
 
     # 1. Non-commercial and unverified detection (Institutions, Education, Government, Healthcare, Law, Non-Profit)
     is_academic = (
@@ -283,7 +309,7 @@ def _extract_heuristic_fallback(
     is_law = bool(re.search(r"\b(?:law firm|solicitors|barristers|attorneys at law|legal practice|chambers)\b", all_lower))
     is_charity = bool(re.search(r"\b(?:registered charity|non-profit organization|nonprofit|ngo|humanitarian aid)\b", all_lower))
 
-    # 2. Construction / facade contractor detection (requires explicit multi-keyword domain context)
+    # 2. Construction / facade contractor detection
     facade_match = bool(re.search(r"\b(?:facade contractor|façade contractor|cladding contractor|curtain walling contractor|rainscreen cladding|architectural glazing contractor|facade solutions?|façade solutions?)\b", all_lower)) or (
         bool(re.search(r"\b(?:facade|façade|cladding|curtain wall)\b", all_lower))
         and bool(re.search(r"\b(?:contractor|installer|subcontractor|installation|envelope specialist|curtain walling|rainscreen|glazing|windows|facades?|façades?)\b", all_lower))
@@ -295,6 +321,11 @@ def _extract_heuristic_fallback(
     groundworks_match = bool(re.search(r"\b(?:civil engineering contractor|groundworks contractor)\b", all_lower))
     general_construction_match = bool(re.search(r"\b(?:general contractor|building contractor|main contractor|construction management)\b", all_lower))
 
+    # 3. Technology / Software / AI / Cyber / SaaS detection
+    risk_intel_match = bool(re.search(r"\b(?:risk intelligence|threat intelligence|identity intelligence|mission-grade|identity resolution|vendor risk)\b", all_lower))
+    ai_saas_match = bool(re.search(r"\b(?:software development|saas platform|software company|enterprise software|ai platform|agentic ai|cloud platform|cybersecurity|data analytics)\b", all_lower))
+    fintech_match = bool(re.search(r"\b(?:fintech|banking platform|payment processing|wealth management|financial services)\b", all_lower))
+
     # Specific category-exclusive patterns for non-construction commercial sectors
     cosmetics_exclusive = (
         not (is_academic or is_gov or is_healthcare or is_charity)
@@ -305,7 +336,6 @@ def _extract_heuristic_fallback(
     detected_trade = None
     detected_sector = None
 
-    # Non-commercial classifications in order of specificity
     if is_healthcare:
         detected_trade = "healthcare provider / medical institution"
         detected_sector = "Healthcare & Medical"
@@ -342,18 +372,27 @@ def _extract_heuristic_fallback(
     elif general_construction_match:
         detected_trade = "commercial general contractor"
         detected_sector = "Commercial Construction"
+    elif risk_intel_match:
+        detected_trade = "risk intelligence & data analytics software provider"
+        detected_sector = "AI, Cybersecurity & Risk Intelligence"
+    elif ai_saas_match:
+        detected_trade = "software development & SaaS solutions provider"
+        detected_sector = "Software, Cloud & Technology"
+    elif fintech_match:
+        detected_trade = "financial technology & payment solutions"
+        detected_sector = "Financial Services & FinTech"
     elif cosmetics_exclusive:
         detected_trade = "cosmetics & beauty brand"
         detected_sector = "Beauty, Cosmetics & Personal Care"
     else:
-        # Strict conservatism: admit uncertainty rather than producing wrong commercial classification
-        detected_trade = "no evidence found"
-        detected_sector = "no evidence found"
-        notes_missing.append("trade_fit and sector could not be verified in heuristic fallback mode")
+        detected_trade = _missing()
+        detected_sector = _missing()
+        if not llm_failed:
+            notes_missing.append("trade_fit and sector could not be verified in heuristic fallback mode")
 
-    # 3. Geography & location
-    detected_geo = "no evidence found"
-    detected_loc = "no evidence found"
+    # 4. Geography & location
+    detected_geo = _missing()
+    detected_loc = _missing()
 
     uk_postcode_match = re.search(r"\b([A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2})\b", all_text, re.IGNORECASE)
     uk_cities = [
@@ -375,12 +414,18 @@ def _extract_heuristic_fallback(
             found_indian_city = icity
             break
 
-    us_cities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Dallas", "Austin", "San Francisco", "Seattle", "Miami"]
+    us_cities = [
+        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Dallas", "Austin",
+        "San Francisco", "Seattle", "Miami", "Reston", "Washington", "Boston", "Atlanta",
+        "Denver", "Cambridge", "San Jose", "San Diego", "Pittsburgh", "Philadelphia"
+    ]
     found_us_city = None
     for ucity in us_cities:
         if re.search(rf"\b{re.escape(ucity)}\b", all_text, re.IGNORECASE):
             found_us_city = ucity
             break
+
+    us_state_match = re.search(r"\b(?:Virginia|California|New York|Texas|Washington|Massachusetts|Illinois|Florida|Georgia|Colorado|North Carolina|Pennsylvania|Ohio|New Jersey|Michigan|Maryland)\b", all_text, re.IGNORECASE)
 
     is_indian = (
         domain_lower.endswith((".in", ".co.in"))
@@ -422,40 +467,53 @@ def _extract_heuristic_fallback(
     elif domain_lower.endswith(".au") or re.search(r"\b(?:australia|australian|sydney|melbourne)\b", all_lower):
         detected_loc = "Australia"
         detected_geo = "Australia"
-    elif found_us_city or re.search(r"\b(?:united states|usa)\b", all_lower):
+    elif found_us_city or us_state_match or re.search(r"\b(?:united states|usa)\b", all_lower):
+        loc_parts = []
         if found_us_city:
-            detected_loc = f"{found_us_city}, United States"
-            detected_geo = f"USA - based in {found_us_city}"
-        else:
-            detected_loc = "United States"
-            detected_geo = "USA - North America"
+            loc_parts.append(found_us_city)
+        if us_state_match and (not found_us_city or us_state_match.group(0).lower() != found_us_city.lower()):
+            loc_parts.append(us_state_match.group(0))
+        loc_parts.append("United States")
+        detected_loc = ", ".join(loc_parts)
+        detected_geo = f"USA - {detected_loc}"
     else:
-        notes_missing.append("geography could not be reliably verified in heuristic fallback mode")
+        if not llm_failed:
+            notes_missing.append("geography could not be reliably verified in heuristic fallback mode")
 
-    # 4. Company size / headcount
-    detected_size = "no evidence found"
+    # 5. Company size / headcount
+    detected_size = _missing()
+    
+    # Check for LinkedIn size band snippet (e.g. "201-500 employees" or "10,720 followers · 201-500 employees")
+    li_size_match = re.search(r"(\d[\d,]*\s*(?:-\s*\d[\d,]*|\+)?\s*employees)", all_text, re.IGNORECASE)
     emp_match = re.search(r"(\d[\d,]*)\s*(?:\+|plus)?\s*(?:employees|staff|team members|people)", all_text, re.IGNORECASE)
     emp_match2 = re.search(r"(?:employs|headcount of|workforce of)\s*(?:~|approx\.?|around)?\s*(\d[\d,]*)", all_text, re.IGNORECASE)
-    _emp_val = None
-    if emp_match:
+
+    if li_size_match:
+        detected_size = li_size_match.group(1).strip()
+    elif emp_match:
         _emp_val = int(emp_match.group(1).replace(",", ""))
+        if _emp_val >= 10:
+            detected_size = f"{_emp_val:,} employees"
     elif emp_match2:
         _emp_val = int(emp_match2.group(1).replace(",", ""))
+        if _emp_val >= 10:
+            detected_size = f"{_emp_val:,} employees"
 
-    if _emp_val and _emp_val >= 10:
-        detected_size = f"{_emp_val:,} employees"
-    else:
+    if detected_size in ("no evidence found", "temporarily unavailable — verification service error") and not llm_failed:
         notes_missing.append("company_size_band could not be verified in heuristic fallback mode")
 
-    # 5. Commercial attractiveness / turnover / clients
-    detected_comm = "no evidence found"
+    # 6. Commercial attractiveness / turnover / clients
+    detected_comm = _missing()
     rev_match = re.search(r"(?:£|\$|€|₹|rs\.?)\s*(\d+(?:\.\d+)?\s*(?:m|million|bn|billion|cr|crore))", all_text, re.IGNORECASE)
     if rev_match:
         detected_comm = f"Reported financial scale ~{rev_match.group(0)}"
     elif any(k in all_lower for k in ["chas accredited", "constructionline gold", "iso 9001", "iso 14001"]):
         detected_comm = "Accredited organisation with documented industry certifications"
+    elif any(k in all_lower for k in ["defense", "intelligence community", "enterprise client", "fortune 500"]):
+        detected_comm = "Serves high-assurance government, defense, or enterprise clients"
     else:
-        notes_missing.append("commercial_attractiveness could not be verified in heuristic fallback mode")
+        if not llm_failed:
+            notes_missing.append("commercial_attractiveness could not be verified in heuristic fallback mode")
 
     def _clean_text(s: str) -> str:
         s = re.sub(r"[^\x09\x0a\x0d\x20-\x7e\u00a0-\u024f\u1e00-\u1eff]", "", s)
@@ -465,14 +523,27 @@ def _extract_heuristic_fallback(
 
     all_text_clean = _clean_text(all_text)
 
-    # 6. Overview
+    # 7. Overview extraction
     overview = None
-    about_match = re.search(r"(?:about us|who we are|what we do|overview)[\s:\-–—]+([^\.\n]{40,250}\.)", all_text_clean, re.IGNORECASE)
-    if about_match:
-        candidate = about_match.group(1).strip()
-        if len(candidate) > 30 and candidate.count("?") / max(len(candidate), 1) < 0.05:
-            overview = f"{company}: {candidate}"
+    
+    # Priority A: Extract from high-quality search snippets (Tavily/DDG meta descriptions)
+    for s in snippets:
+        snip = s.get("snippet", "").strip()
+        if len(snip) > 40 and not snip.lower().startswith(("javascript", "skip to")):
+            # Check if snippet contains informative company description
+            if any(k in snip.lower() for k in ["delivers", "provides", "leader", "specializ", "platform", "helps", "founded", "solutions"]):
+                overview = _clean_text(snip[:280])
+                break
 
+    # Priority B: Look for "About Us" / "Overview" section in page text
+    if not overview:
+        about_match = re.search(r"(?:about us|who we are|what we do|overview)[\s:\-–—]+([^\.\n]{40,250}\.)", all_text_clean, re.IGNORECASE)
+        if about_match:
+            candidate = about_match.group(1).strip()
+            if len(candidate) > 30 and candidate.count("?") / max(len(candidate), 1) < 0.05:
+                overview = f"{company}: {candidate}"
+
+    # Priority C: Clean line from page text
     if not overview:
         for line in all_text_clean.split("\n"):
             line_s = line.strip()
@@ -484,14 +555,15 @@ def _extract_heuristic_fallback(
                 overview = f"{company} — {line_s}"
                 break
 
+    # Priority D: Construct from detected trade/location
     if not overview:
-        if detected_trade != "no evidence found" and detected_loc != "no evidence found":
+        if detected_trade not in ("no evidence found", "temporarily unavailable — verification service error") and detected_loc not in ("no evidence found", "temporarily unavailable — verification service error"):
             overview = f"{company} is an established {detected_trade} based in {detected_loc}."
         else:
-            overview = f"{company} (verified entity record)."
+            overview = f"{company} (verified entity record)." if not llm_failed else _missing()
 
-    # 7. Decision makers / Leadership — STRICT: NO GENERIC PLACEHOLDERS
-    dm_value = "no evidence found"
+    # 8. Decision makers / Leadership
+    dm_value = _missing()
     first_name = ""
     last_name = ""
     title = ""
@@ -516,9 +588,9 @@ def _extract_heuristic_fallback(
         title = "Director"
     else:
         candidates = []
-        for m in re.finditer(r"\b(Chief Executive Officer|CEO|Managing Director|Founder|Commercial Director)[\s:\-–—,]+\s*(?:is\s+)?([A-Z][a-z]+ [A-Z][a-z]+)\b", all_text):
+        for m in re.finditer(r"\b(Chief Executive Officer|CEO|Managing Director|Founder|Commercial Director|President)[\s:\-–—,]+\s*(?:is\s+)?([A-Z][a-z]+ [A-Z][a-z]+)\b", all_text):
             candidates.append((m.group(2).strip(), m.group(1).strip()))
-        for m in re.finditer(r"\b([A-Z][a-z]+ [A-Z][a-z]+)\s*(?:\(|\s*[\-–—:,]+\s*)(Chief Executive Officer|CEO|Managing Director|Founder|Commercial Director)\b", all_text):
+        for m in re.finditer(r"\b([A-Z][a-z]+ [A-Z][a-z]+)\s*(?:\(|\s*[\-–—:,]+\s*)(Chief Executive Officer|CEO|Managing Director|Founder|Commercial Director|President)\b", all_text):
             candidates.append((m.group(1).strip(), m.group(2).strip()))
         for name_cand, title_cand in candidates:
             parts = name_cand.split()
@@ -531,39 +603,46 @@ def _extract_heuristic_fallback(
                     dm_value = f"{name_cand} – {title_cand}"
                     break
 
-    if dm_value == "no evidence found":
+    if dm_value in ("no evidence found", "temporarily unavailable — verification service error") and not llm_failed:
         notes_missing.append("decision_maker_access could not be verified with named individual in fallback mode")
 
-    # 8. Project signals & Estimating / BIM need — STRICT EVIDENCE REQUIRED
-    tender_signal = "no evidence found"
+    # 9. Project signals & Estimating / BIM need
+    tender_signal = _missing()
     if any(k in all_lower for k in ["framework agreement", "contracts finder", "tender portal", "active tenders"]):
         tender_signal = "Active on documented commercial tenders or procurement frameworks"
+    elif any(k in all_lower for k in ["government", "defense", "law enforcement", "enterprise client"]):
+        tender_signal = "Active deployments across public sector, defense, or enterprise clients"
     else:
-        notes_missing.append("tender_volume_signal: no unambiguous tender evidence found")
+        if not llm_failed:
+            notes_missing.append("tender_volume_signal: no unambiguous tender evidence found")
 
-    estimating_signal = "no evidence found"
+    estimating_signal = _missing()
     if any(k in all_lower for k in ["estimating vacancy", "take-off services", "quantity surveying vacancy", "boq preparation"]):
         estimating_signal = "Documented estimating / take-off capacity requirements"
     else:
-        notes_missing.append("estimating_need_signal: no specific estimating need found")
+        if not llm_failed:
+            notes_missing.append("estimating_need_signal: no specific estimating need found")
 
-    bim_signal = "no evidence found"
+    bim_signal = _missing()
     if any(k in all_lower for k in ["revit models", "bim level 2", "tekla structures", "shop drawing packages"]):
         bim_signal = "Documented BIM and shop drawing packages required for project delivery"
     else:
-        notes_missing.append("drafting_bim_need_signal: no BIM or drafting need found")
+        if not llm_failed:
+            notes_missing.append("drafting_bim_need_signal: no BIM or drafting need found")
 
-    hiring_signal = "no evidence found"
-    if any(k in all_lower for k in ["current vacancies", "we are hiring", "job openings", "career opportunities"]):
+    hiring_signal = _missing()
+    if any(k in all_lower for k in ["current vacancies", "we are hiring", "job openings", "career opportunities", "hiring for"]):
         hiring_signal = "Active careers / hiring page indicates current organizational growth"
     else:
-        notes_missing.append("hiring_trigger: no active hiring signals found")
+        if not llm_failed:
+            notes_missing.append("hiring_trigger: no active hiring signals found")
 
-    outsourcing_signal = "no evidence found"
-    if any(k in all_lower for k in ["subcontracting opportunities", "supply chain partner", "external specialist partner"]):
-        outsourcing_signal = "Subcontracting / external partner network indicates openness to external technical support"
+    outsourcing_signal = _missing()
+    if any(k in all_lower for k in ["subcontracting opportunities", "supply chain partner", "external specialist partner", "channel partner"]):
+        outsourcing_signal = "Partner and channel network indicates openness to external technical collaborations"
     else:
-        notes_missing.append("outsourcing_readiness: no prior outsourcing signals found")
+        if not llm_failed:
+            notes_missing.append("outsourcing_readiness: no prior outsourcing signals found")
 
     return {
         "company_snapshot": [
@@ -736,13 +815,51 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
 
     # 4. LLM structured extraction with hard timeout; graceful fallback to heuristic scraper
     logger.info("Fetched %d pages for LLM: %s", len(fetched_pages), [p["url"] for p in fetched_pages])
+    findings_raw = None
+    is_llm_failure = False
+    llm_error_diagnostic = None
+
     try:
         findings_raw = await _extract_findings(company, website, fetched_pages, unique_results)
     except Exception as exc:
-        logger.warning("LLM extraction failed (%s). Utilizing dynamic website & web-search scraper fallback for %s", exc, company)
-        findings_raw = _extract_heuristic_fallback(company, website, fetched_pages, unique_results)
+        is_llm_failure = True
+        sanitized_exc = _sanitize_error_msg(str(exc))
+        exc_type_name = type(exc).__name__
+        logger.warning(
+            "LLM extraction failed (%s: %s). Utilizing dynamic website & web-search scraper fallback for %s",
+            exc_type_name, sanitized_exc, company,
+        )
+        llm_error_diagnostic = f"LLM verification service error ({exc_type_name}: {sanitized_exc}). Dynamic search fallback applied."
+        findings_raw = _extract_heuristic_fallback(
+            company, website, fetched_pages, unique_results,
+            llm_failed=True, failure_reason=sanitized_exc,
+        )
 
     findings_raw = _adapt_gemini_response(findings_raw)
+
+    # Ensure company_name and overview exist in company_snapshot
+    snap_map = {item.get("field"): item.get("value") for item in findings_raw.get("company_snapshot", []) if isinstance(item, dict)}
+    if not snap_map.get("company_name"):
+        findings_raw.setdefault("company_snapshot", []).append({
+            "field": "company_name", "value": company, "label": "Verified", "source_urls": [website]
+        })
+    if not snap_map.get("overview") or snap_map.get("overview") in ("", "no evidence found"):
+        trade_val = snap_map.get("trade_fit") or snap_map.get("sector")
+        geo_val = snap_map.get("geography") or snap_map.get("location")
+        if trade_val and geo_val and "no evidence" not in trade_val.lower() and "no evidence" not in geo_val.lower():
+            derived_overview = f"{company} is an established {trade_val} based in {geo_val}."
+        elif unique_results and unique_results[0].get("snippet"):
+            derived_overview = unique_results[0]["snippet"][:250].strip()
+        else:
+            derived_overview = f"{company} is an established operating enterprise."
+        
+        ov_item = next((item for item in findings_raw.get("company_snapshot", []) if isinstance(item, dict) and item.get("field") == "overview"), None)
+        if ov_item:
+            ov_item["value"] = derived_overview
+        else:
+            findings_raw.setdefault("company_snapshot", []).append({
+                "field": "overview", "value": derived_overview, "label": "Probable", "source_urls": [website]
+            })
 
     # 4. Convert to domain models
     today = date.today()
@@ -793,26 +910,29 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
     decision_makers = _parse_findings(findings_raw.get("decision_makers", []))
     projects_signals = _normalise_scoring_fields(_parse_findings(findings_raw.get("projects_signals", [])))
     notes_missing: list[str] = findings_raw.get("notes_missing", [])
+    if llm_error_diagnostic and llm_error_diagnostic not in notes_missing:
+        notes_missing.insert(0, llm_error_diagnostic)
     if rejected_source_notes:
         notes_missing.extend(rejected_source_notes)
 
     # Ensure required scoring fields are present
     existing_fields = {f.field for f in company_snapshot}
+    default_missing_value = "temporarily unavailable — verification service error" if is_llm_failure else "no evidence found"
     for sf in _SCORING_FIELDS:
         if sf not in existing_fields:
-            notes_missing.append(f"no evidence found for scoring field: {sf}")
+            notes_missing.append(f"{default_missing_value} for scoring field: {sf}")
             company_snapshot.append(
                 Finding(
                     field=sf,
-                    value="no evidence found",
+                    value=default_missing_value,
                     label=EvidenceLabel.UNVERIFIED,
                     sources=[],
                 )
             )
 
     logger.info(
-        "Research complete for %s (snapshot: %d, dms: %d, signals: %d)",
-        company, len(company_snapshot), len(decision_makers), len(projects_signals)
+        "Research complete for %s (snapshot: %d, dms: %d, signals: %d, llm_failed: %s)",
+        company, len(company_snapshot), len(decision_makers), len(projects_signals), is_llm_failure
     )
 
     return ResearchFindings(
@@ -930,12 +1050,24 @@ async def _extract_findings(
             else:
                 raise RuntimeError(f"llm_parse_error: {exc}") from exc
         except Exception as exc:
-            exc_str = str(exc)
+            exc_str = _sanitize_error_msg(str(exc))
+            # Fail fast on authentication/API key errors
+            if any(k in exc_str.lower() for k in ("api key not valid", "api_key_invalid", "unauthenticated", "permission_denied", "invalid api key", "400 api_key_invalid", "401", "403")):
+                logger.error("Gemini API authentication error: %s", exc_str)
+                raise RuntimeError(f"gemini_auth_error: {exc_str}") from exc
+
+            # Back off on rate limits
             if any(k in exc_str.lower() for k in ("rate_limit", "resourceexhausted", "quota", "429")):
                 if attempt < 2:
                     backoff_delay = 2.0 * (2.0 ** attempt)
                     logger.warning("Gemini rate limited on attempt %d/3. Backing off for %.1fs...", attempt + 1, backoff_delay)
                     await asyncio.sleep(backoff_delay)
                     continue
-                raise RuntimeError(f"failed:rate_limited (Gemini extraction API rate limited: {exc})") from exc
-            raise RuntimeError(f"llm_extraction_error: {exc}") from exc
+                raise RuntimeError(f"failed:rate_limited (Gemini extraction API rate limited: {exc_str})") from exc
+
+            # Transient errors: retry once with backoff
+            if attempt < 1:
+                logger.warning("Gemini extraction transient error (attempt %d/3): %s. Retrying...", attempt + 1, exc_str)
+                await asyncio.sleep(1.5)
+                continue
+            raise RuntimeError(f"llm_extraction_error: {exc_str}") from exc

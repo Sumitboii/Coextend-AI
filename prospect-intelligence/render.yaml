@@ -6,11 +6,9 @@ services:
     plan: free
     healthCheckPath: /api/v1/health
     envVars:
-      - key: OPENAI_API_KEY
+      - key: GEMINI_API_KEY
         sync: false
       - key: TAVILY_API_KEY
-        sync: false
-      - key: HUBSPOT_ACCESS_TOKEN
         sync: false
       - key: ENVIRONMENT
         value: production

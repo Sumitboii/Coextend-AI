@@ -204,7 +204,15 @@ async def generate_brief(
         f"INPUT C — Internal Knowledge (cite source document names):\n{kb_text}"
     )
 
-    raw = await _call_llm_with_retry(user_content)
+    raw = {}
+    try:
+        raw = await _call_llm_with_retry(user_content)
+    except Exception as exc:
+        logger.warning(
+            "Brief LLM generation failed (%s: %s). Constructing brief deterministically from findings and rubric scores for %s",
+            type(exc).__name__, exc, findings.job_id,
+        )
+        raw = {}
 
     # Convert raw dict → ResearchBrief
     brief = _build_brief(findings, lead_score, raw, unique_chunks)
@@ -227,6 +235,7 @@ _BRIEF_LLM_TIMEOUT = 25.0
 
 
 async def _call_llm_with_retry(user_content: str) -> dict:
+    import re
     client = _get_genai_client()
     full_prompt = _SYSTEM_PROMPT + "\n\n" + user_content
 
@@ -259,10 +268,12 @@ async def _call_llm_with_retry(user_content: str) -> dict:
             else:
                 raise RuntimeError(f"llm_parse_error: {exc}") from exc
         except Exception as exc:
-            exc_str = str(exc)
+            exc_str = re.sub(r'(?:AQ\.|AIza|tvly-|sk-|pcsk_)[A-Za-z0-9_\-]+', '[REDACTED_KEY]', str(exc))
             if any(k in exc_str.lower() for k in ("rate_limit", "resourceexhausted", "quota", "429")):
-                raise RuntimeError(f"failed:rate_limited (Brief generation API rate limited: {exc})") from exc
-            raise RuntimeError(f"llm_brief_error: {exc}") from exc
+                raise RuntimeError(f"failed:rate_limited (Brief generation API rate limited: {exc_str})") from exc
+            if any(k in exc_str.lower() for k in ("api key not valid", "api_key_invalid", "unauthenticated", "permission_denied", "400 api_key_invalid", "401", "403")):
+                raise RuntimeError(f"gemini_auth_error: {exc_str}") from exc
+            raise RuntimeError(f"llm_brief_error: {exc_str}") from exc
 
 
 def _build_brief(

@@ -36,6 +36,34 @@ async def lifespan(app: FastAPI):
     # Ensure output directories exist
     Path(settings.exports_path).mkdir(parents=True, exist_ok=True)
     Path(settings.knowledge_base_path).mkdir(parents=True, exist_ok=True)
+
+    # --- Loud Startup Validation for Production & Deployment Environments ---
+    if not settings.gemini_api_key or settings.gemini_api_key == "REPLACE_ME":
+        logger.critical(
+            "CRITICAL CONFIGURATION ERROR: GEMINI_API_KEY is not configured (current: %r). "
+            "LLM extraction and brief generation will fail. Please set GEMINI_API_KEY in your Render/environment variables.",
+            settings.gemini_api_key,
+        )
+    else:
+        logger.info(
+            "GEMINI_API_KEY verified: present (length=%d, prefix=%s...)",
+            len(settings.gemini_api_key),
+            settings.gemini_api_key[:6] if len(settings.gemini_api_key) >= 6 else "***",
+        )
+
+    if not settings.tavily_api_key or settings.tavily_api_key == "REPLACE_ME":
+        logger.critical(
+            "CRITICAL CONFIGURATION ERROR: TAVILY_API_KEY is not configured (current: %r). "
+            "Web search will fall back to DuckDuckGo HTML scraping. Please set TAVILY_API_KEY in your Render/environment variables.",
+            settings.tavily_api_key,
+        )
+    else:
+        logger.info(
+            "TAVILY_API_KEY verified: present (length=%d, prefix=%s...)",
+            len(settings.tavily_api_key),
+            settings.tavily_api_key[:6] if len(settings.tavily_api_key) >= 6 else "***",
+        )
+
     from knowledge.retrieval import warm_embed_cache
     await warm_embed_cache()
     logger.info("Startup complete.")

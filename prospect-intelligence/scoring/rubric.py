@@ -62,6 +62,14 @@ class RubricFactor:
     finding_field: str                 # field name to read from ResearchFindings
 
 
+def _is_no_evidence(v: str) -> bool:
+    v_lower = v.lower()
+    return any(k in v_lower for k in [
+        "no evidence", "unknown", "temporarily unavailable",
+        "verification service error", "not found", "unverified record"
+    ])
+
+
 def _trade_fit_score(value: str) -> int:
     """
     20 pts — strongest fit: facade / cladding / roofing contractor
@@ -69,6 +77,8 @@ def _trade_fit_score(value: str) -> int:
      5 pts — possible: general contractor with specialist sub trades
      0 pts — no evidence or poor fit
     """
+    if _is_no_evidence(value):
+        return 0
     v = value.lower()
     if any(k in v for k in ["facade", "cladding", "roofing", "façade"]):
         return 20
@@ -87,10 +97,9 @@ def _geography_score(value: str) -> int:
      5 pts — Approved expansion: Australia, Ireland, UAE, Singapore, New Zealand
      0 pts — All other markets / No evidence
     """
-    v = value.lower()
-    
-    if any(k in v for k in ["no evidence", "unknown"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     
     # PRIMARY (10 pts) - UK, US, Canada
     primary = ["uk", "united kingdom", "england", "scotland", "wales", 
@@ -124,9 +133,9 @@ def _company_size_score(value: str) -> int:
      3 pts — 500+ employees (larger, slower sales cycle but worthwhile)
      0 pts — no evidence
     """
-    v = value.lower()
-    if any(k in v for k in ["no evidence", "unknown"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     # Extract first number mentioned
     import re
     nums = [int(n.replace(",", "")) for n in re.findall(r"\d[\d,]*", v)]
@@ -148,9 +157,9 @@ def _tender_volume_score(value: str) -> int:
      8 pts — some tender / project evidence
      0 pts — no evidence
     """
-    v = value.lower()
-    if any(k in v for k in ["no evidence", "unknown"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     if any(k in v for k in ["multiple", "framework", "active", "high volume", "several"]):
         return 15
     if any(k in v for k in ["tender", "bid", "project", "pipeline"]):
@@ -164,9 +173,9 @@ def _estimating_need_score(value: str) -> int:
      5 pts — implied (growing pipeline, no estimating staff mentioned)
      0 pts — no evidence
     """
-    v = value.lower()
-    if any(k in v for k in ["no evidence", "unknown"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     if any(k in v for k in ["estimat", "take-off", "takeoff", "qs", "quantity survey", "bq", "boq"]):
         return 10
     if any(k in v for k in ["growing", "expansion", "recruit"]):
@@ -180,9 +189,9 @@ def _drafting_bim_score(value: str) -> int:
      5 pts — implied (BIM mentioned but no dedicated resource)
      0 pts — no evidence
     """
-    v = value.lower()
-    if any(k in v for k in ["no evidence", "unknown"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     if any(k in v for k in ["shop drawing", "bim", "drafting", "revit", "autocad", "tekla"]):
         return 10
     if any(k in v for k in ["design", "technical", "engineering"]):
@@ -196,9 +205,9 @@ def _hiring_trigger_score(value: str) -> int:
      5 pts — general hiring / growth signals
      0 pts — no evidence
     """
-    v = value.lower()
-    if any(k in v for k in ["no evidence", "unknown"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     if any(k in v for k in ["estimat", "bim", "drafting", "shop draw", "take-off"]):
         return 10
     if any(k in v for k in ["hiring", "recruit", "vacancy", "job", "growing team"]):
@@ -212,13 +221,13 @@ def _decision_maker_score(value: str) -> int:
      2 pts — probable decision-maker inferred from title / LinkedIn
      0 pts — no evidence
     """
-    v = value.lower()
-    if any(k in v for k in ["no evidence", "unknown", "not found"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     if any(k in v for k in ["managing director", "commercial director", "estimating director",
                               "pre-construction", "technical director", "procurement", "qs director"]):
         return 5
-    if any(k in v for k in ["director", "manager", "head of"]):
+    if any(k in v for k in ["director", "manager", "head of", "ceo", "chief executive officer", "founder"]):
         return 2
     return 0
 
@@ -229,9 +238,9 @@ def _outsourcing_readiness_score(value: str) -> int:
      2 pts — implied openness (capacity stretch, project volume)
      0 pts — no evidence
     """
-    v = value.lower()
-    if any(k in v for k in ["no evidence", "unknown"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     if any(k in v for k in ["outsourc", "subcontract", "offshore", "external resource"]):
         return 5
     if any(k in v for k in ["capaci", "stretch", "busy", "growing"]):
@@ -245,9 +254,9 @@ def _commercial_attractiveness_score(value: str) -> int:
      2 pts — average commercial profile
      0 pts — no evidence or low value
     """
-    v = value.lower()
-    if any(k in v for k in ["no evidence", "unknown"]):
+    if _is_no_evidence(value):
         return 0
+    v = value.lower()
     if any(k in v for k in ["£", "$", "million", "m turnover", "award", "prestige", "tier 1"]):
         return 5
     if any(k in v for k in ["contract", "revenue", "commercial"]):

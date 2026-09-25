@@ -1,0 +1,4934 @@
+[
+  {
+    "name": "Babel Street",
+    "website": "https://www.babelstreet.com",
+    "success": true,
+    "findings": {
+      "job_id": "8f4709d5-7e54-4609-bf0e-14286b02d273",
+      "company_snapshot": [
+        {
+          "field": "trade_fit",
+          "value": "AI-enabled data analytics and risk intelligence software provider (open-source intelligence SaaS)",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.prnewswire.com/news-releases/babel-street-announces-new-chief-executive-officer-and-chief-financial-officer-301525890.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "United States",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.thewealthmosaic.com/vendors/babel-street",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://builtin.com/company/babel-street",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "~200-500 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://builtin.com/company/babel-street",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "serves government entities, defense organizations, and private sector enterprises with active intelligence and risk management solutions",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://platform.softwareone.com/vendor/babel-street/VND-7381-1886",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "active job postings including Partnership Sales Channel Manager, Mission Director - IC, Customer Experience Manager, Senior UX Designer, Salesforce & GTM Systems Manager, and NLP/Linguistics Software Engineer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://builtin.com/company/babel-street",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Michael Southworth \u2013 CEO, Brian Daum \u2013 CFO, Jeff Chapman \u2013 Founder & Vice Chairman",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.prnewswire.com/news-releases/babel-street-announces-new-chief-executive-officer-and-chief-financial-officer-301525890.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "backed by Veritas Capital; provides mission-grade risk intelligence trusted by national security agencies and global enterprises",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_name",
+          "value": "Babel Street",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.thewealthmosaic.com/vendors/babel-street",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "1818 Library St, Reston, VA 20190, United States",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.thewealthmosaic.com/vendors/babel-street",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "Babel Street delivers mission-grade risk intelligence for organizations across government, defense, and the private sector to expose hidden identities, secure vendor networks, and identify threats.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.babelstreet.com/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.thewealthmosaic.com/vendors/babel-street",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "size",
+          "value": "223 Total Employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://builtin.com/company/babel-street",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Michael Southworth \u2013 Chief Executive Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.prnewswire.com/news-releases/babel-street-announces-new-chief-executive-officer-and-chief-financial-officer-301525890.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Brian Daum \u2013 Chief Financial Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.prnewswire.com/news-releases/babel-street-announces-new-chief-executive-officer-and-chief-financial-officer-301525890.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Jeff Chapman \u2013 Founder & Vice Chairman of the Board of Directors",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.prnewswire.com/news-releases/babel-street-announces-new-chief-executive-officer-and-chief-financial-officer-301525890.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Active platform deployments for threat intelligence, identity risk, and vendor risk management across government, defense, and commercial sectors.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "detailed financial revenue numbers",
+        "specific customer list outside of government/defense general references",
+        "outsourcing and subcontractor vendor details",
+        "Sources rejected due to company verification:",
+        "  - Search result https://www.cbinsights.com/company/babel-sistemas-de-informacion/people: Company name not mentioned in title/snippet"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 42,
+      "band": "C / Low priority",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 0,
+          "evidence": "AI-enabled data analytics and risk intelligence software provider (open-source intelligence SaaS)"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "United States"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "~200-500 employees"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 15,
+          "evidence": "serves government entities, defense organizations, and private sector enterprises with active intelligence and risk management solutions"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 5,
+          "evidence": "active job postings including Partnership Sales Channel Manager, Mission Director - IC, Customer Experience Manager, Senior UX Designer, Salesforce & GTM Systems Manager, and NLP/Linguistics Software Engineer"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 2,
+          "evidence": "Michael Southworth \u2013 CEO, Brian Daum \u2013 CFO, Jeff Chapman \u2013 Founder & Vice Chairman"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "backed by Veritas Capital; provides mission-grade risk intelligence trusted by national security agencies and global enterprises"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "8f4709d5-7e54-4609-bf0e-14286b02d273",
+      "snapshot": {
+        "company_name": "Babel Street",
+        "location": "United States",
+        "sector": "AI-enabled data analytics and risk intelligence software provider (open-source intelligence SaaS)",
+        "size": "~200-500 employees",
+        "overview": "Babel Street delivers mission-grade risk intelligence for organizations across government, defense, and the private sector to expose hidden identities, secure vendor networks, and identify threats."
+      },
+      "contact": {
+        "name": "Michael Southworth",
+        "title": "CEO, Brian Daum \u2013 CFO, Jeff Chapman \u2013 Founder & Vice Chairman"
+      },
+      "company_research": {
+        "Website": "https://www.babelstreet.com/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Active platform deployments for threat intelligence, identity risk, and vendor risk management across government, defense, and commercial sectors.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.babelstreet.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 42,
+        "band": "C / Low priority",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 0,
+            "evidence": "AI-enabled data analytics and risk intelligence software provider (open-source intelligence SaaS)"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "United States"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "~200-500 employees"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 15,
+            "evidence": "serves government entities, defense organizations, and private sector enterprises with active intelligence and risk management solutions"
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 5,
+            "evidence": "active job postings including Partnership Sales Channel Manager, Mission Director - IC, Customer Experience Manager, Senior UX Designer, Salesforce & GTM Systems Manager, and NLP/Linguistics Software Engineer"
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 2,
+            "evidence": "Michael Southworth \u2013 CEO, Brian Daum \u2013 CFO, Jeff Chapman \u2013 Founder & Vice Chairman"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "backed by Veritas Capital; provides mission-grade risk intelligence trusted by national security agencies and global enterprises"
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Babel Street operates in AI-enabled data analytics and risk intelligence software provider (open-source intelligence SaaS), based in United States. Lead score: 42/100 (C / Low priority). Recommended Strategy: Light nurture only; do not spend high-touch sales time",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Light nurture only; do not spend high-touch sales time (Target: Michael Southworth)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.babelstreet.com/",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.prnewswire.com/news-releases/babel-street-announces-new-chief-executive-officer-and-chief-financial-officer-301525890.html",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.thewealthmosaic.com/vendors/babel-street",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://builtin.com/company/babel-street",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://platform.softwareone.com/vendor/babel-street/VND-7381-1886",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:34:50.210550Z"
+    }
+  },
+  {
+    "name": "Balfour Beatty",
+    "website": "https://www.balfourbeatty.com",
+    "success": true,
+    "findings": {
+      "job_id": "61ca3f41-d3e0-45a0-862e-fbc669c38edf",
+      "company_snapshot": [
+        {
+          "field": "trade_fit",
+          "value": "infrastructure group / construction services, support services and infrastructure investments",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/about-us/understanding-balfour-beatty",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "UK, US and Hong Kong",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "26,000 to 27,000 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "Major projects and alliances including HS2, Sizewell C, Hinkley Point C, Net Zero Teesside Power, and Edinburgh Airport expansion",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "Involved in complex infrastructure and major construction programs requiring long-term contract cost management and estimation",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/about-us/understanding-balfour-beatty",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "Delivers complex engineering, design, project management, and construction services requiring technical design and BIM capabilities",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/about-us/understanding-balfour-beatty",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "Setting out to grow UK workforce by 2,000 people over the next two years and recruiting for leadership roles",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Philip Hoare \u2013 Group Chief Executive Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "Integrates local supply chains and works alongside long-standing partners and joint ventures",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "FTSE 250 component, leading international infrastructure group with multi-billion-pound turnover and extensive investment portfolio",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_name",
+          "value": "Balfour Beatty",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "London, England, UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "International infrastructure group financing, developing, building, maintaining and operating critical infrastructure assets",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/about-us/understanding-balfour-beatty",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.balfourbeatty.com/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "size",
+          "value": "26,000-27,000 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Philip Hoare \u2013 Group Chief Executive Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Myles Westcott \u2013 Chief Financial Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Charles Allen \u2013 Non-executive Group Chair",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Nick Crossfield \u2013 Divisional CEO, UK Defence, Power & Regional Infrastructure",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Phil Clifton \u2013 Divisional CEO, UK Energy & Major Projects",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Steve Tarr \u2013 Divisional CEO, Major Alliances and Joint Ventures",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "HS2, Sizewell C, Hinkley Point C, Net Zero Teesside Power, Edinburgh Airport terminal expansion",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 53,
+      "band": "B / Nurture",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 5,
+          "evidence": "infrastructure group / construction services, support services and infrastructure investments"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "UK, US and Hong Kong"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 3,
+          "evidence": "26,000 to 27,000 employees"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 8,
+          "evidence": "Major projects and alliances including HS2, Sizewell C, Hinkley Point C, Net Zero Teesside Power, and Edinburgh Airport expansion"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Involved in complex infrastructure and major construction programs requiring long-term contract cost management and estimation"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Delivers complex engineering, design, project management, and construction services requiring technical design and BIM capabilities"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 5,
+          "evidence": "Setting out to grow UK workforce by 2,000 people over the next two years and recruiting for leadership roles"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 2,
+          "evidence": "Philip Hoare \u2013 Group Chief Executive Officer"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "Integrates local supply chains and works alongside long-standing partners and joint ventures"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "FTSE 250 component, leading international infrastructure group with multi-billion-pound turnover and extensive investment portfolio"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "61ca3f41-d3e0-45a0-862e-fbc669c38edf",
+      "snapshot": {
+        "company_name": "Balfour Beatty",
+        "location": "UK, US and Hong Kong",
+        "sector": "infrastructure group / construction services, support services and infrastructure investments",
+        "size": "26,000 to 27,000 employees",
+        "overview": "International infrastructure group financing, developing, building, maintaining and operating critical infrastructure assets"
+      },
+      "contact": {
+        "name": "Philip Hoare",
+        "title": "Group Chief Executive Officer"
+      },
+      "company_research": {
+        "Website": "https://www.balfourbeatty.com/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "HS2, Sizewell C, Hinkley Point C, Net Zero Teesside Power, Edinburgh Airport terminal expansion",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.balfourbeatty.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 53,
+        "band": "B / Nurture",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 5,
+            "evidence": "infrastructure group / construction services, support services and infrastructure investments"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "UK, US and Hong Kong"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 3,
+            "evidence": "26,000 to 27,000 employees"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 8,
+            "evidence": "Major projects and alliances including HS2, Sizewell C, Hinkley Point C, Net Zero Teesside Power, and Edinburgh Airport expansion"
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Involved in complex infrastructure and major construction programs requiring long-term contract cost management and estimation"
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Delivers complex engineering, design, project management, and construction services requiring technical design and BIM capabilities"
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 5,
+            "evidence": "Setting out to grow UK workforce by 2,000 people over the next two years and recruiting for leadership roles"
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 2,
+            "evidence": "Philip Hoare \u2013 Group Chief Executive Officer"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "Integrates local supply chains and works alongside long-standing partners and joint ventures"
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "FTSE 250 component, leading international infrastructure group with multi-billion-pound turnover and extensive investment portfolio"
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Balfour Beatty operates in infrastructure group / construction services, support services and infrastructure investments, based in UK, US and Hong Kong. Lead score: 53/100 (B / Nurture). Recommended Strategy: Automated sequence; monitor triggers and revisit when hiring/tender workload appears",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Automated sequence; monitor triggers and revisit when hiring/tender workload appears (Target: Philip Hoare)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.balfourbeatty.com/",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.balfourbeatty.com/about-us/understanding-balfour-beatty",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.balfourbeatty.com/media-centre/latest/balfour-beatty-announces-leadership-changes",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.balfourbeatty.com/about-us/leadership",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:35:16.437348Z"
+    }
+  },
+  {
+    "name": "Eden Facades",
+    "website": "https://edenfacades.co.uk",
+    "success": true,
+    "findings": {
+      "job_id": "b70dec9d-9ca8-4f6e-8c69-d3c060850c3e",
+      "company_snapshot": [
+        {
+          "field": "company_name",
+          "value": "Eden Facades",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://edenfacades.co.uk/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "Basildon, Essex, UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "trade_fit",
+          "value": "facade/cladding/roofing contractor / specialist facade contractor",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "UK (London and the South East)",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "~28 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "Specialist facade contractor delivering solutions including windows, curtain walling, cladding, rainscreen systems, renders, and steel framing across new build and remediation projects.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "Active on multiple residential, education, healthcare, and commercial projects across London and the South East, including recent contract wins and shortlistings.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "Employs internal estimating staff (e.g. Trainee Estimator Sam Backhouse) and handles project estimations as part of specialist subcontractor packages.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "Maintains an in-house facade design team handling technical design requirements, shop drawings, and coordination.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/staff-profile-tony-hill-managing-director-at-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "Recently hired/featured roles such as Trainee Estimator and Fa\u00e7ade Designer, alongside expanding into larger offices.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "Operates as a specialist subcontractor working within larger main contractor supply chains (e.g., Kier Construction, Morgan Sindall, R G Carter).",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "Established 15-year track record with repeat business from major contractors and multi-million pound project portfolios across London and the South East.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/the-importance-of-a-reliable-facades-partner",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": []
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Tony Hill \u2013 Managing Director",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/staff-profile-tony-hill-managing-director-at-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/the-importance-of-a-reliable-facades-partner",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Paul Michaelson \u2013 Construction Director & Co-founder",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/our-team",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Matthew Green \u2013 Operations Manager",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/our-team",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Regular project involvement with top contractors like Kier Construction, Morgan Sindall, and R G Carter, plus ongoing remediation and recladding projects.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/the-importance-of-a-reliable-facades-partner",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "Exact annual turnover figures",
+        "Full detailed employee directory beyond key management",
+        "no evidence found for scoring field: decision_maker_access"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 90,
+      "band": "A+ / Priority",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 20,
+          "evidence": "facade/cladding/roofing contractor / specialist facade contractor"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "UK (London and the South East)"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 5,
+          "evidence": "~28 employees"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 15,
+          "evidence": "Active on multiple residential, education, healthcare, and commercial projects across London and the South East, including recent contract wins and shortlistings."
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Employs internal estimating staff (e.g. Trainee Estimator Sam Backhouse) and handles project estimations as part of specialist subcontractor packages."
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Maintains an in-house facade design team handling technical design requirements, shop drawings, and coordination."
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Recently hired/featured roles such as Trainee Estimator and Fa\u00e7ade Designer, alongside expanding into larger offices."
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Operates as a specialist subcontractor working within larger main contractor supply chains (e.g., Kier Construction, Morgan Sindall, R G Carter)."
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Established 15-year track record with repeat business from major contractors and multi-million pound project portfolios across London and the South East."
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "b70dec9d-9ca8-4f6e-8c69-d3c060850c3e",
+      "snapshot": {
+        "company_name": "Eden Facades",
+        "location": "UK (London and the South East)",
+        "sector": "facade/cladding/roofing contractor / specialist facade contractor",
+        "size": "~28 employees",
+        "overview": "Specialist facade contractor delivering solutions including windows, curtain walling, cladding, rainscreen systems, renders, and steel framing across new build and remediation projects."
+      },
+      "contact": {
+        "name": "Tony Hill \u2013 Managing Director"
+      },
+      "company_research": {
+        "Website": "https://edenfacades.co.uk/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Regular project involvement with top contractors like Kier Construction, Morgan Sindall, and R G Carter, plus ongoing remediation and recladding projects.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://edenfacades.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://edenfacades.co.uk/the-importance-of-a-reliable-facades-partner",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 90,
+        "band": "A+ / Priority",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 20,
+            "evidence": "facade/cladding/roofing contractor / specialist facade contractor"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "UK (London and the South East)"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 5,
+            "evidence": "~28 employees"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 15,
+            "evidence": "Active on multiple residential, education, healthcare, and commercial projects across London and the South East, including recent contract wins and shortlistings."
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Employs internal estimating staff (e.g. Trainee Estimator Sam Backhouse) and handles project estimations as part of specialist subcontractor packages."
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Maintains an in-house facade design team handling technical design requirements, shop drawings, and coordination."
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Recently hired/featured roles such as Trainee Estimator and Fa\u00e7ade Designer, alongside expanding into larger offices."
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Operates as a specialist subcontractor working within larger main contractor supply chains (e.g., Kier Construction, Morgan Sindall, R G Carter)."
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Established 15-year track record with repeat business from major contractors and multi-million pound project portfolios across London and the South East."
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Eden Facades operates in facade/cladding/roofing contractor / specialist facade contractor, based in UK (London and the South East). Lead score: 90/100 (A+ / Priority). Recommended Strategy: Personalised founder/director outreach; add to immediate call list; research trigger before message",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": [
+          "04 - Sales Positioning",
+          "04 - Email Outreach"
+        ]
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Personalised founder/director outreach; add to immediate call list; research trigger before message (Target: Tony Hill \u2013 Managing Director)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://edenfacades.co.uk/",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://edenfacades.co.uk/celebrating-15-years-of-eden-facades",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://edenfacades.co.uk/staff-profile-tony-hill-managing-director-at-eden-facades",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://edenfacades.co.uk/the-importance-of-a-reliable-facades-partner",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://edenfacades.co.uk/our-team",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:35:37.628683Z"
+    }
+  },
+  {
+    "name": "Autodesk",
+    "website": "https://www.autodesk.com",
+    "success": true,
+    "findings": {
+      "job_id": "50994a8b-4c2e-46e5-8762-360c60fa4f70",
+      "company_snapshot": [
+        {
+          "field": "company_name",
+          "value": "Autodesk",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.autodesk.com/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "trade_fit",
+          "value": "software/SaaS provider",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "US",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.autodesk.com/company/contact-us/office-locations",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "~14,300 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "Provides software products and services for architecture, engineering, and construction including BIM solutions",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "$7.2B revenue (2025)",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "San Francisco, California",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.autodesk.com/company/contact-us/office-locations",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "Autodesk, Inc. is an American multinational software corporation that provides software products and services for architecture, engineering, construction, manufacturing, media, education, and entertainment industries.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "size",
+          "value": "~14,300 worldwide",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": []
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Andrew Anagnost \u2013 President and CEO",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "specific active construction tenders",
+        "direct procurement contact emails",
+        "no evidence found for scoring field: decision_maker_access"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 28,
+      "band": "D / Disqualify",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 0,
+          "evidence": "software/SaaS provider"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "US"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 3,
+          "evidence": "~14,300 employees"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Provides software products and services for architecture, engineering, and construction including BIM solutions"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "$7.2B revenue (2025)"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "50994a8b-4c2e-46e5-8762-360c60fa4f70",
+      "snapshot": {
+        "company_name": "Autodesk",
+        "location": "US",
+        "sector": "software/SaaS provider",
+        "size": "~14,300 employees",
+        "overview": "Autodesk, Inc. is an American multinational software corporation that provides software products and services for architecture, engineering, construction, manufacturing, media, education, and entertainment industries."
+      },
+      "contact": {
+        "name": "Andrew Anagnost \u2013 President and CEO"
+      },
+      "company_research": {
+        "Website": "https://www.autodesk.com/"
+      },
+      "projects_signals": [],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 28,
+        "band": "D / Disqualify",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 0,
+            "evidence": "software/SaaS provider"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "US"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 3,
+            "evidence": "~14,300 employees"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Provides software products and services for architecture, engineering, and construction including BIM solutions"
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "$7.2B revenue (2025)"
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Autodesk operates in software/SaaS provider, based in US. Lead score: 28/100 (D / Disqualify). Recommended Strategy: Exclude or suppress unless new evidence changes the score",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Exclude or suppress unless new evidence changes the score (Target: Andrew Anagnost \u2013 President and CEO)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.autodesk.com/company/newsroom/corporate-info",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.autodesk.com/company/contact-us/office-locations",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:35:53.776927Z"
+    }
+  },
+  {
+    "name": "Morgan Sindall",
+    "website": "https://www.morgansindall.com",
+    "success": true,
+    "findings": {
+      "job_id": "fa745726-d419-4b26-b90d-4d99a461d9f0",
+      "company_snapshot": [
+        {
+          "field": "company_name",
+          "value": "Morgan Sindall",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "London, England, UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "Leading UK construction and regeneration group operating across public, regulated, and private sectors through specialized businesses in partnership housing, fit out, construction, and infrastructure.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.morgansindall.com/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "size",
+          "value": "8,500+ employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "trade_fit",
+          "value": "construction and regeneration group, tier 1 contractor",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindallconstruction.com/our-team/meet-our-team",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "Tier 1 \u00a35bn+ revenue, 8,500+ employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "Active across multiple public and private sectors, housing and mixed-use partnership schemes, frameworks, and infrastructure projects.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "Commercial and estimating operations distributed across divisions including fit out, construction, and infrastructure.",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "Delivers architectural and engineering design services (e.g., BakerHicks) and tunnel design within infrastructure.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "Decentralized businesses frequently hire across national and regional networks.",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "Uses a national network of suppliers and subcontractors with local knowledge.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "Annual revenues of \u00a35bn+, strong financial strength, extensive market scale in UK construction.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": []
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "John Morgan \u2013 Chief Executive",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Kelly Gangotra \u2013 Chief Financial and Commercial Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Pat Boyle \u2013 Managing Director, Morgan Sindall Construction",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindallconstruction.com/our-team/meet-our-team",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Simon Smith \u2013 Managing Director, Morgan Sindall Infrastructure",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://morgansindallinfrastructure.com/our-story/our-leadership-team",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Peter Harrison \u2013 Non-Executive Chair",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/about/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Keith Trodd \u2013 Commercial Director",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindallconstruction.com/our-team/meet-our-team",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Mark Atkinson \u2013 Finance Director",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://morgansindallinfrastructure.com/our-story/our-leadership-team",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Martyn Shepherd \u2013 Commercial Director",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://morgansindallinfrastructure.com/our-story/our-leadership-team",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Delivers housing and mixed-use partnership schemes, fit out, education, healthcare, commercial, industrial, leisure, retail, and major infrastructure projects.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "no evidence found for scoring field: decision_maker_access"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 55,
+      "band": "B / Nurture",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 5,
+          "evidence": "construction and regeneration group, tier 1 contractor"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "UK"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "Tier 1 \u00a35bn+ revenue, 8,500+ employees"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 15,
+          "evidence": "Active across multiple public and private sectors, housing and mixed-use partnership schemes, frameworks, and infrastructure projects."
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Commercial and estimating operations distributed across divisions including fit out, construction, and infrastructure."
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 5,
+          "evidence": "Delivers architectural and engineering design services (e.g., BakerHicks) and tunnel design within infrastructure."
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "Decentralized businesses frequently hire across national and regional networks."
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Uses a national network of suppliers and subcontractors with local knowledge."
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Annual revenues of \u00a35bn+, strong financial strength, extensive market scale in UK construction."
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "fa745726-d419-4b26-b90d-4d99a461d9f0",
+      "snapshot": {
+        "company_name": "Morgan Sindall",
+        "location": "UK",
+        "sector": "construction and regeneration group, tier 1 contractor",
+        "size": "Tier 1 \u00a35bn+ revenue, 8,500+ employees",
+        "overview": "Leading UK construction and regeneration group operating across public, regulated, and private sectors through specialized businesses in partnership housing, fit out, construction, and infrastructure."
+      },
+      "contact": {
+        "name": "John Morgan \u2013 Chief Executive"
+      },
+      "company_research": {
+        "Website": "https://www.morgansindall.com/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Delivers housing and mixed-use partnership schemes, fit out, education, healthcare, commercial, industrial, leisure, retail, and major infrastructure projects.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.morgansindall.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.morgansindall.com/about",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 55,
+        "band": "B / Nurture",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 5,
+            "evidence": "construction and regeneration group, tier 1 contractor"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "UK"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "Tier 1 \u00a35bn+ revenue, 8,500+ employees"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 15,
+            "evidence": "Active across multiple public and private sectors, housing and mixed-use partnership schemes, frameworks, and infrastructure projects."
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Commercial and estimating operations distributed across divisions including fit out, construction, and infrastructure."
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 5,
+            "evidence": "Delivers architectural and engineering design services (e.g., BakerHicks) and tunnel design within infrastructure."
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "Decentralized businesses frequently hire across national and regional networks."
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Uses a national network of suppliers and subcontractors with local knowledge."
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Annual revenues of \u00a35bn+, strong financial strength, extensive market scale in UK construction."
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Morgan Sindall operates in construction and regeneration group, tier 1 contractor, based in UK. Lead score: 55/100 (B / Nurture). Recommended Strategy: Automated sequence; monitor triggers and revisit when hiring/tender workload appears",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Automated sequence; monitor triggers and revisit when hiring/tender workload appears (Target: John Morgan \u2013 Chief Executive)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.morgansindall.com/",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.morgansindall.com/about",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.morgansindallconstruction.com/our-team/meet-our-team",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.morgansindall.com/about/leadership",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://morgansindallinfrastructure.com/our-story/our-leadership-team",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:36:11.829242Z"
+    }
+  },
+  {
+    "name": "Kier Group",
+    "website": "https://www.kier.co.uk",
+    "success": true,
+    "findings": {
+      "job_id": "f4567bf1-bd5c-479c-9620-62c1f0025ff4",
+      "company_snapshot": [
+        {
+          "field": "company_name",
+          "value": "Kier Group plc",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/02708030",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.kier.co.uk/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "Salford, United Kingdom",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/02708030",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "Leading infrastructure and construction group, committed to leaving lasting legacies in communities across the UK by delivering economic and social infrastructure.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "size",
+          "value": "~10,000 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "trade_fit",
+          "value": "construction contractor and infrastructure services",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "10,361 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "Active across multiple frameworks, recently appointed to deliver major projects including specialist schools, storm overflow schemes, and railway station accessibility upgrades.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "Design, planning and costing capabilities mentioned as part of Kier Construction operations.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "In-house design and engineering capability using digital tools and latest construction techniques.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "Executive and leadership appointments (e.g. Suzy Lovell appointed deputy general counsel)",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "Engages supply chain logistics and subcontractors across complex infrastructure and utilities projects.",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/who-we-are/our-leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "Reported nearly \u00a34.93 billion in 2024 revenue / \u00a34,087.8 million (2025), listed on the London Stock Exchange as a FTSE 250 constituent.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": []
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Stuart Togwell \u2013 Chief Executive",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/who-we-are/our-leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Tom Hinton \u2013 Chief Financial Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/who-we-are/our-leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Matthew Lester \u2013 Chairman",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/who-we-are/our-leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Appointed to deliver Pudsey storm overflow scheme for Yorkshire Water, specialist sixth form school building, and Greater Manchester station accessibility upgrades.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "no evidence found for scoring field: decision_maker_access"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 48,
+      "band": "C / Low priority",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 5,
+          "evidence": "construction contractor and infrastructure services"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "UK"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 3,
+          "evidence": "10,361 employees"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 15,
+          "evidence": "Active across multiple frameworks, recently appointed to deliver major projects including specialist schools, storm overflow schemes, and railway station accessibility upgrades."
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "Design, planning and costing capabilities mentioned as part of Kier Construction operations."
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 5,
+          "evidence": "In-house design and engineering capability using digital tools and latest construction techniques."
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "Executive and leadership appointments (e.g. Suzy Lovell appointed deputy general counsel)"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Engages supply chain logistics and subcontractors across complex infrastructure and utilities projects."
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Reported nearly \u00a34.93 billion in 2024 revenue / \u00a34,087.8 million (2025), listed on the London Stock Exchange as a FTSE 250 constituent."
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "f4567bf1-bd5c-479c-9620-62c1f0025ff4",
+      "snapshot": {
+        "company_name": "Kier Group plc",
+        "location": "UK",
+        "sector": "construction contractor and infrastructure services",
+        "size": "10,361 employees",
+        "overview": "Leading infrastructure and construction group, committed to leaving lasting legacies in communities across the UK by delivering economic and social infrastructure."
+      },
+      "contact": {
+        "name": "Stuart Togwell \u2013 Chief Executive"
+      },
+      "company_research": {
+        "Website": "https://www.kier.co.uk/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Appointed to deliver Pudsey storm overflow scheme for Yorkshire Water, specialist sixth form school building, and Greater Manchester station accessibility upgrades.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.kier.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 48,
+        "band": "C / Low priority",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 5,
+            "evidence": "construction contractor and infrastructure services"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "UK"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 3,
+            "evidence": "10,361 employees"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 15,
+            "evidence": "Active across multiple frameworks, recently appointed to deliver major projects including specialist schools, storm overflow schemes, and railway station accessibility upgrades."
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "Design, planning and costing capabilities mentioned as part of Kier Construction operations."
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 5,
+            "evidence": "In-house design and engineering capability using digital tools and latest construction techniques."
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "Executive and leadership appointments (e.g. Suzy Lovell appointed deputy general counsel)"
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Engages supply chain logistics and subcontractors across complex infrastructure and utilities projects."
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Reported nearly \u00a34.93 billion in 2024 revenue / \u00a34,087.8 million (2025), listed on the London Stock Exchange as a FTSE 250 constituent."
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Kier Group plc operates in construction contractor and infrastructure services, based in UK. Lead score: 48/100 (C / Low priority). Recommended Strategy: Light nurture only; do not spend high-touch sales time",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Light nurture only; do not spend high-touch sales time (Target: Stuart Togwell \u2013 Chief Executive)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.kier.co.uk/",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://find-and-update.company-information.service.gov.uk/company/02708030",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.kier.co.uk/who-we-are/our-leadership",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:36:28.735060Z"
+    }
+  },
+  {
+    "name": "Arup",
+    "website": "https://www.arup.com",
+    "success": true,
+    "findings": {
+      "job_id": "0b9963f3-e1c6-4901-823b-e1878ebb3ffc",
+      "company_snapshot": [
+        {
+          "field": "company_name",
+          "value": "Arup Group Limited",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.arup.com/en-us/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.arup.com/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "trade_fit",
+          "value": "global professional services firm providing design, engineering, architecture, planning, and advisory services for the built environment",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://ca.finance.yahoo.com/news/arup-announces-leaders-firm-kicks-164000233.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "Headquartered in London, United Kingdom; operates globally across more than 35 countries",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.arup.com/en-us/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "~17,000 to 18,000 employees (~17,996 members)",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://ca.finance.yahoo.com/news/arup-announces-leaders-firm-kicks-164000233.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.arup.com/en-us/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "Total revenue of \u00a32.2 bn for FY 2023/24",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/en-us/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "Active involvement in major global infrastructure, transport, and building projects (e.g., Copenhagen Metro, Crossrail / Elizabeth Line, High-Speed Rail)",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "Involves complex structural design, BIM, and technical consultancy services across multidisciplinary teams",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "Expanding leadership teams and driving strategic growth across the Americas and globally",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://ca.finance.yahoo.com/news/arup-announces-leaders-firm-kicks-164000233.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.arup.com/en-us/news/arup-announces-new-leaders-as-the-firm-kicks-off-plans-to-accelerate-growth-across-the-americas",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "Trust-owned firm structured around multidisciplinary collaboration and global consulting delivery",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.arup.com/en-us/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "Arup is an established global professional services firm providing design, engineering, architecture, planning, and advisory services for the built environment based in Headquartered in London, United Kingdom; operates globally across more than 35 countries.",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": []
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Jerome Frost \u2013 CEO",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/en-us/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Hilde Tonne \u2013 Non-Executive Chair",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/en-us/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Scott Russell \u2013 Americas Managing Director",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://ca.finance.yahoo.com/news/arup-announces-leaders-firm-kicks-164000233.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.arup.com/en-us/news/arup-announces-new-leaders-as-the-firm-kicks-off-plans-to-accelerate-growth-across-the-americas",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Fiona Cousins \u2013 Chief Operating Officer Total Design",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/en-us/about-us/leadership",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Active engagements including Copenhagen Metro, Crossrail / Elizabeth line, and NYC pedestrian protection designs",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.arup.com/contact-us/united-states-of-america",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "Specific software vendor preferences for BIM/estimating",
+        "Detailed subcontractor procurement lists",
+        "no evidence found for scoring field: decision_maker_access"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 43,
+      "band": "C / Low priority",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 0,
+          "evidence": "global professional services firm providing design, engineering, architecture, planning, and advisory services for the built environment"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Headquartered in London, United Kingdom; operates globally across more than 35 countries"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 3,
+          "evidence": "~17,000 to 18,000 employees (~17,996 members)"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 15,
+          "evidence": "Active involvement in major global infrastructure, transport, and building projects (e.g., Copenhagen Metro, Crossrail / Elizabeth Line, High-Speed Rail)"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "Involves complex structural design, BIM, and technical consultancy services across multidisciplinary teams"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "Expanding leadership teams and driving strategic growth across the Americas and globally"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "Trust-owned firm structured around multidisciplinary collaboration and global consulting delivery"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Total revenue of \u00a32.2 bn for FY 2023/24"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "0b9963f3-e1c6-4901-823b-e1878ebb3ffc",
+      "snapshot": {
+        "company_name": "Arup Group Limited",
+        "location": "Headquartered in London, United Kingdom; operates globally across more than 35 countries",
+        "sector": "global professional services firm providing design, engineering, architecture, planning, and advisory services for the built environment",
+        "size": "~17,000 to 18,000 employees (~17,996 members)",
+        "overview": "Arup is an established global professional services firm providing design, engineering, architecture, planning, and advisory services for the built environment based in Headquartered in London, United Kingdom; operates globally across more than 35 countries."
+      },
+      "contact": {
+        "name": "Jerome Frost \u2013 CEO"
+      },
+      "company_research": {
+        "Website": "https://www.arup.com/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Active engagements including Copenhagen Metro, Crossrail / Elizabeth line, and NYC pedestrian protection designs",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.arup.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.arup.com/contact-us/united-states-of-america",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 43,
+        "band": "C / Low priority",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 0,
+            "evidence": "global professional services firm providing design, engineering, architecture, planning, and advisory services for the built environment"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Headquartered in London, United Kingdom; operates globally across more than 35 countries"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 3,
+            "evidence": "~17,000 to 18,000 employees (~17,996 members)"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 15,
+            "evidence": "Active involvement in major global infrastructure, transport, and building projects (e.g., Copenhagen Metro, Crossrail / Elizabeth Line, High-Speed Rail)"
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "Involves complex structural design, BIM, and technical consultancy services across multidisciplinary teams"
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "Expanding leadership teams and driving strategic growth across the Americas and globally"
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "Trust-owned firm structured around multidisciplinary collaboration and global consulting delivery"
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Total revenue of \u00a32.2 bn for FY 2023/24"
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Arup Group Limited operates in global professional services firm providing design, engineering, architecture, planning, and advisory services for the built environment, based in Headquartered in London, United Kingdom; operates globally across more than 35 countries. Lead score: 43/100 (C / Low priority). Recommended Strategy: Light nurture only; do not spend high-touch sales time",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Light nurture only; do not spend high-touch sales time (Target: Jerome Frost \u2013 CEO)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.arup.com/",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.arup.com/en-us/about-us/leadership",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://ca.finance.yahoo.com/news/arup-announces-leaders-firm-kicks-164000233.html",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.arup.com/en-us/news/arup-announces-new-leaders-as-the-firm-kicks-off-plans-to-accelerate-growth-across-the-americas",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.arup.com/contact-us/united-states-of-america",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:36:46.243691Z"
+    }
+  },
+  {
+    "name": "Procore",
+    "website": "https://www.procore.com",
+    "success": true,
+    "findings": {
+      "job_id": "a53a893e-d347-4c82-8db4-4a34a66b09dc",
+      "company_snapshot": [
+        {
+          "field": "company_name",
+          "value": "Procore Technologies, Inc.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://finance.yahoo.com/news/procore-advances-future-construction-ai-140000490.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.nasdaq.com/press-release/procore-announces-appointment-ajei-gopal-chief-executive-officer-2025-09-22",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.procore.com/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "trade_fit",
+          "value": "construction management software / SaaS provider",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://finance.yahoo.com/news/procore-advances-future-construction-ai-140000490.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.nasdaq.com/press-release/procore-announces-appointment-ajei-gopal-chief-executive-officer-2025-09-22",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "United States",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "Carpinteria, California, US",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "Procore is a leading global provider of construction management software, offering a unified technology platform that drives efficiency, manages workflows, and mitigates risk for the construction industry.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://finance.yahoo.com/news/procore-advances-future-construction-ai-140000490.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.nasdaq.com/press-release/procore-announces-appointment-ajei-gopal-chief-executive-officer-2025-09-22",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "size",
+          "value": "~4,400 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "~4,421 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "Over three million projects have run on Procore across 150+ countries.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://finance.yahoo.com/news/procore-advances-future-construction-ai-140000490.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "Offers building information modelling and drawing management solutions through its platform.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "Public company listed on NYSE (PCOR) with annual revenue of approximately $1.3 billion.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.nasdaq.com/press-release/procore-announces-appointment-ajei-gopal-chief-executive-officer-2025-09-22",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": []
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Ajei Gopal \u2013 President and Chief Executive Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.nasdaq.com/press-release/procore-announces-appointment-ajei-gopal-chief-executive-officer-2025-09-22",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Tooey Courtemanche \u2013 Founder and Chairman of the Board",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.nasdaq.com/press-release/procore-announces-appointment-ajei-gopal-chief-executive-officer-2025-09-22",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Steve Davis \u2013 President, Product and Technology",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Rachel Pyles \u2013 Chief Financial Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/company",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Active platform supporting over 3 million projects globally with continuous AI and workflow innovations.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://finance.yahoo.com/news/procore-advances-future-construction-ai-140000490.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "Specific active third-party subcontractor RFPs",
+        "Detailed direct contact email addresses for all department heads",
+        "no evidence found for scoring field: decision_maker_access"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 31,
+      "band": "D / Disqualify",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 5,
+          "evidence": "construction management software / SaaS provider"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "United States"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 3,
+          "evidence": "~4,421 employees"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 8,
+          "evidence": "Over three million projects have run on Procore across 150+ countries."
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "Offers building information modelling and drawing management solutions through its platform."
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Public company listed on NYSE (PCOR) with annual revenue of approximately $1.3 billion."
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "a53a893e-d347-4c82-8db4-4a34a66b09dc",
+      "snapshot": {
+        "company_name": "Procore Technologies, Inc.",
+        "location": "United States",
+        "sector": "construction management software / SaaS provider",
+        "size": "~4,421 employees",
+        "overview": "Procore is a leading global provider of construction management software, offering a unified technology platform that drives efficiency, manages workflows, and mitigates risk for the construction industry."
+      },
+      "contact": {
+        "name": "Ajei Gopal \u2013 President and Chief Executive Officer"
+      },
+      "company_research": {
+        "Website": "https://www.procore.com/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Active platform supporting over 3 million projects globally with continuous AI and workflow innovations.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.procore.com/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://finance.yahoo.com/news/procore-advances-future-construction-ai-140000490.html",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 31,
+        "band": "D / Disqualify",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 5,
+            "evidence": "construction management software / SaaS provider"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "United States"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 3,
+            "evidence": "~4,421 employees"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 8,
+            "evidence": "Over three million projects have run on Procore across 150+ countries."
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "Offers building information modelling and drawing management solutions through its platform."
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Public company listed on NYSE (PCOR) with annual revenue of approximately $1.3 billion."
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Procore Technologies, Inc. operates in construction management software / SaaS provider, based in United States. Lead score: 31/100 (D / Disqualify). Recommended Strategy: Exclude or suppress unless new evidence changes the score",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Exclude or suppress unless new evidence changes the score (Target: Ajei Gopal \u2013 President and Chief Executive Officer)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.procore.com/",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.procore.com/company",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://finance.yahoo.com/news/procore-advances-future-construction-ai-140000490.html",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.nasdaq.com/press-release/procore-announces-appointment-ajei-gopal-chief-executive-officer-2025-09-22",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:37:01.009938Z"
+    }
+  },
+  {
+    "name": "Skanska UK",
+    "website": "https://www.skanska.co.uk",
+    "success": true,
+    "findings": {
+      "job_id": "d2ac1ad2-1876-47e0-9cef-3756aae83055",
+      "company_snapshot": [
+        {
+          "field": "company_name",
+          "value": "Skanska UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/about-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "1 Hercules Way, Leavesden, Watford, United Kingdom, WD25 7GS",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/00191408",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "One of the UK\u2019s leading contractors, delivering projects across sectors including real estate, defence, education, highways, rail, and water.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/about-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.skanska.co.uk/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "size",
+          "value": "3,300+ local experts in the UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/about-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "trade_fit",
+          "value": "general contractor / construction of commercial buildings and infrastructure",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/00191408",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.skanska.com/uk/en-gb/about-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/about-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "3,300+ employees in the UK",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/about-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "Delivering major buildings and infrastructure across Britain including real estate, defense, education, highways, rail, and water projects.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.skanska.com/uk/en-gb/about-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "Preconstruction and business development managers identified across multiple divisions (e.g. Cementation Skanska, Construction, MEP).",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/contact-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": [
+            {
+              "url": "https://www.skanska.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "Active recruitment for various project roles and support functions.",
+          "label": "Probable",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/contact-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Katy Dowding \u2013 CEO; Meliha Duymaz \u2013 Chief Financial Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "Uses specialist engineering, piling, foundations, ground engineering, fabrications, and supply chain partners for major infrastructure projects.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/contact-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "Skanska Group reported \u00a314.3 bn total revenue in 2025; major Tier 1 UK contractor celebrating 25 years in the UK market.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb/about-us",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Katy Dowding \u2013 CEO",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Meliha Duymaz \u2013 Chief Financial Officer",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.com/uk/en-gb",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Major projects include Lower Thames Crossing, Black Cat junction, and various highways, real estate, and infrastructure projects across the UK.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.skanska.com/uk/en-gb",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "Specific software stack used for BIM and drafting",
+        "Detailed direct email addresses for all executive management members",
+        "Sources rejected due to company verification:",
+        "  - https://find-and-update.company-information.service.gov.uk/company/00191408: Source page does not mention 'Skanska UK'",
+        "  - https://www.skanska.com/uk/en-gb/contact-us: Source page does not mention 'Skanska UK'",
+        "  - https://www.skanska.com/group/en: Source page does not mention 'Skanska UK'",
+        "  - https://www.skanska.com/group/en/investors/corporate-governance/management-remuneration: Source page does not mention 'Skanska UK'",
+        "  - https://www.skanska.com/uk/en-gb/about-us/emt: Source page does not mention 'Skanska UK'",
+        "  - Search result https://find-and-update.company-information.service.gov.uk/company/00191408: Company name not mentioned in title/snippet",
+        "  - Search result https://www.linkedin.com/company/skanska: Company name not mentioned in title/snippet",
+        "  - Search result https://www.skanska.com/uk/en-gb/contact-us: Company name not mentioned in title/snippet",
+        "  - Search result https://www.skanska.com/group/en: Company name not mentioned in title/snippet",
+        "  - Search result https://www.skanska.com/group/en/investors/corporate-governance/management-remuneration: Company name not mentioned in title/snippet",
+        "  ... and 3 more sources rejected"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 38,
+      "band": "C / Low priority",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 5,
+          "evidence": "general contractor / construction of commercial buildings and infrastructure"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "UK"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 3,
+          "evidence": "3,300+ employees in the UK"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 8,
+          "evidence": "Delivering major buildings and infrastructure across Britain including real estate, defense, education, highways, rail, and water projects."
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "Preconstruction and business development managers identified across multiple divisions (e.g. Cementation Skanska, Construction, MEP)."
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 5,
+          "evidence": "Active recruitment for various project roles and support functions."
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 2,
+          "evidence": "Katy Dowding \u2013 CEO; Meliha Duymaz \u2013 Chief Financial Officer"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "Uses specialist engineering, piling, foundations, ground engineering, fabrications, and supply chain partners for major infrastructure projects."
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Skanska Group reported \u00a314.3 bn total revenue in 2025; major Tier 1 UK contractor celebrating 25 years in the UK market."
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "d2ac1ad2-1876-47e0-9cef-3756aae83055",
+      "snapshot": {
+        "company_name": "Skanska UK",
+        "location": "UK",
+        "sector": "general contractor / construction of commercial buildings and infrastructure",
+        "size": "3,300+ employees in the UK",
+        "overview": "One of the UK\u2019s leading contractors, delivering projects across sectors including real estate, defence, education, highways, rail, and water."
+      },
+      "contact": {
+        "name": "Katy Dowding",
+        "title": "CEO; Meliha Duymaz \u2013 Chief Financial Officer"
+      },
+      "company_research": {
+        "Website": "https://www.skanska.co.uk/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Major projects include Lower Thames Crossing, Black Cat junction, and various highways, real estate, and infrastructure projects across the UK.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://www.skanska.co.uk/",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            },
+            {
+              "url": "https://www.skanska.com/uk/en-gb",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 38,
+        "band": "C / Low priority",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 5,
+            "evidence": "general contractor / construction of commercial buildings and infrastructure"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "UK"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 3,
+            "evidence": "3,300+ employees in the UK"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 8,
+            "evidence": "Delivering major buildings and infrastructure across Britain including real estate, defense, education, highways, rail, and water projects."
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "Preconstruction and business development managers identified across multiple divisions (e.g. Cementation Skanska, Construction, MEP)."
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 5,
+            "evidence": "Active recruitment for various project roles and support functions."
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 2,
+            "evidence": "Katy Dowding \u2013 CEO; Meliha Duymaz \u2013 Chief Financial Officer"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "Uses specialist engineering, piling, foundations, ground engineering, fabrications, and supply chain partners for major infrastructure projects."
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Skanska Group reported \u00a314.3 bn total revenue in 2025; major Tier 1 UK contractor celebrating 25 years in the UK market."
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Skanska UK operates in general contractor / construction of commercial buildings and infrastructure, based in UK. Lead score: 38/100 (C / Low priority). Recommended Strategy: Light nurture only; do not spend high-touch sales time",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Light nurture only; do not spend high-touch sales time (Target: Katy Dowding)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.skanska.com/uk/en-gb/about-us",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://find-and-update.company-information.service.gov.uk/company/00191408",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.skanska.co.uk/",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.skanska.com/uk/en-gb",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        },
+        {
+          "url": "https://www.skanska.com/uk/en-gb/contact-us",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:37:16.026541Z"
+    }
+  },
+  {
+    "name": "Mace Group",
+    "website": "https://www.macegroup.com",
+    "success": true,
+    "findings": {
+      "job_id": "0cb78961-d538-45e9-b421-b1d90acffff9",
+      "company_snapshot": [
+        {
+          "field": "company_name",
+          "value": "Mace Group Limited",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "location",
+          "value": "155 Moorgate, London, England, EC2M 6XB",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "overview",
+          "value": "Mace Group is a global consultancy and construction firm operating through its core engines (Consult and Construct), providing program and project management, advisory, cost and commercial management, and construction services.",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "website",
+          "value": "https://www.macegroup.com/",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "size",
+          "value": "6,906 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "trade_fit",
+          "value": "consultancy and construction firm / major contractor",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "geography",
+          "value": "United Kingdom",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "company_size_band",
+          "value": "6,906 employees",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "tender_volume_signal",
+          "value": "Active global capital projects including Port of Newcastle infrastructure upgrade, Metrolinx GO and Subways expansion programs, and MTR PMO",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "estimating_need_signal",
+          "value": "Provides cost and commercial management services and engages in large-scale capital project delivery",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "drafting_bim_need_signal",
+          "value": "Involves technical design requirements, modern methods of construction, and infrastructure delivery across multiple sectors",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "hiring_trigger",
+          "value": "International leadership appointments in key positions including expansion in Montr\u00e9al and global growth initiatives",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "outsourcing_readiness",
+          "value": "Engages supply chains, subcontractors, and partners to deliver major programs and infrastructure projects globally",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "commercial_attractiveness",
+          "value": "Annual revenue of approximately $3.6B with multiple global operations and ongoing major international framework contracts",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "no evidence found",
+          "label": "Unverified",
+          "sources": []
+        }
+      ],
+      "decision_makers": [
+        {
+          "field": "decision_maker_access",
+          "value": "Jason Millett \u2013 Group Chief Executive",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        },
+        {
+          "field": "decision_maker_access",
+          "value": "Davendra Dabasia \u2013 CEO of Mace Consult",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Port of Newcastle infrastructure upgrade, Metrolinx GO and Subways expansion programs",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "notes_missing": [
+        "Sources rejected due to company verification:",
+        "  - Search result https://rocketreach.co/mace-innovations-management_b40527dffc1cbcb3: Company name not mentioned in title/snippet",
+        "  - Search result https://rocketreach.co/chris-mace-email_21281684: Company name not mentioned in title/snippet",
+        "  - Search result https://www.linkedin.com/company/mace-group: Company name not mentioned in title/snippet",
+        "  - Search result https://www.cbinsights.com/company/hodges-mace-benefits-group: Company name not mentioned in title/snippet",
+        "  - Search result https://www.macegroup.com/en-us: Company name not mentioned in title/snippet",
+        "  - Search result https://www.macegroup.com/en-us/who-we-are: Company name not mentioned in title/snippet",
+        "no evidence found for scoring field: decision_maker_access"
+      ],
+      "sources_rejected": []
+    },
+    "lead_score": {
+      "rubric_version": "v1.0",
+      "total": 48,
+      "band": "C / Low priority",
+      "breakdown": [
+        {
+          "factor": "trade_service_fit",
+          "weight": 20,
+          "points_awarded": 5,
+          "evidence": "consultancy and construction firm / major contractor"
+        },
+        {
+          "factor": "geography",
+          "weight": 10,
+          "points_awarded": 10,
+          "evidence": "United Kingdom"
+        },
+        {
+          "factor": "company_size_capacity",
+          "weight": 10,
+          "points_awarded": 3,
+          "evidence": "6,906 employees"
+        },
+        {
+          "factor": "tender_project_volume",
+          "weight": 15,
+          "points_awarded": 15,
+          "evidence": "Active global capital projects including Port of Newcastle infrastructure upgrade, Metrolinx GO and Subways expansion programs, and MTR PMO"
+        },
+        {
+          "factor": "estimating_need",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "Provides cost and commercial management services and engages in large-scale capital project delivery"
+        },
+        {
+          "factor": "drafting_bim_need",
+          "weight": 10,
+          "points_awarded": 5,
+          "evidence": "Involves technical design requirements, modern methods of construction, and infrastructure delivery across multiple sectors"
+        },
+        {
+          "factor": "hiring_capacity_trigger",
+          "weight": 10,
+          "points_awarded": 0,
+          "evidence": "International leadership appointments in key positions including expansion in Montr\u00e9al and global growth initiatives"
+        },
+        {
+          "factor": "decision_maker_access",
+          "weight": 5,
+          "points_awarded": 0,
+          "evidence": "no evidence found"
+        },
+        {
+          "factor": "outsourcing_readiness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Engages supply chains, subcontractors, and partners to deliver major programs and infrastructure projects globally"
+        },
+        {
+          "factor": "commercial_attractiveness",
+          "weight": 5,
+          "points_awarded": 5,
+          "evidence": "Annual revenue of approximately $3.6B with multiple global operations and ongoing major international framework contracts"
+        }
+      ],
+      "zero_evidence_factors": []
+    },
+    "brief": {
+      "job_id": "0cb78961-d538-45e9-b421-b1d90acffff9",
+      "snapshot": {
+        "company_name": "Mace Group Limited",
+        "location": "United Kingdom",
+        "sector": "consultancy and construction firm / major contractor",
+        "size": "6,906 employees",
+        "overview": "Mace Group is a global consultancy and construction firm operating through its core engines (Consult and Construct), providing program and project management, advisory, cost and commercial management, and construction services."
+      },
+      "contact": {
+        "name": "Jason Millett \u2013 Group Chief Executive"
+      },
+      "company_research": {
+        "Website": "https://www.macegroup.com/"
+      },
+      "projects_signals": [
+        {
+          "field": "tender_volume_signal",
+          "value": "Port of Newcastle infrastructure upgrade, Metrolinx GO and Subways expansion programs",
+          "label": "Verified",
+          "sources": [
+            {
+              "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+              "title": null,
+              "date_reviewed": "2026-09-25"
+            }
+          ]
+        }
+      ],
+      "likely_requirements": [],
+      "pain_point_hypotheses": [],
+      "lead_score": {
+        "rubric_version": "v1.0",
+        "total": 48,
+        "band": "C / Low priority",
+        "breakdown": [
+          {
+            "factor": "trade_service_fit",
+            "weight": 20,
+            "points_awarded": 5,
+            "evidence": "consultancy and construction firm / major contractor"
+          },
+          {
+            "factor": "geography",
+            "weight": 10,
+            "points_awarded": 10,
+            "evidence": "United Kingdom"
+          },
+          {
+            "factor": "company_size_capacity",
+            "weight": 10,
+            "points_awarded": 3,
+            "evidence": "6,906 employees"
+          },
+          {
+            "factor": "tender_project_volume",
+            "weight": 15,
+            "points_awarded": 15,
+            "evidence": "Active global capital projects including Port of Newcastle infrastructure upgrade, Metrolinx GO and Subways expansion programs, and MTR PMO"
+          },
+          {
+            "factor": "estimating_need",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "Provides cost and commercial management services and engages in large-scale capital project delivery"
+          },
+          {
+            "factor": "drafting_bim_need",
+            "weight": 10,
+            "points_awarded": 5,
+            "evidence": "Involves technical design requirements, modern methods of construction, and infrastructure delivery across multiple sectors"
+          },
+          {
+            "factor": "hiring_capacity_trigger",
+            "weight": 10,
+            "points_awarded": 0,
+            "evidence": "International leadership appointments in key positions including expansion in Montr\u00e9al and global growth initiatives"
+          },
+          {
+            "factor": "decision_maker_access",
+            "weight": 5,
+            "points_awarded": 0,
+            "evidence": "no evidence found"
+          },
+          {
+            "factor": "outsourcing_readiness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Engages supply chains, subcontractors, and partners to deliver major programs and infrastructure projects globally"
+          },
+          {
+            "factor": "commercial_attractiveness",
+            "weight": 5,
+            "points_awarded": 5,
+            "evidence": "Annual revenue of approximately $3.6B with multiple global operations and ongoing major international framework contracts"
+          }
+        ],
+        "zero_evidence_factors": []
+      },
+      "recommended_approach": {
+        "summary": "Mace Group Limited operates in consultancy and construction firm / major contractor, based in United Kingdom. Lead score: 48/100 (C / Low priority). Recommended Strategy: Light nurture only; do not spend high-touch sales time",
+        "angle": "Review findings for positioning angle",
+        "key_capabilities_to_lead_with": [
+          "Facade-specialist estimating & BOQ",
+          "Shop drawing production",
+          "BIM coordination"
+        ],
+        "knowledge_sources": []
+      },
+      "risks_unknowns": [
+        "Further verification required to confirm all findings.",
+        "Contact details sourced from public web \u2014 verify before outreach."
+      ],
+      "next_action": {
+        "action": "Light nurture only; do not spend high-touch sales time (Target: Jason Millett \u2013 Group Chief Executive)",
+        "owner": "Founder",
+        "notes": ""
+      },
+      "sources": [
+        {
+          "url": "https://find-and-update.company-information.service.gov.uk/company/04228706",
+          "title": null,
+          "date_reviewed": "2026-09-25"
+        }
+      ],
+      "knowledge_citations": [],
+      "validation_skipped": false,
+      "generated_at": "2026-09-25T13:37:38.970114Z"
+    }
+  }
+]

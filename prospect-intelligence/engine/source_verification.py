@@ -24,15 +24,16 @@ class SourceVerification:
     
     # Keywords that indicate a real company page vs. demo/placeholder
     DEMO_KEYWORDS = [
-        "sample", "template", "example", "demo", "placeholder", "test",
-        "coming soon", "under construction", "staging", "pre-launch",
-        "[your", "[company", "(replace with", "< insert"
+        "sample website", "template website", "example website", "placeholder website",
+        "sample template", "replace this with your", "replace this content",
+        "coming soon", "under construction", "staging environment", "pre-launch",
+        "[your company", "[company name", "(replace with", "<insert", "< insert",
+        "lorem ipsum"
     ]
     
-    # Domains that are known to host directories/listings (often misleading matches)
+    # Domains that are known to host generic local directories/listings (often low-signal directory matches)
     DIRECTORY_DOMAINS = [
-        "yellowpages.com", "google.com/maps", "maps.google.com", "yelp.com", "crunchbase.com",
-        "linkedin.com/company", "indeed.com", "glassdoor.com", "buildr.co.uk",
+        "yellowpages.com", "google.com/maps", "maps.google.com", "yelp.com", "buildr.co.uk",
         "thumbs.com", "ratemyapprenticeship.co.uk", "trustmark.org.uk"
     ]
     
