@@ -40,7 +40,7 @@ async def health() -> dict:
 
 
 @router.get("/diagnostic/gemini-check", tags=["ops"])
-async def diagnostic_gemini_check() -> dict:
+async def diagnostic_gemini_check(_auth: AuthDep = None) -> dict:
     """Diagnostic endpoint to inspect environment keys and verify live Gemini connectivity."""
     import os
     from google import genai
