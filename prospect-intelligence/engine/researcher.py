@@ -944,10 +944,9 @@ async def _extract_findings(
 
     models_to_try = [
         settings.gemini_llm_model.replace("models/", ""),
-        "gemini-2.5-flash",
         "gemini-flash-latest",
-        "gemini-3.5-flash",
         "gemini-3.5-flash-lite",
+        "gemini-3.5-flash",
     ]
     # Deduplicate while preserving order
     models_to_try = list(dict.fromkeys([m for m in models_to_try if m]))
