@@ -21,9 +21,11 @@ logger = logging.getLogger(__name__)
 
 
 async def create_research_job(req: ProspectRequest, session: AsyncSession) -> JobRecord:
-    website_str = str(req.website)
+    from engine.nlp_resolver import resolve_company_entity
+    resolved_name, resolved_website, _ = await resolve_company_entity(req.company_name, str(req.website))
+    
     existing = await find_recent_job(
-        session, req.company_name, website_str,
+        session, resolved_name, resolved_website,
         within_hours=settings.duplicate_cooldown_hours,
     )
     duplicate_warning = existing is not None
@@ -32,22 +34,22 @@ async def create_research_job(req: ProspectRequest, session: AsyncSession) -> Jo
     row = JobRow(
         job_id=job_id,
         status=JobStatus.PENDING.value,
-        company_name=req.company_name,
-        website=website_str,
+        company_name=resolved_name,
+        website=resolved_website,
         known_contact_name=req.known_contact_name,
         known_contact_title=req.known_contact_title,
         created_at=now,
         updated_at=now,
     )
     await create_job(session, row)
-    logger.info("Job created: %s for %s", job_id, req.company_name)
+    logger.info("Job created: %s for %s (Original: %s)", job_id, resolved_name, req.company_name)
     asyncio.create_task(_run_pipeline(job_id, req))
     return JobRecord(
         job_id=job_id,
         status=JobStatus.PENDING,
         created_at=now,
-        company_name=req.company_name,
-        website=website_str,
+        company_name=resolved_name,
+        website=resolved_website,
         duplicate_warning=duplicate_warning,
     )
 

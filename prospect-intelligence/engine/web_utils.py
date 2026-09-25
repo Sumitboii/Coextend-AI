@@ -16,8 +16,8 @@ from config import settings
 
 logger = logging.getLogger(__name__)
 
-_FETCH_TIMEOUT = 4.0  # seconds per HTTP request (fail fast on dead or slow sites, allows larger homepages)
-_SEARCH_TIMEOUT = 8.0  # seconds per Tavily search API call
+_FETCH_TIMEOUT = 2.5  # fast fail per HTTP request to eliminate lag
+_SEARCH_TIMEOUT = 5.0  # seconds per Tavily search API call
 _MAX_PAGE_CHARS = 8_000  # truncate very large pages to keep context clean
 
 _BROWSER_HEADERS = {
@@ -56,7 +56,7 @@ def _get_http_client() -> httpx.AsyncClient:
             follow_redirects=True,
             headers=_BROWSER_HEADERS,
             verify=False,
-            limits=httpx.Limits(max_keepalive_connections=30, max_connections=60),
+            limits=httpx.Limits(max_keepalive_connections=40, max_connections=80),
         )
     return _HTTPX_CLIENT
 
@@ -97,6 +97,7 @@ async def fetch_company_wiki_summary(company_name: str) -> dict | None:
     """
     Fetch authoritative, structured company background summary from Wikipedia REST API.
     Zero API key required; provides verified HQ location, sector, and overview for global entities.
+    Automatically leverages NLP typo suggestions if exact name isn't found.
     """
     import unicodedata
     clean_name = unicodedata.normalize('NFKD', company_name).encode('ASCII', 'ignore').decode('utf-8').strip()
@@ -115,7 +116,7 @@ async def fetch_company_wiki_summary(company_name: str) -> dict | None:
         title = cand.replace(" ", "_").replace("&", "%26")
         url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{title}"
         try:
-            r = await client.get(url, timeout=3.0)
+            r = await client.get(url, timeout=2.5)
             if r.status_code == 200:
                 data = r.json()
                 if data.get("type") in ("standard", "") and data.get("extract"):
@@ -128,6 +129,28 @@ async def fetch_company_wiki_summary(company_name: str) -> dict | None:
                     }
         except Exception:
             continue
+
+    # Fallback to NLP OpenSearch suggestions
+    try:
+        from engine.nlp_resolver import fetch_nlp_typo_suggestions
+        suggs = await fetch_nlp_typo_suggestions(company_name)
+        for s in suggs:
+            title = s.replace(" ", "_").replace("&", "%26")
+            url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{title}"
+            r = await client.get(url, timeout=2.5)
+            if r.status_code == 200:
+                data = r.json()
+                if data.get("type") in ("standard", "") and data.get("extract"):
+                    wiki_url = data.get("content_urls", {}).get("desktop", {}).get("page", f"https://en.wikipedia.org/wiki/{title}")
+                    return {
+                        "title": data.get("title", s),
+                        "extract": data.get("extract", ""),
+                        "description": data.get("description", ""),
+                        "url": wiki_url,
+                    }
+    except Exception:
+        pass
+
     return None
 
 

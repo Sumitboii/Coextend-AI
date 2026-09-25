@@ -292,7 +292,7 @@
 
             <div class="form-group">
                 <label for="website">Website *</label>
-                <input type="url" id="website" name="website" required placeholder="https://example.com">
+                <input type="text" id="website" name="website" required placeholder="e.g. acmefacades.co.uk or https://acmefacades.co.uk">
             </div>
 
             <div class="form-group">
@@ -339,15 +339,27 @@
 
 {% block extra_js %}
 <script>
+    function sanitizeUrlInput(raw) {
+        if (!raw) return '';
+        let u = raw.trim();
+        if (!/^https?:\/\//i.test(u)) {
+            u = 'https://' + u.replace(/^\/+/, '');
+        }
+        return u;
+    }
+
     document.getElementById('researchForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="loading-indicator"></span> Starting...';
+        submitBtn.innerHTML = '<span class="loading-indicator"></span> Initializing Research...';
+
+        const rawWeb = document.getElementById('website').value.trim();
+        const cleanWeb = sanitizeUrlInput(rawWeb);
 
         const payload = {
             company_name: document.getElementById('company_name').value.trim(),
-            website: document.getElementById('website').value.trim(),
+            website: cleanWeb,
             known_contact_name: document.getElementById('known_contact_name').value.trim() || null,
             known_contact_title: document.getElementById('known_contact_title').value.trim() || null
         };

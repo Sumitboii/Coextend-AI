@@ -24,6 +24,7 @@ from api.models import (
     SourceRef,
 )
 from config import settings
+from engine.nlp_resolver import resolve_company_entity
 from engine.source_verification import SourceVerification
 from engine.web_utils import extract_company_channels_and_links, fetch_company_wiki_summary, fetch_page, web_search
 
@@ -639,18 +640,18 @@ def _get_genai_client() -> genai.Client:
     return _GENAI_CLIENT
 
 
-MAX_PAGES_TO_FETCH = 8
+MAX_PAGES_TO_FETCH = 4
 _LLM_TIMEOUT = 25.0
 
 
 def _extract_internal_links(page_text: str, domain: str) -> list[str]:
-    """Extract priority internal links from homepage HTML (capped at 6)."""
+    """Extract priority internal links from homepage HTML (capped at 4)."""
     import re
     from urllib.parse import urljoin, urlparse
     
     links = re.findall(r'href=["\']([^"\']+)["\']', page_text)
     internal = []
-    keywords = ['project', 'case', 'portfolio', 'work', 'about', 'team', 'services', 'news', 'press', 'blog', 'capability', 'solution', 'award']
+    keywords = ['about', 'team', 'leadership', 'services', 'contact', 'products', 'work', 'projects']
     
     for link in links:
         try:
@@ -663,7 +664,7 @@ def _extract_internal_links(page_text: str, domain: str) -> list[str]:
         except Exception:
             pass
     
-    return list(dict.fromkeys(internal))[:6]
+    return list(dict.fromkeys(internal))[:4]
 
 
 def _is_scrapable_url(url: str) -> bool:
@@ -685,9 +686,9 @@ def _is_scrapable_url(url: str) -> bool:
 # Main research function — Parallelized & Bounded
 
 async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
-    company = req.company_name
-    website = str(req.website)
-    logger.info("Research start for %s", company, extra={"job_id": job_id})
+    # 0. NLP entity resolution & typo tolerance
+    company, website, nlp_meta = await resolve_company_entity(req.company_name, str(req.website))
+    logger.info("Research start for %r (NLP Resolved: %r, URL: %r)", req.company_name, company, website, extra={"job_id": job_id})
 
     from urllib.parse import urlparse
     domain = urlparse(website).netloc or website.replace("https://", "").replace("http://", "").split("/")[0]
@@ -700,7 +701,7 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
     ]
 
     search_tasks = [web_search(q, num_results=5) for q in search_queries]
-    homepage_task = fetch_page(website, timeout=4.0)
+    homepage_task = fetch_page(website, timeout=2.5)
     wiki_task = fetch_company_wiki_summary(company)
 
     all_initial = await asyncio.gather(*search_tasks, homepage_task, wiki_task, return_exceptions=True)
@@ -761,7 +762,7 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
 
     if urls_to_fetch:
         try:
-            fetch_tasks = [fetch_page(u, timeout=3.0) for u in urls_to_fetch]
+            fetch_tasks = [fetch_page(u, timeout=2.5) for u in urls_to_fetch]
             fetched_texts = await asyncio.gather(*fetch_tasks, return_exceptions=True)
             for u, res in zip(urls_to_fetch, fetched_texts):
                 if isinstance(res, str) and res.strip():

@@ -763,11 +763,11 @@
                 showError(job.error_message || 'Research pipeline encountered an unrecoverable failure.');
             } else {
                 // Pipeline still working (pending, researching, scoring, drafting)
-                setTimeout(pollStatus, 2500);
+                setTimeout(pollStatus, 1500);
             }
         } catch (error) {
             console.error('Error fetching job status:', error);
-            setTimeout(pollStatus, 4000);
+            setTimeout(pollStatus, 2500);
         }
     }
 
@@ -780,8 +780,18 @@
         }
 
         const badge = document.getElementById('statusBadge');
-        badge.className = 'status-badge status-' + (job.status || 'pending').toLowerCase();
-        badge.textContent = job.status || 'Processing';
+        const st = (job.status || 'pending').toLowerCase();
+        badge.className = 'status-badge status-' + st;
+        
+        const labels = {
+            'pending': '⏳ Initializing...',
+            'researching': '🔍 Extracting Web Intelligence...',
+            'scoring': '📊 Scoring Prospect...',
+            'drafting': '✍️ Generating Brief & Outreach...',
+            'complete': '✅ Complete',
+            'failed': '❌ Failed'
+        };
+        badge.textContent = labels[st] || job.status || 'Processing';
 
         if (job.created_at) {
             document.getElementById('completedDate').textContent = 'Created: ' + new Date(job.created_at).toLocaleString();
