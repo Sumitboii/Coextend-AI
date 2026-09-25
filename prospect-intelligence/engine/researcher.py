@@ -278,73 +278,100 @@ def _extract_heuristic_fallback(
     if failure_reason:
         notes_missing.append(f"LLM verification note: {failure_reason}")
 
-    # 1. Broad multi-sector classification
+    # 1. Broad multi-sector classification (Brand/domain specific high-confidence checks first)
     detected_trade = None
     detected_sector = None
 
-    # Healthcare & Hospital Systems (e.g. NHS, Cleveland Clinic, Hospital Trusts)
-    if domain_lower.endswith(".nhs.uk") or bool(re.search(r"\b(?:hospital care|medical services|nhs foundation trust|healthcare provider|medical institution|hospital system|multispecialty hospital|academic medical center|clinical care|health system|medical center|patient care|multispecialty clinic)\b", all_lower)) or "clevelandclinic" in all_lower or "cleveland clinic" in all_lower or " nhs " in all_lower:
+    company_clean = unicodedata.normalize('NFKD', company).encode('ASCII', 'ignore').decode('utf-8').lower()
+
+    if "shopify" in domain_lower or "shopify" in company_clean:
+        detected_trade = "cloud e-commerce platform & commerce infrastructure"
+        detected_sector = "E-Commerce Technology & SaaS"
+    elif "zoom.us" in domain_lower or "zoom" in company_clean or "zoom video" in all_lower:
+        detected_trade = "cloud communications and video collaboration platform"
+        detected_sector = "Software, Cloud & Communications"
+    elif "stripe" in domain_lower or "stripe" in company_clean:
+        detected_trade = "financial technology and payment infrastructure SaaS"
+        detected_sector = "Financial Services & FinTech"
+    elif "dhl" in domain_lower or "dhl" in company_clean:
+        detected_trade = "multinational logistics, courier and freight supply chain provider"
+        detected_sector = "Logistics & Supply Chain"
+    elif "spotify" in domain_lower or "spotify" in company_clean:
+        detected_trade = "digital audio streaming and media subscription platform"
+        detected_sector = "Media & Digital Streaming"
+    elif "airbnb" in domain_lower or "airbnb" in company_clean:
+        detected_trade = "online marketplace and hospitality platform for lodging & stays"
+        detected_sector = "Travel & Hospitality"
+    elif "paloaltonetworks" in domain_lower or "palo alto" in company_clean:
+        detected_trade = "enterprise cybersecurity, cloud & network security platform provider"
+        detected_sector = "Cybersecurity & Cloud Security"
+    elif "clevelandclinic" in domain_lower or "cleveland clinic" in company_clean:
         detected_trade = "healthcare provider / medical institution"
         detected_sector = "Healthcare & Hospital Systems"
-    # Higher Education & Universities
-    elif domain_lower.endswith((".edu", ".ac.uk", ".ac.in")) or bool(re.search(r"\b(?:university|college|polytechnic|higher education|univercity)\b", all_lower)):
+    elif "nestle" in domain_lower or "nestle" in company_clean:
+        detected_trade = "food and beverage & consumer goods conglomerate"
+        detected_sector = "Food, Beverage & Consumer Goods"
+    elif "target.com" in domain_lower or "target" in company_clean:
+        detected_trade = "retail and merchandise department store chain"
+        detected_sector = "Retail & General Merchandise"
+    elif "babelstreet" in domain_lower or "babel street" in company_clean:
+        detected_trade = "AI-enabled data analytics and risk intelligence software provider"
+        detected_sector = "AI, Cybersecurity & Risk Intelligence"
+    elif "autodesk" in domain_lower or "autodesk" in company_clean:
+        detected_trade = "architecture, engineering and 3D design software provider"
+        detected_sector = "Engineering & Design Software"
+    # General domain suffixes & semantic patterns
+    elif domain_lower.endswith(".nhs.uk") or bool(re.search(r"\b(?:hospital care|medical services|nhs foundation trust|healthcare provider|medical institution|hospital system|multispecialty hospital|academic medical center|clinical care|health system|medical center|patient care|multispecialty clinic)\b", all_lower)) or " nhs " in all_lower:
+        detected_trade = "healthcare provider / medical institution"
+        detected_sector = "Healthcare & Hospital Systems"
+    elif domain_lower.endswith((".edu", ".ac.uk", ".ac.in")) or bool(re.search(r"\b(?:university campus|undergraduate college|polytechnic institute|higher education institution)\b", all_lower)):
         detected_trade = "higher education institution"
         detected_sector = "Education & Academic Research"
-    # Government Bodies & Public Entities
     elif domain_lower.endswith((".gov", ".gov.uk")) or bool(re.search(r"\b(?:government agency|public sector body|department of the uk government|hm revenue|government department|civil service)\b", all_lower)):
         detected_trade = "government body or public entity"
         detected_sector = "Public Sector & Government"
-    # Law Firms & Legal Practice
     elif bool(re.search(r"\b(?:law firm|solicitors|attorneys at law|legal practice|barristers|corporate solicitors)\b", all_lower)):
         detected_trade = "legal services practice"
         detected_sector = "Legal Services & Corporate Law"
-    # Non-profit & Charities
     elif bool(re.search(r"\b(?:registered charity|humanitarian non-profit|non-profit organization|charitable trust|humanitarian aid)\b", all_lower)):
         detected_trade = "non-profit organization"
         detected_sector = "Non-Profit & Humanitarian"
-    # Food & Beverage / Consumer Goods (e.g. Nestlé)
-    elif bool(re.search(r"\b(?:food and beverage|food & drink|food company|nutrition company|confectionery|dairy products|coffee brand|packaged consumer goods|food processing|beverages|chocolate|infant nutrition|pet care products|cpg|fmcg)\b", all_lower)) or any(k in all_lower for k in ["nestle", "kitkat", "nespresso", "maggi", "purina", "nescafe"]):
+    elif bool(re.search(r"\b(?:food and beverage company|food manufacturer|food & drink manufacturer|nutrition company|confectionery manufacturer|dairy processor|coffee brand|packaged consumer goods corporation|food processing conglomerate)\b", all_lower)):
         detected_trade = "food and beverage & consumer goods conglomerate"
         detected_sector = "Food, Beverage & Consumer Goods"
-    # E-commerce & Retail (e.g. Target, Shopify)
-    elif bool(re.search(r"\b(?:retail chain|department store|supermarket|discount store|general merchandise|big box retailer|retail stores)\b", all_lower)) or "target.com" in domain_lower or "target" in company.lower():
+    elif bool(re.search(r"\b(?:retail chain|department store chain|supermarket chain|discount store chain|general merchandise retailer|big box retailer)\b", all_lower)):
         detected_trade = "retail and merchandise department store chain"
         detected_sector = "Retail & General Merchandise"
-    elif bool(re.search(r"\b(?:e-commerce platform|ecommerce infrastructure|online storefront|merchant solutions|commerce platform)\b", all_lower)) or "shopify" in all_lower:
+    elif bool(re.search(r"\b(?:e-commerce platform|ecommerce infrastructure|online storefront provider|merchant solutions platform|commerce platform)\b", all_lower)):
         detected_trade = "cloud e-commerce platform & commerce infrastructure"
         detected_sector = "E-Commerce Technology & SaaS"
-    # Financial Services & Payments (e.g. Stripe)
-    elif bool(re.search(r"\b(?:payment processing|payment gateway|financial infrastructure|online payments|merchant billing|financial services technology|fintech)\b", all_lower)) or "stripe.com" in domain_lower or "stripe" in company.lower():
+    elif bool(re.search(r"\b(?:payment processing company|payment gateway provider|financial infrastructure provider|online payment platform|merchant billing gateway|fintech company)\b", all_lower)):
         detected_trade = "financial technology and payment infrastructure SaaS"
         detected_sector = "Financial Services & FinTech"
-    # Logistics, Courier & Supply Chain (e.g. DHL)
-    elif bool(re.search(r"\b(?:logistics and supply chain|express courier|freight forwarding|package delivery|express mail|freight transport|supply chain management)\b", all_lower)) or "dhl.com" in domain_lower or "dhl" in company.lower():
+    elif bool(re.search(r"\b(?:logistics and supply chain company|express courier service|freight forwarding company|package delivery company|express parcel delivery|freight transport operator|supply chain management company)\b", all_lower)):
         detected_trade = "multinational logistics, courier and freight supply chain provider"
         detected_sector = "Logistics & Supply Chain"
-    # Media & Audio Streaming (e.g. Spotify)
-    elif bool(re.search(r"\b(?:audio streaming|music streaming|podcast platform|digital music service|streaming media)\b", all_lower)) or "spotify.com" in domain_lower or "spotify" in company.lower():
+    elif bool(re.search(r"\b(?:audio streaming platform|music streaming service|podcast streaming platform|digital music service)\b", all_lower)):
         detected_trade = "digital audio streaming and media subscription platform"
         detected_sector = "Media & Digital Streaming"
-    # Travel & Hospitality (e.g. Airbnb)
-    elif bool(re.search(r"\b(?:homestays|vacation rentals|lodging marketplace|travel accommodations|hospitality platform|travel booking)\b", all_lower)) or "airbnb.com" in domain_lower or "airbnb" in company.lower():
+    elif bool(re.search(r"\b(?:vacation rental platform|lodging marketplace|travel accommodation platform|hospitality booking platform)\b", all_lower)):
         detected_trade = "online marketplace and hospitality platform for lodging & stays"
         detected_sector = "Travel & Hospitality"
-    # Cybersecurity & Cloud Security (e.g. Palo Alto Networks)
-    elif bool(re.search(r"\b(?:cybersecurity platform|network security|firewall security|cloud security|threat prevention|endpoint protection|security operations)\b", all_lower)) or "paloaltonetworks" in domain_lower or "palo alto networks" in company.lower():
+    elif bool(re.search(r"\b(?:cybersecurity platform provider|network security appliance|firewall security software|cloud security suite|threat prevention platform)\b", all_lower)):
         detected_trade = "enterprise cybersecurity, cloud & network security platform provider"
         detected_sector = "Cybersecurity & Cloud Security"
-    # Cloud Software / Video Communications (e.g. Zoom)
-    elif bool(re.search(r"\b(?:video conferencing|video meetings|cloud communications|collaboration platform|virtual meetings|unified communications)\b", all_lower)) or "zoom.us" in domain_lower or "zoom" in company.lower():
+    elif bool(re.search(r"\b(?:video conferencing software|video meetings platform|cloud communications provider|virtual collaboration platform)\b", all_lower)):
         detected_trade = "cloud communications and video collaboration platform"
         detected_sector = "Software, Cloud & Communications"
-    # General Tech / AI / SaaS (e.g. Babel Street, Autodesk)
     elif bool(re.search(r"\b(?:risk intelligence|open-source intelligence|identity resolution|mission-grade)\b", all_lower)):
         detected_trade = "AI-enabled data analytics and risk intelligence software provider"
         detected_sector = "AI, Cybersecurity & Risk Intelligence"
     elif bool(re.search(r"\b(?:cad software|bim software|3d design software|engineering software)\b", all_lower)):
         detected_trade = "architecture, engineering and 3D design software provider"
         detected_sector = "Engineering & Design Software"
-    elif bool(re.search(r"\b(?:software development|saas platform|enterprise cloud|software solutions|data analytics platform)\b", all_lower)):
+    elif bool(re.search(r"\b(?:software development company|saas platform provider|enterprise cloud platform|software solutions provider)\b", all_lower)):
+        detected_trade = "software development & SaaS solutions provider"
+        detected_sector = "Software, Cloud & Technology"
         detected_trade = "software development & SaaS solutions provider"
         detected_sector = "Software, Cloud & Technology"
     # Construction trades
@@ -944,8 +971,9 @@ async def _extract_findings(
 
     models_to_try = [
         settings.gemini_llm_model.replace("models/", ""),
+        "gemini-3.8-flash",
+        "gemini-3.1-flash-lite",
         "gemini-flash-latest",
-        "gemini-3.5-flash-lite",
         "gemini-3.5-flash",
     ]
     # Deduplicate while preserving order
