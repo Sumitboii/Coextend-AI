@@ -243,9 +243,10 @@ async def _call_llm_with_retry(user_content: str) -> dict:
 
     models_to_try = [
         settings.gemini_llm_model.replace("models/", ""),
-        "gemini-2.0-flash",
-        "gemini-1.5-flash",
         "gemini-2.5-flash",
+        "gemini-flash-latest",
+        "gemini-3.5-flash",
+        "gemini-3.5-flash-lite",
     ]
     models_to_try = list(dict.fromkeys([m for m in models_to_try if m]))
 

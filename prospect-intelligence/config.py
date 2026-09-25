@@ -24,8 +24,8 @@ class Settings(BaseSettings):
             "GEMINI_API_KEY", "GOOGLE_API_KEY", "GEMINI_KEY", "gemini_api_key", "google_api_key"
         ),
     )
-    gemini_model: str = "gemini-2.0-flash"
-    gemini_llm_model: str = "gemini-2.0-flash"
+    gemini_model: str = "gemini-2.5-flash"
+    gemini_llm_model: str = "gemini-2.5-flash"
     gemini_embed_model: str = "text-embedding-004"
 
     # --- Web Search (Tavily - free tier) ---

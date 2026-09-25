@@ -90,6 +90,47 @@ def is_js_shell(html: str, text: str) -> bool:
     return False
 
 
+import html as html_lib
+
+
+async def fetch_company_wiki_summary(company_name: str) -> dict | None:
+    """
+    Fetch authoritative, structured company background summary from Wikipedia REST API.
+    Zero API key required; provides verified HQ location, sector, and overview for global entities.
+    """
+    import unicodedata
+    clean_name = unicodedata.normalize('NFKD', company_name).encode('ASCII', 'ignore').decode('utf-8').strip()
+    candidates = [
+        company_name.strip(),
+        clean_name,
+        f"{clean_name}, Inc.",
+        f"{clean_name} Corporation",
+        f"{clean_name} Video Communications" if "zoom" in clean_name.lower() else "",
+        f"{clean_name} S.A." if "nestle" in clean_name.lower() else "",
+    ]
+    candidates = [c for c in candidates if c]
+
+    client = _get_http_client()
+    for cand in candidates:
+        title = cand.replace(" ", "_").replace("&", "%26")
+        url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{title}"
+        try:
+            r = await client.get(url, timeout=3.0)
+            if r.status_code == 200:
+                data = r.json()
+                if data.get("type") in ("standard", "") and data.get("extract"):
+                    wiki_url = data.get("content_urls", {}).get("desktop", {}).get("page", f"https://en.wikipedia.org/wiki/{title}")
+                    return {
+                        "title": data.get("title", company_name),
+                        "extract": data.get("extract", ""),
+                        "description": data.get("description", ""),
+                        "url": wiki_url,
+                    }
+        except Exception:
+            continue
+    return None
+
+
 @retry(
     stop=stop_after_attempt(2),
     wait=wait_fixed(0.05),
@@ -164,7 +205,10 @@ async def _ddg_search_fallback(query: str, num_results: int = 5) -> list[dict]:
         out = []
         for i, s in enumerate(snippets[:num_results]):
             clean = re.sub(r'<[^>]+>', '', s).strip()
+            clean = html_lib.unescape(clean)
             link = urls[i].strip() if i < len(urls) else ""
+            if link.startswith("//"):
+                link = "https:" + link
             if clean:
                 out.append({"title": f"Web Result {i+1}", "link": link, "snippet": clean})
         return out
@@ -207,21 +251,32 @@ async def fetch_page(url: str, timeout: float = _FETCH_TIMEOUT) -> str:
 
 
 def _html_to_text(html: str) -> str:
-    """Very lightweight HTML -> plain text."""
-    html = re.sub(
+    """Lightweight HTML -> plain text with rich metadata extraction."""
+    meta_parts = []
+    # Extract page title
+    title_m = re.search(r"<title[^>]*>(.*?)</title>", html, re.DOTALL | re.IGNORECASE)
+    if title_m:
+        title_text = re.sub(r"<[^>]+>", "", title_m.group(1)).strip()
+        if title_text:
+            meta_parts.append(title_text)
+
+    # Extract meta descriptions and og:description
+    for m in re.finditer(r'<meta[^>]+(?:name|property)=["\']([^"\']+)["\'][^>]+content=["\']([^"\']+)["\']', html, re.IGNORECASE):
+        k, v = m.group(1).lower(), m.group(2).strip()
+        if any(target in k for target in ("description", "og:description", "twitter:description", "keywords", "og:title")):
+            if len(v) > 20 and v not in meta_parts:
+                meta_parts.append(v)
+    
+    # Strip heavy tags
+    body_clean = re.sub(
         r"<(script|style|nav|footer|header|noscript|svg|iframe)[^>]*>.*?</\1>",
         " ",
         html,
         flags=re.DOTALL | re.IGNORECASE,
     )
-    html = re.sub(r"<[^>]+>", " ", html)
-    html = (
-        html.replace("&amp;", "&")
-        .replace("&lt;", "<")
-        .replace("&gt;", ">")
-        .replace("&nbsp;", " ")
-        .replace("&#39;", "'")
-        .replace("&quot;", '"')
-    )
-    html = re.sub(r"\s{2,}", " ", html)
-    return html.strip()
+    body_clean = re.sub(r"<[^>]+>", " ", body_clean)
+    
+    combined = " ".join(meta_parts) + " " + body_clean
+    combined = html_lib.unescape(combined)
+    combined = re.sub(r"\s{2,}", " ", combined)
+    return combined.strip()

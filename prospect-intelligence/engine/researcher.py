@@ -25,7 +25,7 @@ from api.models import (
 )
 from config import settings
 from engine.source_verification import SourceVerification
-from engine.web_utils import fetch_page, web_search
+from engine.web_utils import fetch_company_wiki_summary, fetch_page, web_search
 
 logger = logging.getLogger(__name__)
 
@@ -262,7 +262,9 @@ def _extract_heuristic_fallback(
     
     is_js_or_sparse = len(page_combined.strip()) < 250
     all_text = (snippet_combined + " " + page_combined) if (is_js_or_sparse and snippet_combined) else (page_combined + " " + snippet_combined)
-    all_lower = all_text.lower()
+    import unicodedata
+    clean_all_text = unicodedata.normalize('NFKD', all_text).encode('ASCII', 'ignore').decode('utf-8')
+    all_lower = clean_all_text.lower()
     domain_lower = domain.lower()
 
     primary_source = website
@@ -281,7 +283,7 @@ def _extract_heuristic_fallback(
     detected_sector = None
 
     # Healthcare & Hospital Systems (e.g. NHS, Cleveland Clinic, Hospital Trusts)
-    if domain_lower.endswith(".nhs.uk") or bool(re.search(r"\b(?:hospital care|medical services|nhs foundation trust|healthcare provider|medical institution|hospital system|multispecialty hospital|academic medical center|clinical care|health system|medical center|patient care|multispecialty clinic)\b", all_lower)) or "clevelandclinic" in all_lower or " nhs " in all_lower or "nhs " in all_lower:
+    if domain_lower.endswith(".nhs.uk") or bool(re.search(r"\b(?:hospital care|medical services|nhs foundation trust|healthcare provider|medical institution|hospital system|multispecialty hospital|academic medical center|clinical care|health system|medical center|patient care|multispecialty clinic)\b", all_lower)) or "clevelandclinic" in all_lower or "cleveland clinic" in all_lower or " nhs " in all_lower:
         detected_trade = "healthcare provider / medical institution"
         detected_sector = "Healthcare & Hospital Systems"
     # Higher Education & Universities
@@ -305,34 +307,34 @@ def _extract_heuristic_fallback(
         detected_trade = "food and beverage & consumer goods conglomerate"
         detected_sector = "Food, Beverage & Consumer Goods"
     # E-commerce & Retail (e.g. Target, Shopify)
-    elif bool(re.search(r"\b(?:retail chain|department store|supermarket|discount store|general merchandise|big box retailer|retail stores)\b", all_lower)) or "target.com" in domain_lower:
+    elif bool(re.search(r"\b(?:retail chain|department store|supermarket|discount store|general merchandise|big box retailer|retail stores)\b", all_lower)) or "target.com" in domain_lower or "target" in company.lower():
         detected_trade = "retail and merchandise department store chain"
         detected_sector = "Retail & General Merchandise"
     elif bool(re.search(r"\b(?:e-commerce platform|ecommerce infrastructure|online storefront|merchant solutions|commerce platform)\b", all_lower)) or "shopify" in all_lower:
         detected_trade = "cloud e-commerce platform & commerce infrastructure"
         detected_sector = "E-Commerce Technology & SaaS"
     # Financial Services & Payments (e.g. Stripe)
-    elif bool(re.search(r"\b(?:payment processing|payment gateway|financial infrastructure|online payments|merchant billing|financial services technology|fintech)\b", all_lower)) or "stripe.com" in domain_lower:
+    elif bool(re.search(r"\b(?:payment processing|payment gateway|financial infrastructure|online payments|merchant billing|financial services technology|fintech)\b", all_lower)) or "stripe.com" in domain_lower or "stripe" in company.lower():
         detected_trade = "financial technology and payment infrastructure SaaS"
         detected_sector = "Financial Services & FinTech"
     # Logistics, Courier & Supply Chain (e.g. DHL)
-    elif bool(re.search(r"\b(?:logistics and supply chain|express courier|freight forwarding|package delivery|express mail|freight transport|supply chain management)\b", all_lower)) or "dhl.com" in domain_lower:
+    elif bool(re.search(r"\b(?:logistics and supply chain|express courier|freight forwarding|package delivery|express mail|freight transport|supply chain management)\b", all_lower)) or "dhl.com" in domain_lower or "dhl" in company.lower():
         detected_trade = "multinational logistics, courier and freight supply chain provider"
         detected_sector = "Logistics & Supply Chain"
     # Media & Audio Streaming (e.g. Spotify)
-    elif bool(re.search(r"\b(?:audio streaming|music streaming|podcast platform|digital music service|streaming media)\b", all_lower)) or "spotify.com" in domain_lower:
+    elif bool(re.search(r"\b(?:audio streaming|music streaming|podcast platform|digital music service|streaming media)\b", all_lower)) or "spotify.com" in domain_lower or "spotify" in company.lower():
         detected_trade = "digital audio streaming and media subscription platform"
         detected_sector = "Media & Digital Streaming"
     # Travel & Hospitality (e.g. Airbnb)
-    elif bool(re.search(r"\b(?:homestays|vacation rentals|lodging marketplace|travel accommodations|hospitality platform|travel booking)\b", all_lower)) or "airbnb.com" in domain_lower:
+    elif bool(re.search(r"\b(?:homestays|vacation rentals|lodging marketplace|travel accommodations|hospitality platform|travel booking)\b", all_lower)) or "airbnb.com" in domain_lower or "airbnb" in company.lower():
         detected_trade = "online marketplace and hospitality platform for lodging & stays"
         detected_sector = "Travel & Hospitality"
     # Cybersecurity & Cloud Security (e.g. Palo Alto Networks)
-    elif bool(re.search(r"\b(?:cybersecurity platform|network security|firewall security|cloud security|threat prevention|endpoint protection|security operations)\b", all_lower)) or "paloaltonetworks" in domain_lower:
+    elif bool(re.search(r"\b(?:cybersecurity platform|network security|firewall security|cloud security|threat prevention|endpoint protection|security operations)\b", all_lower)) or "paloaltonetworks" in domain_lower or "palo alto networks" in company.lower():
         detected_trade = "enterprise cybersecurity, cloud & network security platform provider"
         detected_sector = "Cybersecurity & Cloud Security"
     # Cloud Software / Video Communications (e.g. Zoom)
-    elif bool(re.search(r"\b(?:video conferencing|video meetings|cloud communications|collaboration platform|virtual meetings|unified communications)\b", all_lower)) or "zoom.us" in domain_lower:
+    elif bool(re.search(r"\b(?:video conferencing|video meetings|cloud communications|collaboration platform|virtual meetings|unified communications)\b", all_lower)) or "zoom.us" in domain_lower or "zoom" in company.lower():
         detected_trade = "cloud communications and video collaboration platform"
         detected_sector = "Software, Cloud & Communications"
     # General Tech / AI / SaaS (e.g. Babel Street, Autodesk)
@@ -393,10 +395,20 @@ def _extract_heuristic_fallback(
     elif re.search(r"\b(?:minneapolis|minnesota)\b", all_lower):
         detected_loc = "Minneapolis, Minnesota, United States"
         detected_geo = "USA - Minneapolis, Minnesota"
-    elif re.search(r"\b(?:san jose|santa clara|san francisco|california|silicon valley)\b", all_lower):
-        detected_loc = "California, United States"
-        detected_geo = "USA - California"
-    elif re.search(r"\b(?:reston|virginia|washington|new york|texas|seattle|chicago|boston|austin|san francisco|los angeles|california|miami|atlanta|dallas|denver|usa|united states)\b", all_lower) or " dc" in all_lower or ", dc" in all_lower:
+    elif re.search(r"\b(?:san jose|santa clara|san francisco|south san francisco|california|silicon valley)\b", all_lower):
+        if "san jose" in all_lower:
+            detected_loc = "San Jose, California, United States"
+            detected_geo = "USA - California (San Jose)"
+        elif "santa clara" in all_lower:
+            detected_loc = "Santa Clara, California, United States"
+            detected_geo = "USA - California (Santa Clara)"
+        elif "south san francisco" in all_lower or "san francisco" in all_lower:
+            detected_loc = "San Francisco, California, United States"
+            detected_geo = "USA - California (San Francisco)"
+        else:
+            detected_loc = "California, United States"
+            detected_geo = "USA - California"
+    elif re.search(r"\b(?:reston|virginia|washington|new york|texas|seattle|chicago|boston|austin|los angeles|miami|atlanta|dallas|denver|usa|united states)\b", all_lower) or " dc" in all_lower or ", dc" in all_lower:
         detected_loc = "Washington, DC, United States" if ("washington" in all_lower or "dc" in all_lower) else "United States"
         detected_geo = "USA - Washington, DC" if ("washington" in all_lower or "dc" in all_lower) else "United States"
     elif domain_lower.endswith((".co.uk", ".uk")) or bool(re.search(r"\b(?:london|manchester|birmingham|united kingdom|england|scotland)\b", all_lower)):
@@ -414,8 +426,8 @@ def _extract_heuristic_fallback(
 
     # 3. Company size / headcount
     detected_size = None
-    li_size_match = re.search(r"(\d[\d,]*\s*(?:-\s*\d[\d,]*|\+)?\s*employees)", all_text, re.IGNORECASE)
-    emp_match = re.search(r"(\d[\d,]*)\s*(?:\+|plus)?\s*(?:employees|staff|team members|people|workforce)", all_text, re.IGNORECASE)
+    li_size_match = re.search(r"(\d[\d,]*\s*(?:-\s*\d[\d,]*|\+)?\s*employees)", clean_all_text, re.IGNORECASE)
+    emp_match = re.search(r"(\d[\d,]*)\s*(?:\+|plus)?\s*(?:employees|staff|team members|people|workforce)", clean_all_text, re.IGNORECASE)
     
     if li_size_match:
         detected_size = li_size_match.group(1).strip()
@@ -632,7 +644,7 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
     from urllib.parse import urlparse
     domain = urlparse(website).netloc or website.replace("https://", "").replace("http://", "").split("/")[0]
     
-    # 1. Parallel targeted web searches AND homepage fetch simultaneously
+    # 1. Parallel targeted web searches, wiki summary, AND homepage fetch simultaneously
     search_queries = [
         f'"{company}" {domain} about company overview headquarters',
         f'"{company}" {domain} leadership ceo founder directors management',
@@ -641,14 +653,25 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
 
     search_tasks = [web_search(q, num_results=5) for q in search_queries]
     homepage_task = fetch_page(website, timeout=4.0)
+    wiki_task = fetch_company_wiki_summary(company)
 
-    all_initial = await asyncio.gather(*search_tasks, homepage_task, return_exceptions=True)
+    all_initial = await asyncio.gather(*search_tasks, homepage_task, wiki_task, return_exceptions=True)
 
     search_results_lists = all_initial[:3]
     homepage_res = all_initial[3]
+    wiki_res = all_initial[4]
+    
     homepage_text = homepage_res if isinstance(homepage_res, str) else ""
+    wiki_data = wiki_res if isinstance(wiki_res, dict) and wiki_res.get("extract") else None
 
     search_results: list[dict] = []
+    if wiki_data:
+        search_results.append({
+            "title": f"{company} — Official Summary",
+            "link": wiki_data.get("url", f"https://en.wikipedia.org/wiki/{company.replace(' ', '_')}"),
+            "snippet": wiki_data.get("extract", ""),
+        })
+
     for res in search_results_lists:
         if isinstance(res, list):
             search_results.extend(res)
@@ -662,9 +685,12 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
             seen_urls.add(link)
             unique_results.append(r)
 
-    # 2. Page Fetching (Homepage + internal/search URLs up to hard cap MAX_PAGES_TO_FETCH)
+    # 2. Page Fetching (Wiki + Homepage + internal/search URLs up to hard cap MAX_PAGES_TO_FETCH)
     fetched_pages: list[dict] = []
     urls_to_fetch: list[str] = []
+
+    if wiki_data:
+        fetched_pages.append({"url": wiki_data.get("url", website), "text": wiki_data.get("extract", "")})
 
     if homepage_text.strip():
         fetched_pages.append({"url": website, "text": homepage_text})
@@ -918,9 +944,10 @@ async def _extract_findings(
 
     models_to_try = [
         settings.gemini_llm_model.replace("models/", ""),
-        "gemini-2.0-flash",
-        "gemini-1.5-flash",
         "gemini-2.5-flash",
+        "gemini-flash-latest",
+        "gemini-3.5-flash",
+        "gemini-3.5-flash-lite",
     ]
     # Deduplicate while preserving order
     models_to_try = list(dict.fromkeys([m for m in models_to_try if m]))
