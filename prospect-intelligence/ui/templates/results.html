@@ -155,6 +155,55 @@
         font-size: 0.95rem;
     }
 
+    .contact-channel-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.85rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        margin-top: 0.25rem;
+        word-break: break-all;
+    }
+    .contact-channel-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        filter: brightness(1.1);
+    }
+    .linkedin-btn {
+        background: #0a66c2 !important;
+        color: #ffffff !important;
+        border: 1px solid #004182 !important;
+    }
+    .about-btn {
+        background: rgba(99, 102, 241, 0.15) !important;
+        color: #818cf8 !important;
+        border: 1px solid #6366f1 !important;
+    }
+    .contact-btn {
+        background: rgba(34, 197, 94, 0.15) !important;
+        color: #4ade80 !important;
+        border: 1px solid #22c55e !important;
+    }
+    .email-btn {
+        background: rgba(234, 179, 8, 0.15) !important;
+        color: #facc15 !important;
+        border: 1px solid #eab308 !important;
+    }
+    .phone-btn {
+        background: rgba(56, 189, 248, 0.15) !important;
+        color: #38bdf8 !important;
+        border: 1px solid #0284c7 !important;
+    }
+    .website-btn {
+        background: var(--card-bg) !important;
+        color: var(--logo-color) !important;
+        border: 1px solid var(--card-border) !important;
+    }
+
     .evidence-tag {
         display: inline-block;
         padding: 0.15rem 0.5rem;
@@ -767,6 +816,40 @@
         }
     }
 
+    function renderDataValue(key, val, briefObj) {
+        if (!val || val === '-') return `<span style="color: var(--text-muted);">-</span>`;
+        const v = String(val).trim();
+        const k = String(key).toLowerCase();
+        
+        if (k.includes('linkedin') || v.includes('linkedin.com')) {
+            const cleanUrl = v.startsWith('http') ? v : 'https://' + v;
+            return `<a href="${escapeHtml(cleanUrl)}" target="_blank" class="contact-channel-btn linkedin-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25c-.9 0-1.63.73-1.63 1.63 0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63 0-.9-.73-1.63-1.63-1.63Z"/></svg>
+                LinkedIn Profile / Page ↗
+            </a>`;
+        }
+        if (k.includes('about') && (v.startsWith('http') || v.startsWith('/'))) {
+            const baseUrl = (briefObj && briefObj.snapshot && briefObj.snapshot.website) ? briefObj.snapshot.website : '';
+            const cleanUrl = v.startsWith('http') ? v : baseUrl.replace(/\/$/, '') + v;
+            return `<a href="${escapeHtml(cleanUrl)}" target="_blank" class="contact-channel-btn about-btn">🏢 About Us Page ↗</a>`;
+        }
+        if ((k.includes('contact') || k.includes('enquir')) && (v.startsWith('http') || v.startsWith('/'))) {
+            const baseUrl = (briefObj && briefObj.snapshot && briefObj.snapshot.website) ? briefObj.snapshot.website : '';
+            const cleanUrl = v.startsWith('http') ? v : baseUrl.replace(/\/$/, '') + v;
+            return `<a href="${escapeHtml(cleanUrl)}" target="_blank" class="contact-channel-btn contact-btn">✉️ Contact Directly ↗</a>`;
+        }
+        if (k.includes('email') || (v.includes('@') && !v.startsWith('http'))) {
+            return `<a href="mailto:${escapeHtml(v)}" class="contact-channel-btn email-btn">✉️ ${escapeHtml(v)}</a>`;
+        }
+        if (k.includes('phone') || k.includes('tel')) {
+            return `<a href="tel:${escapeHtml(v.replace(/[^0-9\+]/g, ''))}" class="contact-channel-btn phone-btn">📞 ${escapeHtml(v)}</a>`;
+        }
+        if (k === 'website' || (v.startsWith('http://') || v.startsWith('https://'))) {
+            return `<a href="${escapeHtml(v)}" target="_blank" class="contact-channel-btn website-btn">${escapeHtml(v)} ↗</a>`;
+        }
+        return `<span>${escapeHtml(v)}</span>`;
+    }
+
     function renderBrief(brief) {
         // Snapshot
         const snapshotEl = document.getElementById('snapshotGrid');
@@ -774,7 +857,7 @@
             snapshotEl.innerHTML = Object.entries(brief.snapshot).map(([k, v]) => `
                 <div class="data-item">
                     <strong>${formatKey(k)}</strong>
-                    <span>${escapeHtml(String(v || '-'))}</span>
+                    ${renderDataValue(k, v, brief)}
                 </div>
             `).join('');
         } else {
@@ -787,7 +870,7 @@
             contactEl.innerHTML = Object.entries(brief.contact).map(([k, v]) => `
                 <div class="data-item">
                     <strong>${formatKey(k)}</strong>
-                    <span>${escapeHtml(String(v || '-'))}</span>
+                    ${renderDataValue(k, v, brief)}
                 </div>
             `).join('');
         } else {

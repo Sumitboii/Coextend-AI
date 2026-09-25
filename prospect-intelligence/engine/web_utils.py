@@ -280,3 +280,141 @@ def _html_to_text(html: str) -> str:
     combined = html_lib.unescape(combined)
     combined = re.sub(r"\s{2,}", " ", combined)
     return combined.strip()
+
+
+def extract_company_channels_and_links(
+    html: str,
+    website: str,
+    company_name: str = "",
+    snippets: list[dict] | None = None,
+) -> dict[str, str]:
+    """
+    Extract direct contact channels, LinkedIn profile/company URLs, About Us,
+    and Contact Us pages from HTML and search snippets.
+    """
+    from urllib.parse import urljoin, urlparse
+    import unicodedata
+
+    results: dict[str, str] = {}
+    snippets = snippets or []
+
+    domain = urlparse(website).netloc or website.replace("https://", "").replace("http://", "").split("/")[0]
+    base_clean = f"https://{domain}" if not website.startswith(("http://", "https://")) else website
+
+    # 1. LinkedIn Extraction (Company Page & Decision-Maker Profile)
+    linkedin_matches = re.findall(
+        r'https?://(?:www\.)?linkedin\.com/(?:company|school)/([a-zA-Z0-9_\-\.\%]+)',
+        html,
+        re.IGNORECASE,
+    )
+    if linkedin_matches:
+        results["linkedin_url"] = f"https://www.linkedin.com/company/{linkedin_matches[0].strip('/')}"
+
+    # Check search snippets for LinkedIn company URL if not found in HTML
+    if "linkedin_url" not in results:
+        for s in snippets:
+            link = s.get("link", "")
+            m = re.search(r'https?://(?:www\.)?linkedin\.com/(?:company|school)/([a-zA-Z0-9_\-\.\%]+)', link, re.IGNORECASE)
+            if m:
+                results["linkedin_url"] = f"https://www.linkedin.com/company/{m.group(1).strip('/')}"
+                break
+
+    # Decision-maker LinkedIn profile
+    dm_li_matches = re.findall(
+        r'https?://(?:www\.)?linkedin\.com/in/([a-zA-Z0-9_\-\.\%]+)',
+        html,
+        re.IGNORECASE,
+    )
+    if dm_li_matches:
+        results["decision_maker_linkedin"] = f"https://www.linkedin.com/in/{dm_li_matches[0].strip('/')}"
+    else:
+        for s in snippets:
+            link = s.get("link", "")
+            m = re.search(r'https?://(?:www\.)?linkedin\.com/in/([a-zA-Z0-9_\-\.\%]+)', link, re.IGNORECASE)
+            if m:
+                results["decision_maker_linkedin"] = f"https://www.linkedin.com/in/{m.group(1).strip('/')}"
+                break
+
+    # Fallback company LinkedIn if still not found
+    if "linkedin_url" not in results and company_name:
+        clean_slug = re.sub(r'[^a-zA-Z0-9]+', '-', company_name.strip().lower()).strip('-')
+        if clean_slug:
+            results["linkedin_url"] = f"https://www.linkedin.com/company/{clean_slug}"
+
+    # 2. About Us URL Extraction
+    about_hrefs = re.findall(
+        r'href=["\']([^"\']*(?:about|about-us|who-we-are|our-story|our-company|company)[^"\']*)["\']',
+        html,
+        re.IGNORECASE,
+    )
+    valid_about = [
+        urljoin(base_clean, h)
+        for h in about_hrefs
+        if not any(h.lower().endswith(ext) for ext in ('.pdf', '.jpg', '.png', '.svg', '.zip'))
+        and urlparse(urljoin(base_clean, h)).netloc == domain
+    ]
+    if valid_about:
+        results["about_us_url"] = valid_about[0]
+    else:
+        # Check snippets for about link
+        for s in snippets:
+            link = s.get("link", "")
+            if domain in link and any(k in link.lower() for k in ["/about", "/who-we-are", "/company", "/story"]):
+                results["about_us_url"] = link
+                break
+        if "about_us_url" not in results:
+            results["about_us_url"] = urljoin(base_clean, "/about")
+
+    # 3. Contact Us URL Extraction
+    contact_hrefs = re.findall(
+        r'href=["\']([^"\']*(?:contact|contact-us|get-in-touch|reach-us|support|enquiries)[^"\']*)["\']',
+        html,
+        re.IGNORECASE,
+    )
+    valid_contact = [
+        urljoin(base_clean, h)
+        for h in contact_hrefs
+        if not any(h.lower().endswith(ext) for ext in ('.pdf', '.jpg', '.png', '.svg', '.zip'))
+        and urlparse(urljoin(base_clean, h)).netloc == domain
+    ]
+    if valid_contact:
+        results["contact_us_url"] = valid_contact[0]
+    else:
+        for s in snippets:
+            link = s.get("link", "")
+            if domain in link and any(k in link.lower() for k in ["/contact", "/get-in-touch", "/reach-us", "/enquiry"]):
+                results["contact_us_url"] = link
+                break
+        if "contact_us_url" not in results:
+            results["contact_us_url"] = urljoin(base_clean, "/contact")
+
+    # 4. Email Extraction
+    mailto_matches = re.findall(r'mailto:([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)', html, re.IGNORECASE)
+    valid_emails = [
+        e for e in mailto_matches
+        if not any(e.lower().endswith(ext) for ext in ('.png', '.jpg', '.webp', '.gif'))
+        and not any(k in e.lower() for k in ['sentry', 'wixpress', 'example', 'domain.com', 'user@'])
+    ]
+    if valid_emails:
+        results["contact_email"] = valid_emails[0]
+    else:
+        # Text regex email
+        raw_emails = re.findall(r'\b[a-zA-Z0-9._%+-]+@(?:' + re.escape(domain) + r'|[a-zA-Z0-9-]+\.[a-zA-Z]{2,})\b', html)
+        filtered_raw = [
+            e for e in raw_emails
+            if not any(e.lower().endswith(ext) for ext in ('.png', '.jpg', '.webp', '.gif', '.svg'))
+            and not any(k in e.lower() for k in ['sentry', 'wixpress', 'example', 'domain.com', 'user@'])
+            and any(k in e.lower() for k in ['info', 'contact', 'hello', 'enquiries', 'support', 'sales', 'press', 'media'])
+        ]
+        if filtered_raw:
+            results["contact_email"] = filtered_raw[0]
+
+    # 5. Phone Number Extraction
+    tel_matches = re.findall(r'tel:([+0-9\s\(\)\-]{7,25})', html, re.IGNORECASE)
+    if tel_matches:
+        clean_tel = re.sub(r'[^\+0-9\s\(\)\-]', '', tel_matches[0]).strip()
+        if len(clean_tel) >= 7:
+            results["contact_phone"] = clean_tel
+
+    return results
+

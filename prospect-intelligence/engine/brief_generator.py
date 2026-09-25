@@ -350,6 +350,12 @@ def _build_brief(
     snapshot["size"]         = _pick("size", "company_size_band", "size", default="Enterprise scale")
     snapshot["overview"]     = _pick("overview", "overview", default=f"{cname} is an established commercial enterprise operating internationally.")
     
+    # Direct channels & URLs in snapshot
+    for ch_key in ["website", "linkedin_url", "about_us_url", "contact_us_url", "contact_email", "contact_phone"]:
+        ch_val = _pick(ch_key, ch_key, default="")
+        if ch_val:
+            snapshot[ch_key] = ch_val
+
     # Add any extra keys Gemini put in
     for k, v in llm_snap.items():
         if k not in snapshot and not _is_invalid_str(v):
@@ -361,7 +367,7 @@ def _build_brief(
     llm_contact = raw.get("contact") if isinstance(raw.get("contact"), dict) else {}
     contact: dict[str, str] = {k: v for k, v in llm_contact.items() if not _is_invalid_str(v)}
     if not contact:
-        dm_val = snap_fields.get("decision_maker_access", "")
+        dm_val = dm_fields.get("decision_maker_access") or snap_fields.get("decision_maker_access", "")
         if not _is_invalid_str(dm_val):
             sep = " - " if " - " in dm_val else (" – " if " – " in dm_val else None)
             if sep:
@@ -377,6 +383,21 @@ def _build_brief(
                     break
         if not contact:
             contact["name"] = f"{cname} Executive Management"
+
+    # Direct contact channels
+    for contact_k, f_keys in [
+        ("linkedin_url", ("contact_linkedin", "linkedin_url", "decision_maker_linkedin")),
+        ("email", ("email", "contact_email")),
+        ("phone", ("phone", "contact_phone")),
+        ("contact_page", ("contact_us_url", "contact_page")),
+        ("about_page", ("about_us_url", "about_page")),
+    ]:
+        if contact_k not in contact:
+            for fk in f_keys:
+                fv = dm_fields.get(fk) or snap_fields.get(fk) or llm_contact.get(fk)
+                if fv and not _is_invalid_str(fv):
+                    contact[contact_k] = fv
+                    break
 
     # ── COMPANY RESEARCH: Gemini OR all non-scoring snapshot fields ───────
     llm_cr = raw.get("company_research") if isinstance(raw.get("company_research"), dict) else {}

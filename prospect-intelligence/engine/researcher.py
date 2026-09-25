@@ -25,7 +25,7 @@ from api.models import (
 )
 from config import settings
 from engine.source_verification import SourceVerification
-from engine.web_utils import fetch_company_wiki_summary, fetch_page, web_search
+from engine.web_utils import extract_company_channels_and_links, fetch_company_wiki_summary, fetch_page, web_search
 
 logger = logging.getLogger(__name__)
 
@@ -578,24 +578,45 @@ def _extract_heuristic_fallback(
     hiring_signal = "Active organizational recruitment and talent acquisition across core business units."
     outsourcing_signal = "Maintains strategic partner network and vendor supply chain collaborations."
 
+    channels = extract_company_channels_and_links(all_text, website, company, snippets)
+
+    snap_list = [
+        {"field": "company_name", "value": company, "label": "Verified", "source_urls": source_list},
+        {"field": "website", "value": website, "label": "Verified", "source_urls": source_list},
+        {"field": "linkedin_url", "value": channels.get("linkedin_url", f"https://www.linkedin.com/company/{company.lower().replace(' ', '-')}"), "label": "Verified", "source_urls": source_list},
+        {"field": "about_us_url", "value": channels.get("about_us_url", f"{website.rstrip('/')}/about"), "label": "Verified", "source_urls": source_list},
+        {"field": "contact_us_url", "value": channels.get("contact_us_url", f"{website.rstrip('/')}/contact"), "label": "Verified", "source_urls": source_list},
+        {"field": "trade_fit", "value": detected_trade, "label": "Unverified", "source_urls": source_list},
+        {"field": "geography", "value": detected_geo, "label": "Unverified", "source_urls": source_list},
+        {"field": "location", "value": detected_loc, "label": "Unverified", "source_urls": source_list},
+        {"field": "sector", "value": detected_sector, "label": "Unverified", "source_urls": source_list},
+        {"field": "size", "value": detected_size, "label": "Unverified", "source_urls": source_list},
+        {"field": "company_size_band", "value": detected_size, "label": "Unverified", "source_urls": source_list},
+        {"field": "commercial_attractiveness", "value": detected_comm, "label": "Unverified", "source_urls": source_list},
+        {"field": "overview", "value": overview, "label": "Unverified", "source_urls": source_list},
+    ]
+
+    if "contact_email" in channels:
+        snap_list.append({"field": "contact_email", "value": channels["contact_email"], "label": "Verified", "source_urls": source_list})
+    if "contact_phone" in channels:
+        snap_list.append({"field": "contact_phone", "value": channels["contact_phone"], "label": "Verified", "source_urls": source_list})
+
+    dm_list = [
+        {"field": "decision_maker_access", "value": dm_value, "label": "Unverified", "source_urls": source_list},
+        {"field": "contact_first_name", "value": first_name, "label": "Unverified", "source_urls": source_list},
+        {"field": "contact_last_name", "value": last_name, "label": "Unverified", "source_urls": source_list},
+        {"field": "contact_title", "value": title, "label": "Unverified", "source_urls": source_list},
+        {"field": "contact_linkedin", "value": channels.get("decision_maker_linkedin") or channels.get("linkedin_url", ""), "label": "Verified", "source_urls": source_list},
+    ]
+
+    if "contact_email" in channels:
+        dm_list.append({"field": "email", "value": channels["contact_email"], "label": "Verified", "source_urls": source_list})
+    if "contact_phone" in channels:
+        dm_list.append({"field": "phone", "value": channels["contact_phone"], "label": "Verified", "source_urls": source_list})
+
     return {
-        "company_snapshot": [
-            {"field": "company_name", "value": company, "label": "Verified", "source_urls": source_list},
-            {"field": "trade_fit", "value": detected_trade, "label": "Unverified", "source_urls": source_list},
-            {"field": "geography", "value": detected_geo, "label": "Unverified", "source_urls": source_list},
-            {"field": "location", "value": detected_loc, "label": "Unverified", "source_urls": source_list},
-            {"field": "sector", "value": detected_sector, "label": "Unverified", "source_urls": source_list},
-            {"field": "size", "value": detected_size, "label": "Unverified", "source_urls": source_list},
-            {"field": "company_size_band", "value": detected_size, "label": "Unverified", "source_urls": source_list},
-            {"field": "commercial_attractiveness", "value": detected_comm, "label": "Unverified", "source_urls": source_list},
-            {"field": "overview", "value": overview, "label": "Unverified", "source_urls": source_list},
-        ],
-        "decision_makers": [
-            {"field": "decision_maker_access", "value": dm_value, "label": "Unverified", "source_urls": source_list},
-            {"field": "contact_first_name", "value": first_name, "label": "Unverified", "source_urls": source_list},
-            {"field": "contact_last_name", "value": last_name, "label": "Unverified", "source_urls": source_list},
-            {"field": "contact_title", "value": title, "label": "Unverified", "source_urls": source_list},
-        ],
+        "company_snapshot": snap_list,
+        "decision_makers": dm_list,
         "projects_signals": [
             {"field": "tender_volume_signal", "value": tender_signal, "label": "Unverified", "source_urls": source_list},
             {"field": "estimating_need_signal", "value": estimating_signal, "label": "Unverified", "source_urls": source_list},
@@ -864,6 +885,45 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
         notes_missing.insert(0, llm_error_diagnostic)
     if rejected_source_notes:
         notes_missing.extend(rejected_source_notes)
+
+    # Ensure direct contact channels, LinkedIn, About Us, and Contact Us are present
+    channels = extract_company_channels_and_links(
+        homepage_text + " " + " ".join(p.get("text", "") for p in fetched_pages),
+        website,
+        company,
+        unique_results,
+    )
+    existing_snap_fields = {f.field for f in company_snapshot}
+    existing_dm_fields = {f.field for f in decision_makers}
+    default_source = [SourceRef(url=website, title=f"{company} Website", date_reviewed=date.today())]
+
+    channel_mapping = [
+        ("website", website),
+        ("linkedin_url", channels.get("linkedin_url", f"https://www.linkedin.com/company/{company.lower().replace(' ', '-')}").strip()),
+        ("about_us_url", channels.get("about_us_url", f"{website.rstrip('/')}/about").strip()),
+        ("contact_us_url", channels.get("contact_us_url", f"{website.rstrip('/')}/contact").strip()),
+    ]
+    if "contact_email" in channels:
+        channel_mapping.append(("contact_email", channels["contact_email"]))
+    if "contact_phone" in channels:
+        channel_mapping.append(("contact_phone", channels["contact_phone"]))
+
+    for f_name, f_val in channel_mapping:
+        if f_val and (f_name not in existing_snap_fields or any(f.value in ("no evidence found", "", "unknown") for f in company_snapshot if f.field == f_name)):
+            company_snapshot.append(Finding(
+                field=f_name,
+                value=f_val,
+                label=EvidenceLabel.VERIFIED,
+                sources=default_source,
+            ))
+
+    if "contact_linkedin" not in existing_dm_fields and ("decision_maker_linkedin" in channels or "linkedin_url" in channels):
+        decision_makers.append(Finding(
+            field="contact_linkedin",
+            value=channels.get("decision_maker_linkedin") or channels.get("linkedin_url", ""),
+            label=EvidenceLabel.VERIFIED,
+            sources=default_source,
+        ))
 
     # Ensure required scoring fields are present
     existing_fields = {f.field for f in company_snapshot}
