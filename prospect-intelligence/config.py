@@ -1,9 +1,11 @@
 """
-Central configuration â€” all settings loaded from environment variables.
+Central configuration — all settings loaded from environment variables.
 No secrets are ever hard-coded here.
 """
 from __future__ import annotations
 
+import os
+from pydantic import Field, AliasChoices, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -16,13 +18,23 @@ class Settings(BaseSettings):
     )
 
     # --- LLM (Gemini - free tier) ---
-    gemini_api_key: str = "REPLACE_ME"
-    gemini_model: str = "models/gemini-3.6-flash"           # fallback default
-    gemini_llm_model: str = "models/gemini-3.5-flash-lite"
-    gemini_embed_model: str = "models/gemini-embedding-001"
+    gemini_api_key: str = Field(
+        default="REPLACE_ME",
+        validation_alias=AliasChoices(
+            "GEMINI_API_KEY", "GOOGLE_API_KEY", "GEMINI_KEY", "gemini_api_key", "google_api_key"
+        ),
+    )
+    gemini_model: str = "gemini-2.0-flash"
+    gemini_llm_model: str = "gemini-2.0-flash"
+    gemini_embed_model: str = "text-embedding-004"
 
     # --- Web Search (Tavily - free tier) ---
-    tavily_api_key: str = "REPLACE_ME"
+    tavily_api_key: str = Field(
+        default="REPLACE_ME",
+        validation_alias=AliasChoices(
+            "TAVILY_API_KEY", "TAVILY_KEY", "tavily_api_key", "tavily_key"
+        ),
+    )
 
     # --- Storage ---
     database_url: str = "sqlite+aiosqlite:///./data/prospect_intelligence.db"
@@ -47,6 +59,14 @@ class Settings(BaseSettings):
     # --- API Authentication ---
     api_key: str = ""
 
+    @field_validator("gemini_api_key", "tavily_api_key", mode="before")
+    @classmethod
+    def clean_secret_keys(cls, v: str | None) -> str:
+        if v is None:
+            return "REPLACE_ME"
+        cleaned = str(v).strip().strip("'").strip('"').strip()
+        return cleaned or "REPLACE_ME"
 
-# Singleton â€” import `settings` everywhere
+
+# Singleton — import `settings` everywhere
 settings = Settings()

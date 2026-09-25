@@ -678,7 +678,9 @@ _GENAI_CLIENT: genai.Client | None = None
 def _get_genai_client() -> genai.Client:
     global _GENAI_CLIENT
     if _GENAI_CLIENT is None:
-        _GENAI_CLIENT = genai.Client(api_key=settings.gemini_api_key)
+        import os
+        key = (settings.gemini_api_key or os.environ.get("GEMINI_API_KEY", "") or os.environ.get("GOOGLE_API_KEY", "")).strip().strip("'").strip('"')
+        _GENAI_CLIENT = genai.Client(api_key=key)
     return _GENAI_CLIENT
 
 
@@ -1019,14 +1021,24 @@ async def _extract_findings(
         f"PAGE CONTENTS:\n{page_texts}"
     )
 
+    models_to_try = [
+        settings.gemini_llm_model.replace("models/", ""),
+        "gemini-2.0-flash",
+        "gemini-1.5-flash",
+        "gemini-2.5-flash",
+    ]
+    # Deduplicate while preserving order
+    models_to_try = list(dict.fromkeys([m for m in models_to_try if m]))
+
     for attempt in range(3):
+        current_model = models_to_try[attempt % len(models_to_try)]
         try:
             loop = asyncio.get_running_loop()
             response = await asyncio.wait_for(
                 loop.run_in_executor(
                     None,
-                    lambda p=full_prompt: client.models.generate_content(
-                        model=settings.gemini_llm_model,
+                    lambda p=full_prompt, m=current_model: client.models.generate_content(
+                        model=m,
                         contents=p,
                         config=types.GenerateContentConfig(
                             response_mime_type="application/json",

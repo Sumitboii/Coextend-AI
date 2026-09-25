@@ -41,8 +41,10 @@ _HTTPX_CLIENT: httpx.AsyncClient | None = None
 def _get_tavily_client():
     global _TAVILY_CLIENT
     if _TAVILY_CLIENT is None:
+        import os
         from tavily import TavilyClient
-        _TAVILY_CLIENT = TavilyClient(api_key=settings.tavily_api_key)
+        key = (settings.tavily_api_key or os.environ.get("TAVILY_API_KEY", "") or os.environ.get("TAVILY_KEY", "")).strip().strip("'").strip('"')
+        _TAVILY_CLIENT = TavilyClient(api_key=key)
     return _TAVILY_CLIENT
 
 
