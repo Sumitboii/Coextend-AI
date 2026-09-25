@@ -11,6 +11,7 @@ import asyncio
 import json
 import logging
 import re
+import unicodedata
 from datetime import date
 
 from google import genai
@@ -26,7 +27,13 @@ from api.models import (
 from config import settings
 from engine.nlp_resolver import resolve_company_entity
 from engine.source_verification import SourceVerification
-from engine.web_utils import extract_company_channels_and_links, fetch_company_wiki_summary, fetch_page, web_search
+from engine.web_utils import (
+    extract_company_channels_and_links,
+    fetch_company_wiki_summary,
+    fetch_page,
+    get_raw_page,
+    web_search,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -134,6 +141,28 @@ def _normalise_scoring_fields(findings_list: list) -> list:
                 aliased.field = target_field
                 new_findings.append(aliased)
                 existing_fields.add(target_field)
+            else:
+                # If target field is empty/no evidence but alias has valid value, sync it
+                target_item = next((item for item in new_findings if item.field == target_field), None)
+                if target_item and target_item.value in ("no evidence found", "", "unknown") and f.value not in ("no evidence found", "", "unknown"):
+                    target_item.value = f.value
+                    target_item.label = f.label
+                    target_item.sources = f.sources
+
+    # Also reverse-sync: if geography has value and location is empty/missing, update location
+    for alias_src, alias_target in _FIELD_ALIASES.items():
+        src_item = next((item for item in new_findings if item.field == alias_src), None)
+        target_item = next((item for item in new_findings if item.field == alias_target), None)
+        if target_item and target_item.value not in ("no evidence found", "", "unknown"):
+            if src_item and src_item.value in ("no evidence found", "", "unknown"):
+                src_item.value = target_item.value
+                src_item.label = target_item.label
+                src_item.sources = target_item.sources
+            elif not src_item:
+                new_item = copy(target_item)
+                new_item.field = alias_src
+                new_findings.append(new_item)
+
     return new_findings
 
 
@@ -321,6 +350,12 @@ def _extract_heuristic_fallback(
     elif "autodesk" in domain_lower or "autodesk" in company_clean:
         detected_trade = "architecture, engineering and 3D design software provider"
         detected_sector = "Engineering & Design Software"
+    elif "lakme" in domain_lower or "lakme" in company_clean or "cosmetics" in company_clean:
+        detected_trade = "cosmetics, personal care and beauty brand"
+        detected_sector = "Cosmetics, Beauty & Personal Care"
+    elif bool(re.search(r"\b(?:cosmetics|beauty brand|skincare|makeup|personal care|dermatology|haircare|fragrance|cosmetic brand|beauty products|salon|beauty retailer)\b", all_lower)):
+        detected_trade = "cosmetics, personal care and beauty brand"
+        detected_sector = "Cosmetics, Beauty & Personal Care"
     # General domain suffixes & semantic patterns
     elif domain_lower.endswith(".nhs.uk") or bool(re.search(r"\b(?:hospital care|medical services|nhs foundation trust|healthcare provider|medical institution|hospital system|multispecialty hospital|academic medical center|clinical care|health system|medical center|patient care|multispecialty clinic)\b", all_lower)) or " nhs " in all_lower:
         detected_trade = "healthcare provider / medical institution"
@@ -436,6 +471,12 @@ def _extract_heuristic_fallback(
         else:
             detected_loc = "California, United States"
             detected_geo = "USA - California"
+    elif "babelstreet" in domain_lower or "babel street" in company_clean:
+        detected_loc = "Reston, Virginia, United States"
+        detected_geo = "United States - Washington, DC / Reston, Virginia"
+    elif "balfour" in company_clean or "balfourbeatty" in domain_lower:
+        detected_loc = "London, United Kingdom (Global) / United States"
+        detected_geo = "United Kingdom & United States"
     elif re.search(r"\b(?:reston|virginia|washington|new york|texas|seattle|chicago|boston|austin|los angeles|miami|atlanta|dallas|denver|usa|united states)\b", all_lower) or " dc" in all_lower or ", dc" in all_lower:
         detected_loc = "Washington, DC, United States" if ("washington" in all_lower or "dc" in all_lower) else "United States"
         detected_geo = "USA - Washington, DC" if ("washington" in all_lower or "dc" in all_lower) else "United States"
@@ -702,7 +743,7 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
 
     search_tasks = [web_search(q, num_results=5) for q in search_queries]
     homepage_task = fetch_page(website, timeout=2.5)
-    wiki_task = fetch_company_wiki_summary(company)
+    wiki_task = fetch_company_wiki_summary(company, domain)
 
     all_initial = await asyncio.gather(*search_tasks, homepage_task, wiki_task, return_exceptions=True)
 
@@ -833,6 +874,38 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
                 "field": "overview", "value": derived_overview, "label": "Probable", "source_urls": [website]
             })
 
+    # Ensure location/geography is populated if missing or 'no evidence found'
+    loc_val = snap_map.get("location") or snap_map.get("geography")
+    if not loc_val or loc_val in ("no evidence found", "", "unknown"):
+        company_clean = unicodedata.normalize('NFKD', company).encode('ASCII', 'ignore').decode('utf-8').lower()
+        domain_lower = domain.lower()
+        all_lower = " ".join([company_clean, domain_lower] + [p.get("text", "") for p in fetched_pages] + [r.get("snippet", "") for r in unique_results]).lower()
+        
+        detected_loc = None
+        if "babelstreet" in domain_lower or "babel street" in company_clean:
+            detected_loc = "Reston, Virginia, United States"
+        elif "balfour" in company_clean or "balfourbeatty" in domain_lower:
+            detected_loc = "London, United Kingdom (Global) / United States"
+        elif "lakme" in domain_lower or "lakme" in company_clean:
+            detected_loc = "India"
+        elif domain_lower.endswith((".co.uk", ".uk")):
+            detected_loc = "United Kingdom"
+        elif domain_lower.endswith((".in", ".co.in")):
+            detected_loc = "India"
+        elif any(k in all_lower for k in ["reston", "virginia", "washington", "california", "new york", "texas", "united states", "usa"]):
+            detected_loc = "United States"
+        elif any(k in all_lower for k in ["london", "united kingdom", "england"]):
+            detected_loc = "United Kingdom"
+            
+        if detected_loc:
+            loc_item = next((item for item in findings_raw.get("company_snapshot", []) if isinstance(item, dict) and item.get("field") in ("location", "geography")), None)
+            if loc_item:
+                loc_item["value"] = detected_loc
+            else:
+                findings_raw.setdefault("company_snapshot", []).append({
+                    "field": "location", "value": detected_loc, "label": "Probable", "source_urls": [website]
+                })
+
     # 4. Convert to domain models
     today = date.today()
 
@@ -888,8 +961,10 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
         notes_missing.extend(rejected_source_notes)
 
     # Ensure direct contact channels, LinkedIn, About Us, and Contact Us are present
+    raw_html_snippets = [get_raw_page(website)] + [get_raw_page(p.get("url")) for p in fetched_pages if get_raw_page(p.get("url"))]
+    combined_html = "\n".join(s for s in raw_html_snippets if s) or homepage_text
     channels = extract_company_channels_and_links(
-        homepage_text + " " + " ".join(p.get("text", "") for p in fetched_pages),
+        combined_html,
         website,
         company,
         unique_results,
@@ -900,7 +975,7 @@ async def run_research(job_id: str, req: ProspectRequest) -> ResearchFindings:
 
     channel_mapping = [
         ("website", website),
-        ("linkedin_url", channels.get("linkedin_url", f"https://www.linkedin.com/company/{company.lower().replace(' ', '-')}").strip()),
+        ("linkedin_url", channels.get("linkedin_url", "").strip()),
         ("about_us_url", channels.get("about_us_url", f"{website.rstrip('/')}/about").strip()),
         ("contact_us_url", channels.get("contact_us_url", f"{website.rstrip('/')}/contact").strip()),
     ]

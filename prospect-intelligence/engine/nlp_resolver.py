@@ -140,17 +140,24 @@ def find_best_entity_match(input_name: str, candidates: list[str]) -> str | None
     norm_input = normalize_company_name(input_name).lower()
     input_tokens = set(re.findall(r'\w+', norm_input))
     
-    # Strip common product/sub-brand terms if searching for parent company
+    # Strip artistic / non-business suffixes (e.g. (opera), (film), (album), (song), (novel), (character))
+    media_pattern = r'\b(?:\(opera\)|\(film\)|\(album\)|\(song\)|\(novel\)|\(character\)|\(soundtrack\)|\(play\))\b'
     product_terms = r'\b(?:exchange|photoshop|flash|windows|office|suite|cloud|silicon|reader|acrobat|tower|center)\b'
     
     cleaned_candidates = []
     for cand in candidates:
         cand_clean = cand
+        if re.search(media_pattern, cand, flags=re.IGNORECASE):
+            # Prefer business candidate if present, avoid artistic media
+            continue
         # If candidate has product suffix, clean it
         cand_sub = re.sub(product_terms, '', cand, flags=re.IGNORECASE).strip()
         if cand_sub and len(cand_sub) >= 3:
             cleaned_candidates.append(cand_sub)
         cleaned_candidates.append(cand)
+        
+    if not cleaned_candidates:
+        cleaned_candidates = candidates
         
     best_candidate = None
     best_score = float('inf')

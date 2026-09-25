@@ -835,21 +835,21 @@
             const cleanUrl = v.startsWith('http') ? v : 'https://' + v;
             return `<a href="${escapeHtml(cleanUrl)}" target="_blank" class="contact-channel-btn linkedin-btn">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25c-.9 0-1.63.73-1.63 1.63 0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63 0-.9-.73-1.63-1.63-1.63Z"/></svg>
-                LinkedIn Profile / Page ↗
+                LinkedIn (${escapeHtml(cleanUrl)}) ↗
             </a>`;
         }
         if (k.includes('about') && (v.startsWith('http') || v.startsWith('/'))) {
             const baseUrl = (briefObj && briefObj.snapshot && briefObj.snapshot.website) ? briefObj.snapshot.website : '';
             const cleanUrl = v.startsWith('http') ? v : baseUrl.replace(/\/$/, '') + v;
-            return `<a href="${escapeHtml(cleanUrl)}" target="_blank" class="contact-channel-btn about-btn">🏢 About Us Page ↗</a>`;
+            return `<a href="${escapeHtml(cleanUrl)}" target="_blank" class="contact-channel-btn about-btn">🏢 About Us (${escapeHtml(cleanUrl)}) ↗</a>`;
         }
         if ((k.includes('contact') || k.includes('enquir')) && (v.startsWith('http') || v.startsWith('/'))) {
             const baseUrl = (briefObj && briefObj.snapshot && briefObj.snapshot.website) ? briefObj.snapshot.website : '';
             const cleanUrl = v.startsWith('http') ? v : baseUrl.replace(/\/$/, '') + v;
-            return `<a href="${escapeHtml(cleanUrl)}" target="_blank" class="contact-channel-btn contact-btn">✉️ Contact Directly ↗</a>`;
+            return `<a href="${escapeHtml(cleanUrl)}" target="_blank" class="contact-channel-btn contact-btn">✉️ Contact Page (${escapeHtml(cleanUrl)}) ↗</a>`;
         }
         if (k.includes('email') || (v.includes('@') && !v.startsWith('http'))) {
-            return `<a href="mailto:${escapeHtml(v)}" class="contact-channel-btn email-btn">✉️ ${escapeHtml(v)}</a>`;
+            return `<a href="mailto:${escapeHtml(v)}?subject=Connecting%20with%20Coextend" class="contact-channel-btn email-btn">✉️ Email Directly (${escapeHtml(v)}) ↗</a>`;
         }
         if (k.includes('phone') || k.includes('tel')) {
             return `<a href="tel:${escapeHtml(v.replace(/[^0-9\+]/g, ''))}" class="contact-channel-btn phone-btn">📞 ${escapeHtml(v)}</a>`;
@@ -1184,7 +1184,15 @@
     function openEmail(subjectId, bodyId) {
         const subject = document.getElementById(subjectId)?.textContent || '';
         const body = document.getElementById(bodyId)?.textContent || '';
-        window.open('mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body));
+        let targetEmail = '';
+        if (cachedBrief) {
+            if (cachedBrief.contact && cachedBrief.contact.email) {
+                targetEmail = cachedBrief.contact.email;
+            } else if (cachedBrief.snapshot && cachedBrief.snapshot.contact_email) {
+                targetEmail = cachedBrief.snapshot.contact_email;
+            }
+        }
+        window.location.href = 'mailto:' + encodeURIComponent(targetEmail) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     }
 
     init();

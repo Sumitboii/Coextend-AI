@@ -378,10 +378,10 @@ def _build_brief(
                 contact["name"] = dm_val
         elif findings.decision_makers:
             for dm in findings.decision_makers:
-                if not _is_invalid_str(dm.value):
+                if dm.field not in ("contact_linkedin", "linkedin_url", "email", "phone") and not dm.value.startswith(("http://", "https://")) and not _is_invalid_str(dm.value):
                     contact["name"] = dm.value[:80]
                     break
-        if not contact:
+        if not contact.get("name") or contact.get("name").startswith(("http://", "https://")):
             contact["name"] = f"{cname} Executive Management"
 
     # Direct contact channels
