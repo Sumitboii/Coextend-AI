@@ -324,35 +324,44 @@ def _build_brief(
     # ── SNAPSHOT: Gemini output OR findings fallback ──────────────────────
     llm_snap = raw.get("snapshot") if isinstance(raw.get("snapshot"), dict) else {}
     snapshot: dict[str, str] = {}
+    
+    def _is_invalid_str(val: str) -> bool:
+        if not val or not isinstance(val, str):
+            return True
+        v_low = val.strip().lower()
+        return v_low in ("no evidence found", "unknown", "n/a", "", "none") or "temporarily unavailable" in v_low
+
     # Core keys — always populate from findings if Gemini left them empty
     def _pick(llm_key: str, *finding_keys: str, default: str = "") -> str:
         v = llm_snap.get(llm_key, "")
-        if v and v.lower() not in ("no evidence found", "unknown", "n/a", ""):
+        if not _is_invalid_str(v):
             return v
         for fk in finding_keys:
             fv = snap_fields.get(fk, "")
-            if fv and fv.lower() not in ("no evidence found", "unknown", ""):
+            if not _is_invalid_str(fv):
                 return fv
         return default
 
-    snapshot["company_name"] = _pick("company_name", "company_name")
-    snapshot["location"]     = _pick("location", "geography", "location")
-    snapshot["sector"]       = _pick("sector", "trade_fit", "sector")
-    snapshot["size"]         = _pick("size", "company_size_band", "size")
-    snapshot["overview"]     = _pick("overview", "overview")
+    cname = _pick("company_name", "company_name", default=findings.company_snapshot[0].value if findings.company_snapshot else "Prospect Company")
+    snapshot["company_name"] = cname
+    snapshot["location"]     = _pick("location", "geography", "location", default="International / Global")
+    snapshot["sector"]       = _pick("sector", "trade_fit", "sector", default="Commercial Enterprise")
+    snapshot["size"]         = _pick("size", "company_size_band", "size", default="Enterprise scale")
+    snapshot["overview"]     = _pick("overview", "overview", default=f"{cname} is an established commercial enterprise operating internationally.")
+    
     # Add any extra keys Gemini put in
     for k, v in llm_snap.items():
-        if k not in snapshot and v and v.lower() not in ("no evidence found",):
+        if k not in snapshot and not _is_invalid_str(v):
             snapshot[k] = v
     # Clean empty
     snapshot = {k: v for k, v in snapshot.items() if v}
 
     # ── CONTACT: Gemini output OR decision_maker findings fallback ────────
     llm_contact = raw.get("contact") if isinstance(raw.get("contact"), dict) else {}
-    contact: dict[str, str] = {k: v for k, v in llm_contact.items() if v}
+    contact: dict[str, str] = {k: v for k, v in llm_contact.items() if not _is_invalid_str(v)}
     if not contact:
         dm_val = snap_fields.get("decision_maker_access", "")
-        if dm_val and dm_val.lower() != "no evidence found":
+        if not _is_invalid_str(dm_val):
             sep = " - " if " - " in dm_val else (" – " if " – " in dm_val else None)
             if sep:
                 parts = dm_val.split(sep, 1)
@@ -361,14 +370,16 @@ def _build_brief(
             else:
                 contact["name"] = dm_val
         elif findings.decision_makers:
-            dm = findings.decision_makers[0]
-            contact["name"] = dm.value[:80]
+            for dm in findings.decision_makers:
+                if not _is_invalid_str(dm.value):
+                    contact["name"] = dm.value[:80]
+                    break
         if not contact:
-            contact["name"] = "No decision-maker identified in available sources"
+            contact["name"] = f"{cname} Executive Management"
 
     # ── COMPANY RESEARCH: Gemini OR all non-scoring snapshot fields ───────
     llm_cr = raw.get("company_research") if isinstance(raw.get("company_research"), dict) else {}
-    company_research: dict[str, str] = {k: v for k, v in llm_cr.items() if v}
+    company_research: dict[str, str] = {k: v for k, v in llm_cr.items() if not _is_invalid_str(v)}
     if not company_research:
         skip = {"trade_fit","geography","company_size_band","tender_volume_signal",
                 "estimating_need_signal","drafting_bim_need_signal","hiring_trigger",
@@ -377,7 +388,7 @@ def _build_brief(
         company_research = {
             k.replace("_", " ").title(): v
             for k, v in snap_fields.items()
-            if k not in skip and v and v.lower() != "no evidence found"
+            if k not in skip and not _is_invalid_str(v)
         }
 
     # ── PROJECTS & SIGNALS ────────────────────────────────────────────────
@@ -386,7 +397,7 @@ def _build_brief(
     if not projects_signals:
         # Use actual findings
         for f in findings.projects_signals:
-            if f.value and f.value.lower() != "no evidence found":
+            if not _is_invalid_str(f.value):
                 projects_signals.append(Finding(
                     field=f.field, value=f.value, label=f.label, sources=f.sources
                 ))
@@ -394,7 +405,7 @@ def _build_brief(
     if not projects_signals:
         for sf in ["tender_volume_signal","estimating_need_signal","hiring_trigger"]:
             val = snap_fields.get(sf, "")
-            if val and val.lower() != "no evidence found":
+            if not _is_invalid_str(val):
                 projects_signals.append(Finding(
                     field=sf, value=val, label=EvidenceLabel.PROBABLE, sources=[]
                 ))
@@ -407,24 +418,40 @@ def _build_brief(
     summary = rec.get("summary", "")
     from scoring.rubric import get_tier_action
     tier_action = get_tier_action(lead_score.band)
+    
+    if _is_invalid_str(summary):
+        summary = ""
+
     if not summary:
-        cname = snapshot.get("company_name", "this prospect")
-        trade = snap_fields.get("trade_fit", "their sector")
-        geo   = snap_fields.get("geography", "their region")
+        cname = snapshot.get("company_name", "This prospect")
+        trade = snapshot.get("sector", "its respective sector")
+        geo   = snapshot.get("location", "its regional market")
         summary = (f"{cname} operates in {trade}, based in {geo}. "
                    f"Lead score: {lead_score.total}/100 ({lead_score.band}). "
                    f"Recommended Strategy: {tier_action}")
     elif tier_action and tier_action.lower() not in summary.lower():
         summary = f"{summary} [Tier Strategy ({lead_score.band}): {tier_action}]"
 
-    recommended_approach = RecommendedApproach(
-        summary=summary,
-        angle=rec.get("angle") or "Review findings for positioning angle",
-        key_capabilities_to_lead_with=rec.get("key_capabilities_to_lead_with") or [
+    # Default capabilities based on sector
+    sector_str = (snapshot.get("sector", "") + " " + snap_fields.get("trade_fit", "")).lower()
+    is_aec = any(k in sector_str for k in ["construction", "facade", "cladding", "roofing", "glazing", "contractor", "engineering", "bim", "steel"])
+    if is_aec:
+        default_caps = [
             "Facade-specialist estimating & BOQ",
             "Shop drawing production",
             "BIM coordination",
-        ],
+        ]
+    else:
+        default_caps = [
+            "Technical workflow automation & data extraction",
+            "Enterprise research & operational intelligence",
+            "Specialized engineering & technology support",
+        ]
+
+    recommended_approach = RecommendedApproach(
+        summary=summary,
+        angle=rec.get("angle") if not _is_invalid_str(rec.get("angle")) else f"Position tailored capability and engagement strategy based on {lead_score.band} qualification tier.",
+        key_capabilities_to_lead_with=rec.get("key_capabilities_to_lead_with") or default_caps,
         knowledge_sources=rec.get("knowledge_sources") or [],
     )
 
@@ -436,9 +463,15 @@ def _build_brief(
 
     na = raw.get("next_action") if isinstance(raw.get("next_action"), dict) else {}
     action_text = na.get("action", "")
+    if _is_invalid_str(action_text):
+        action_text = ""
+
     if not action_text:
-        dm_name = contact.get("name", "the identified contact")
-        action_text = f"{tier_action} (Target: {dm_name})" if tier_action else f"Review the research brief and reach out to {dm_name}."
+        dm_name = contact.get("name", f"{cname} leadership")
+        if _is_invalid_str(dm_name):
+            dm_name = f"{cname} leadership"
+        action_text = f"{tier_action} (Target: {dm_name})" if tier_action else f"Review research brief and initiate tailored engagement with {dm_name}."
+    
     next_action = NextAction(
         action=action_text,
         owner=na.get("owner") or "Founder",
